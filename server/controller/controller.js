@@ -56,7 +56,7 @@ const newToken = async (req, res) => {
 
 const getUserInfo = async (req, res) => {
 
-  const result = await fetch('https://api.spotify.com/v1/users/andrea8a', {
+  const result = await fetch('https://api.spotify.com/v1/me', {
     method: 'GET',
     headers : {
       'content-type': 'application/json',

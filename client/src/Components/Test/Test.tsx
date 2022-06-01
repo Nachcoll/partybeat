@@ -1,6 +1,14 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import Main from '../Main/Main'
+import Client from '../Client/Client'
 
 const Test = () => {
+
+  const [userInfo, setUserInfo] = useState({})
+
+  useEffect(()=>{
+    onLoad()
+  }, [])
 
   let token!:string
 
@@ -21,7 +29,6 @@ const onLoad: any = async () => {
   return null;
 }
 
-
 const getUserData = async () => {
   const result = await fetch('http://localhost:8000/info', {
     method: "GET",
@@ -29,16 +36,21 @@ const getUserData = async () => {
   })
   const data = await result.json();
   console.log(data);
+  setUserInfo(data)
 }
 
 
 
   return (
     <>
-    <div onLoad={onLoad()}></div>
+    <div>
+    </div>
     <div>Test</div>
     <button onClick={getUserData}>Hacer peticion</button>
-
+    <br></br>
+    <Main userInfo={userInfo}></Main>
+    <br></br>
+    <Client></Client>
     </>
   )
 }
