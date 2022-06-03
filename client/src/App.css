@@ -1,12 +1,25 @@
 *{
-  /* background-color: #081672; */
+  background:fixed;
   background-image: url('./images/background.png');
   color: white;
   margin-left: 20px;
 }
-p{
-  background: none;
+/* temporal */
+option{
+  background: #040B3A
 }
+
+.addedSong{
+  color:#03CEA4;
+  margin: 0;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+.addedArtist{
+  color:#03CEA4;
+  margin: 0;
+}
+
 button {
   padding: 0.8em 1.8em;
   border: 2px solid #03CEA4;

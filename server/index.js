@@ -27,27 +27,30 @@ const io = new Server(server, {
 })
 
 //io connection + send info back
-
+let number = 0;
 io.on('connection', (socket)=> {
-  console.log('user just connected to the room')
+  number++
+  console.log(number,'user just connected to the room')
 
 //io room (joining and leaving the previous one)
 let currentRoom;
-socket.on('join_room', (data) => {
+socket.once('join_room', (data) => {
   if(currentRoom)   socket.leave(currentRoom)
   currentRoom = data;
   socket.join(data)
   console.log(socket.rooms)
+
 })
 
 
 
-  socket.on('send_message', (data) => {
+  socket.on('send_search', (data) => {
     console.log(data)
     //sending to everybody =
-    // socket.broadcast.emit('receive_message', data)
-    socket.to(data.room).emit('receive_message', data)
+    // socket.broadcast.emit('receive_data', data)
+    socket.to(data.room).emit('receive_data', data.selectedSong)
   })
+
 })
 
 
