@@ -1,16 +1,18 @@
 # solo-project
-- Podemos eliminar useState setPlaylist de menu?
-- en client tenemos room y hostId que es literalmente lo mismo.
-- convertir el typescript de any a types reales.
-- literalmente ni un try catch :')
-- reorganizar. Los fetchs de frontend deberian estar en un service.
-- reorganizar. Los fetchs de backend? todo en controller o separarlo en distintos archivos????
+- We can prolly delete useState setPlaylist on menu.tsx now.
+- In client.tsx we have "room" and "hostId" that are exactly the same thing lol.
+- Typescript? more like AnyScript. Gotta fix that.
+- ALL our fetchs should be correctly converted to try-catch :')
+- Moving stuff: Frontend fetchs should be inside a service folder.
+- Moving stuff: Maybe backend fetches should be separed by functionalities instead of having 300 lines of code inside Controller.js
 
 - styling to hell
 
-otras features:
-- funcionalidades de host? password (hecho) + nombre de la sala + otros
-- cuando host cierra deberia no dejar que se metan más canciones???
+future features?:
+- Host should have more functionalities for their room. Change the name? able to add same song multiple times?
+- When host closes the web it shouldn't allow people to add more songs... Or should it? Right now it has 1 hour, maybe its decent this way.
 
-escalado:
-- tecnicamente nuestro objeto debería ser una hashtable si buscasemos un escalado real.
+
+scaling:
+- Technically, if we want to scale this, our backend array of users should be a hashtable.
+
