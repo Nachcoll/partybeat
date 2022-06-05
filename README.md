@@ -1,1 +1,11 @@
 # solo-project
+- Podemos eliminar useState setPlaylist de menu?
+- actualmente se pueden duplicar canciones en una lista.
+  - array de song uris en backend
+  - fetch get si playlist ya existe
+    - pushear las uris a array
+  - cuando vayamos a meter una cancion comprobar el array antes
+- funcionalidades de host? password (hecho) + otros
+- literalmente ni un try catch :')
+- en client tenemos room y hostId que es literalmente lo mismo.
+- cuando host cierra deberia no dejar que se metan más canciones???

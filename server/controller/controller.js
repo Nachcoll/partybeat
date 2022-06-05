@@ -6,12 +6,24 @@ import fetch from 'node-fetch';
 const baseURL = 'https://api.spotify.com/v1'
 const clientID = '9591fcd7d636458cacd869a7dec3fa1b'
 const clientSecret = 'd70092a35c2947a381ac02217c128927'
-let accessToken;
-let refreshToken;
-let userId;
-let playlist;
+
+let user = {
+  accessToken: undefined,
+  refreshToken: undefined,
+  userId: undefined,
+  playlist: undefined,
+  password: '',
+}
+const users = []
 
 const login = async (req, res) => {
+  user = {
+    accessToken: undefined,
+    refreshToken: undefined,
+    userId: undefined,
+    playlist: undefined,
+    password: '',
+  }
 
   let authorizeUrl = 'https://accounts.spotify.com/authorize?'
   authorizeUrl += 'client_id=' + clientID;
@@ -32,65 +44,115 @@ const newToken = async (req, res) => {
   body += '&client_id=' + clientID;
   body += '&client_secret=' + clientSecret;
 
-
   //call authorizationAPI
-  let xhr = new XMLHttpRequest();
-  xhr.open("POST", 'https://accounts.spotify.com/api/token', true);
-  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhr.setRequestHeader('Authorization', 'Basic ' + (new Buffer.from(clientID + ':' + clientSecret).toString('base64')))
-  xhr.send(body);
-
-  xhr.onload = function () {
-    const data = JSON.parse(xhr.responseText)
-    // console.log('data', data)
-
-    if (accessToken === undefined) {
-      accessToken = data.access_token;
-    }
-    if (refreshToken === undefined) {
-      refreshToken = data.refresh_token;
-    }
-    // console.log('access token', accessToken)
-    // console.log(refreshToken)
+  const authorizationAPI = await fetch('https://accounts.spotify.com/api/token', {
+    method: "POST",
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Basic ' + (new Buffer.from(clientID + ':' + clientSecret).toString('base64'))
+    },
+    body: body
+  })
+  const aunthData = await authorizationAPI.json()
+  if (user.accessToken === undefined) {
+    user.accessToken = aunthData.access_token;
+    user.refreshToken = aunthData.refresh_token;
   }
-}
-
-const getUserInfo = async (req, res) => {
 
   const result = await fetch(`${baseURL}/me`, {
     method: 'GET',
     headers: {
       'content-type': 'application/json',
-      'Authorization': 'Bearer ' + accessToken
+      'Authorization': 'Bearer ' + user.accessToken
     },
   })
   const data = await result.json();
-  console.log(data);
-  userId = data.id
+  user.userId = data.id
+
+  //for a reason only god knows, spotify login executes 2 times, that's why length of user might me 1 and still be ok.
+  if (users.length <= 1) {
+    users.push(user)
+  } else {
+    //if SAME HOST connects again we update the token.
+    for (let indx in users) {
+      if (users[indx].userId === user.userId) {
+        users[indx].accessToken = user.accessToken
+        users[indx].refreshToken = user.refreshToken
+      }
+    }
+  }
+  // console.log(users)
   res.send(JSON.stringify(data))
 }
+//maybe unneded getuserinfo
+// const getUserInfo = async (req, res) => {
+
+//   const result = await fetch(`${baseURL}/me`, {
+//     method: 'GET',
+//     headers: {
+//       'content-type': 'application/json',
+//       'Authorization': 'Bearer ' + accessToken
+//     },
+//   })
+//   const data = await result.json();
+//   console.log(data);
+//   userId = data.id
+//   res.send(JSON.stringify(data))
+// }
+
+const setPassword = async (req, res) => {
+  const actualUserID = req.params.userID
+  const newPass = req.body
+  console.log(newPass)
+  for(let indx in users){
+    if (users[indx].userId === actualUserID) {
+      users[indx].password = newPass
+    }
+  }
+res.send(JSON.stringify('password updated'))
+}
+
+const checkPassword = async (req, res) => {
+  const actualUserID = req.params.userID
+  const actualUser = users.find((el) => {
+    return el.userId === actualUserID
+  })
+  res.send(JSON.stringify(actualUser.password))
+}
+
 
 const getPlayLists = async (req, res) => {
+  const actualUserID = req.params.userID
+  const actualUser = users.find((el) => {
+    return el.userId === actualUserID
+  })
+  // console.log('actualUser', actualUser)
   const result = await fetch(`${baseURL}/me/playlists?limit=50`, {
     method: 'GET',
     headers: {
       'content-type': 'application/json',
-      'Authorization': 'Bearer ' + accessToken
+      'Authorization': 'Bearer ' + actualUser.accessToken
     },
   })
   const data = await result.json();
   // console.log(data);
   res.send(JSON.stringify(data))
 }
+
 //creating a new playlist if user selects that:
 const createNewPlaylist = async (req, res) => {
-  console.log(userId)
-  const result = await fetch(`${baseURL}/users/${userId}/playlists`, {
+  const actualUserID = req.params.userID
+  console.log('useeeeeeeeeeeeeeeeeeersssssssssssssssssssss', users);
+  const actualUser = users.find((el) => {
+    return el.userId === actualUserID
+  })
+  console.log('actualUser', actualUser)
+  const result = await fetch(`${baseURL}/users/${actualUser.userId}/playlists`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'content-type': 'application/json',
-      'Authorization': 'Bearer ' + accessToken
+      'Authorization': 'Bearer ' + actualUser.accessToken
     },
     body: JSON.stringify({
       'name': 'New Partybeat',
@@ -101,18 +163,39 @@ const createNewPlaylist = async (req, res) => {
   const data = await result.json();
   console.log(data);
   //we save the playlist.id here so we dont have to fetch with it everytime on client side.
-  playlist = data.id
+  // playlist = data.id
+  for (const user of users) {
+    if (user.userId === actualUserID) {
+      user.playlist = data.id
+    }
+  }
+  console.log(users)
   res.send(JSON.stringify(data))
 }
 const useExistingPlaylist = async (req, res) => {
+  const actualUserID = req.params.userID
+  const actualUser = users.find((el) => {
+    return el.userId === actualUserID
+  })
+  console.log('actualUser', actualUser)
   //we are only going to save the playlist here so client won't have access to the value.
   playlist = req.body.playlist[0].id
+  for (const user of users) {
+    if (user.userId === actualUserID) {
+      user.playlist = playlist
+    }
+  }
+  console.log(users)
 }
 
 //search for new track / artist
 
-const searchItem = async (req, res) => {
 
+const searchItem = async (req, res) => {
+  const actualUserID = req.params.userID
+  const actualUser = users.find((el) => {
+    return el.userId === actualUserID
+  })
   const searchString = req.params.string
 
   console.log(searchString)
@@ -121,7 +204,7 @@ const searchItem = async (req, res) => {
     method: 'GET',
     headers: {
       'content-type': 'application/json',
-      'Authorization': 'Bearer ' + accessToken
+      'Authorization': 'Bearer ' + actualUser.accessToken
     },
   })
   const data = await result.json();
@@ -129,14 +212,18 @@ const searchItem = async (req, res) => {
 }
 
 //ADDING SONG TO PLAYLIST
-const addSong = async(req, res) =>{
+const addSong = async (req, res) => {
   const songUri = req.body.song.uri
-  const result = await fetch(`${baseURL}/playlists/${playlist}/tracks?uris=${songUri}`, {
+  const actualUserID = req.params.userID
+  const actualUser = users.find((el) => {
+    return el.userId === actualUserID
+  })
+  const result = await fetch(`${baseURL}/playlists/${actualUser.playlist}/tracks?uris=${songUri}`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'content-type': 'application/json',
-      'Authorization': 'Bearer ' + accessToken
+      'Authorization': 'Bearer ' + actualUser.accessToken
     },
   })
   const data = await result.json();
@@ -149,31 +236,31 @@ const addSong = async(req, res) =>{
 
 
 //function for refreshing the token, not tested:
-const refreshAccessToken = async () => {
-  let body = 'grant_type=refresh_token'
-  body += '&refresh_token=' + refreshToken;
-  body += '&client_id=' + clientID;
-  accessToken = undefined;
-  refreshToken = undefined;
+// const refreshAccessToken = async () => {
+//   let body = 'grant_type=refresh_token'
+//   body += '&refresh_token=' + refreshToken;
+//   body += '&client_id=' + clientID;
+//   accessToken = undefined;
+//   refreshToken = undefined;
 
-  //call authorizationAPI
-  let xhr = new XMLHttpRequest();
-  xhr.open("POST", 'https://accounts.spotify.com/api/token', true);
-  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhr.setRequestHeader('Authorization', 'Basic ' + (new Buffer.from(clientID + ':' + clientSecret).toString('base64')))
-  xhr.send(body);
+//   //call authorizationAPI
+//   let xhr = new XMLHttpRequest();
+//   xhr.open("POST", 'https://accounts.spotify.com/api/token', true);
+//   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+//   xhr.setRequestHeader('Authorization', 'Basic ' + (new Buffer.from(clientID + ':' + clientSecret).toString('base64')))
+//   xhr.send(body);
 
-  xhr.onload = function () {
-    const data = JSON.parse(xhr.responseText)
-    if (accessToken === undefined) {
-      accessToken = data.access_token;
-    }
-    if (refreshToken === undefined) {
-      refreshToken = data.refresh_token;
-    }
+//   xhr.onload = function () {
+//     const data = JSON.parse(xhr.responseText)
+//     if (accessToken === undefined) {
+//       accessToken = data.access_token;
+//     }
+//     if (refreshToken === undefined) {
+//       refreshToken = data.refresh_token;
+//     }
 
-  }
-}
+//   }
+// }
 
 
 
@@ -182,4 +269,4 @@ const refreshAccessToken = async () => {
 
 
 // module.exports = { login, newToken, getUserInfo }
-export default { login, newToken, getUserInfo, searchItem, getPlayLists, createNewPlaylist, useExistingPlaylist, addSong }
+export default { login, newToken, searchItem, getPlayLists, createNewPlaylist, useExistingPlaylist, addSong, setPassword, checkPassword }

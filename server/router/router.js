@@ -10,14 +10,17 @@ const router = new Router();
 router.get('/login', controller.login);
 router.post('/newToken', controller.newToken);
 
-router.get('/info', controller.getUserInfo);
-router.get('/infoPL', controller.getPlayLists);
-router.get('/search/:string', controller.searchItem);
+// router.get('/info', controller.getUserInfo);
+router.get('/infoPL/:userID', controller.getPlayLists);
+router.get('/search/:userID/:string', controller.searchItem);
 
-router.post('/createPlaylist', controller.createNewPlaylist)
-router.post('/useExistingPlaylist', controller.useExistingPlaylist)
+router.post('/setPass/:userID', controller.setPassword)
+router.get('/checkPass/:userID', controller.checkPassword)
 
-router.post('/addSong', controller.addSong)
+router.post('/createPlaylist/:userID', controller.createNewPlaylist)
+router.post('/useExistingPlaylist/:userID', controller.useExistingPlaylist)
+
+router.post('/addSong/:userID', controller.addSong)
 
 
 export default router;

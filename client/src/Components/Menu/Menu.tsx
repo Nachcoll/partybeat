@@ -4,7 +4,7 @@ import Main from '../Main/Main'
 
 const Menu = () => {
 
-  const [userInfo, setUserInfo] = useState({})
+  const [userInfo, setUserInfo] = useState<any>({})
   const [playLists, setPlayLists] = useState<any[]>([])
   const [playList, setPlayList] = useState({})
 
@@ -25,26 +25,21 @@ const onLoad: any = async () => {
       body: JSON.stringify({token})
     })
     const data = await result.json();
+    setUserInfo(data);
   }
   return null;
 }
 
 //show menu after clicking:
-const getUserData = async () => {
-  const result = await fetch('http://localhost:8000/info', {
-    method: "GET",
-    headers: {'Content-type' : 'application/json'}
-  })
-  const data = await result.json();
-  setUserInfo(data)
+const getPlaylists = async () => {
 
-  const playlistOptions = await fetch('http://localhost:8000/infoPL', {
+  const playlistOptions = await fetch(`http://localhost:8000/infoPL/${userInfo.id}`, {
     method: "GET",
     headers: {'Content-type' : 'application/json'}
   })
   const playlistData = await playlistOptions.json();
   console.log(playlistData)
-  const arr = playlistData.items.filter((el:any) => {return el.owner.id === data.id})
+  const arr = playlistData.items.filter((el:any) => {return el.owner.id === userInfo.id})
   setPlayLists((prev) => {
     return [...prev, ...arr]
   })
@@ -58,7 +53,7 @@ const handlePlaylistSubmit = async (e:any) => {
   const playlist = playLists.filter((el) => {return el.name === playlistName})
   setPlayList(playlist)
   console.log(playlist)
-  const useExistingPlaylist = await fetch('http://localhost:8000/useExistingPlaylist', {
+  const useExistingPlaylist = await fetch(`http://localhost:8000/useExistingPlaylist/${userInfo.id}`, {
     method: "POST",
     headers: {'Content-type' : 'application/json'},
     body: JSON.stringify({'playlist' : playlist})
@@ -68,7 +63,7 @@ const handlePlaylistSubmit = async (e:any) => {
 
 } else {
   //crear nueva playlist
-  const newPlayList = await fetch('http://localhost:8000/createPlaylist', {
+  const newPlayList = await fetch(`http://localhost:8000/createPlaylist/${userInfo.id}`, {
     method: "POST",
     headers: {'Content-type' : 'application/json'}
   })
@@ -81,8 +76,8 @@ const handlePlaylistSubmit = async (e:any) => {
 
   return (
     <>
-    {Object.keys(userInfo).length === 0 && <button onClick={getUserData}>Start a new hosting</button>}
-    {(Object.keys(playList).length === 0 && Object.keys(userInfo).length > 0) && <div>Select the playlist:
+    {(Object.keys(userInfo).length > 0 && playLists.length === 0) && <button onClick={getPlaylists}>Load all the playlists</button>}
+    {(Object.keys(userInfo).length > 0 && playLists.length > 0) && <div>Select the playlist:
     <form onSubmit={handlePlaylistSubmit}>
     <select name='playlist'>
       <option>New playlist</option>
@@ -91,7 +86,7 @@ const handlePlaylistSubmit = async (e:any) => {
     <button type="submit">START sharing</button>
     </form>
     </div>}
-    {Object.keys(userInfo).length > 0 && <Main userInfo={userInfo}></Main>}
+    {(Object.keys(userInfo).length > 0 && playLists.length > 0) && <Main userInfo={userInfo}></Main>}
     </>
   )
 }

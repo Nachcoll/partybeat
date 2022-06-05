@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import io from 'socket.io-client'
+// import io from 'socket.io-client'
+import socket from '../../Services/socket'
 import SearchButton from '../SearchButton/SearchButton'
 
-const socket = io('http://localhost:8000')
+// const socket = io('http://localhost:8000')
 
 //refractor MAIN and CLIENT into the same page??????
 //refractor of every single function into services.
@@ -44,13 +45,28 @@ const Main = ({ userInfo }: { userInfo: any }) => {
     })
 }, [socket, addedSong])
 
+
+const setPassword = async (e: any) => {
+  e.preventDefault();
+  const pass = e.target.password.value
+  console.log(JSON.stringify(pass));
+  const result = await fetch(`http://localhost:8000/setPass/${userInfo.id}`, {
+    method: "POST",
+    headers: {'Content-type' : 'application/json'},
+    body: JSON.stringify({'pass' : pass})
+  })
+  const data = await result.json();
+  console.log(data);
+}
+
+
 const sendSearch = async (e: any) => {
   e.preventDefault();
   setSongName([])
   const searchString = e.target.searchString.value
 
   console.log('searchString', searchString)
-  const result = await fetch(`http://localhost:8000/search/${searchString}`, {
+  const result = await fetch(`http://localhost:8000/search/${userInfo.id}/${searchString}`, {
     method: "GET",
     headers: {'Content-type' : 'application/json'},
   })
@@ -78,6 +94,10 @@ const sendSearch = async (e: any) => {
             `http://localhost:3000/room/${userInfo.id}`
           )
         }}>COPY</button>
+        <form onSubmit={setPassword}>
+        <input name="password" type="password" placeholder='Password for your playlist'></input>
+        <button type='submit'>Set password</button>
+        </form>
       </div>
       <div>
       <ul>
@@ -93,9 +113,8 @@ const sendSearch = async (e: any) => {
       <button type="submit">Search</button>
       </form>
     {songName && songName.map((song, index) =>
-    {return <SearchButton song={song} key={index} setSelectedSong={setSelectedSong}></SearchButton>})}
+    {return <SearchButton song={song} key={index} userId={userInfo.id} setSelectedSong={setSelectedSong}></SearchButton>})}
     </div>
-      <button>Start playlist</button>
     </div>
   )
 }

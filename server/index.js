@@ -20,7 +20,7 @@ app.use(router)
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors:{
+  cors: {
     origin: 'http://localhost:3000',
     methods: ['GET', 'POST'],
   },
@@ -28,21 +28,25 @@ const io = new Server(server, {
 
 //io connection + send info back
 let number = 0;
-io.on('connection', (socket)=> {
+io.on('connection', (socket) => {
+  console.log(socket.id)
   number++
-  console.log(number,'user just connected to the room')
+  console.log(number, 'user just connected to the room')
 
-//io room (joining and leaving the previous one)
-let currentRoom;
-socket.once('join_room', (data) => {
-  if(currentRoom)   socket.leave(currentRoom)
-  currentRoom = data;
-  socket.join(data)
-  console.log(socket.rooms)
+  //io room (joining and leaving the previous one)
+  let currentRoom;
+  socket.once('join_room', (data) => {
+    if (currentRoom) socket.leave(currentRoom)
+    currentRoom = data;
+    socket.join(data)
+    console.log(socket.rooms)
 
-})
+  })
 
-
+  socket.on('disconnect', () => {
+    number--
+    console.log('disconnected')
+  })
 
   socket.on('send_search', (data) => {
     console.log(data)
