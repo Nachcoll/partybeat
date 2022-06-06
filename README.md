@@ -1,12 +1,10 @@
 # solo-project
-- In client.tsx we have "room" and "hostId" that are exactly the same thing lol.
-- Typescript? more like AnyScript. Gotta fix that.
-- ALL our fetchs should be correctly converted to try-catch :')
 - More comments!
 - Moving stuff: Frontend fetchs should be inside a service folder.
+
 - Moving stuff: Maybe backend fetches should be separed by functionalities instead of having 300 lines of code inside Controller.js
 - Try to add more comments again.
-- versel
+- versel / deploy correctly
 
 BUGS:
 - security on inputs

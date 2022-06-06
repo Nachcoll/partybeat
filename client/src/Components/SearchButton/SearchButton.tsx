@@ -1,15 +1,12 @@
-import React, {Dispatch, SetStateAction} from 'react'
-
-interface propsType {
-  userId: any,
-  song: any,
-  setSelectedSong: Dispatch<SetStateAction<any>>,
-}
+import React from 'react'
+import { SearchProps } from '../../Types/Types'
 
 
-const SearchButton = ({userId, song, setSelectedSong}: propsType) => {
 
-  const handleClick = async (e:any) =>{
+
+const SearchButton = ({userId, song, setSelectedSong}: SearchProps) => {
+
+  const handleClick = async (e: React.MouseEvent<HTMLElement>) =>{
     e.preventDefault();
 
     const result = await fetch(`http://localhost:8000/addSong/${userId}`, {

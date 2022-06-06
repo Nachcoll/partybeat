@@ -51,212 +51,269 @@ const newToken = async (req, res) => {
   body += '&client_secret=' + clientSecret;
 
   //call authorizationAPI
-  const authorizationAPI = await fetch('https://accounts.spotify.com/api/token', {
-    method: "POST",
-    headers: {
-      'Content-type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Basic ' + (new Buffer.from(clientID + ':' + clientSecret).toString('base64'))
-    },
-    body: body
-  })
-  const aunthData = await authorizationAPI.json()
-  if (user.accessToken === undefined) {
-    user.accessToken = aunthData.access_token;
-    user.refreshToken = aunthData.refresh_token;
-  }
+  try {
+    const authorizationAPI = await fetch('https://accounts.spotify.com/api/token', {
+      method: "POST",
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Basic ' + (new Buffer.from(clientID + ':' + clientSecret).toString('base64'))
+      },
+      body: body
+    })
+    const aunthData = await authorizationAPI.json()
+    if (user.accessToken === undefined) {
+      user.accessToken = aunthData.access_token;
+      user.refreshToken = aunthData.refresh_token;
+    }
 
-  const result = await fetch(`${baseURL}/me`, {
-    method: 'GET',
-    headers: {
-      'content-type': 'application/json',
-      'Authorization': 'Bearer ' + user.accessToken
-    },
-  })
-  const data = await result.json();
-  user.userId = data.id
-  // console.log(users);
+    const result = await fetch(`${baseURL}/me`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + user.accessToken
+      },
+    })
+    const data = await result.json();
+    user.userId = data.id
+    // console.log(users);
 
-  //for a reason only god knows, spotify login executes 2 times, that's why length of user might be 1 and still be ok.
-  if (users.length < 1) {
-    users.push(user)
-  } else {
-    //if SAME HOST connects again we update the token.
-    for (let indx in users) {
-      if (users[indx].userId === user.userId) {
-        users[indx].accessToken = user.accessToken
-        users[indx].refreshToken = user.refreshToken
+    //for a reason only god knows, spotify login executes 2 times, that's why length of user might be 1 and still be ok.
+    if (users.length < 1) {
+      users.push(user)
+    } else {
+      //if SAME HOST connects again we update the token.
+      for (let indx in users) {
+        if (users[indx].userId === user.userId) {
+          users[indx].accessToken = user.accessToken
+          users[indx].refreshToken = user.refreshToken
+        }
       }
     }
+    // console.log(users)
+    res.status = 200;
+    res.send(JSON.stringify(data))
+  } catch (error) {
+    res.status = 500;
+    res.send(JSON.stringify('Something happened'))
   }
-  // console.log(users)
-  res.send(JSON.stringify(data))
+
 }
 
 const setPassword = async (req, res) => {
-  const actualUserID = req.params.userID
-  const newPass = req.body
-  console.log(newPass)
-  for(let indx in users){
-    if (users[indx].userId === actualUserID) {
-      users[indx].password = newPass
+  try {
+    const actualUserID = req.params.userID
+    const newPass = req.body
+    console.log(newPass)
+    for (let indx in users) {
+      if (users[indx].userId === actualUserID) {
+        users[indx].password = newPass
+      }
     }
+    res.status = 201
+    res.send(JSON.stringify('password updated'))
+  } catch (error) {
+    res.status = 500;
+    res.send(JSON.stringify('Something happened'))
   }
-res.send(JSON.stringify('password updated'))
 }
 
 const checkPassword = async (req, res) => {
-  const actualUserID = req.params.userID
-  const actualUser = users.find((el) => {
-    return el.userId === actualUserID
-  })
-  if(actualUser !== undefined) {
-    console.log(actualUser.password)
-    res.send(JSON.stringify(actualUser.password))
+  try {
+    const actualUserID = req.params.userID
+    const actualUser = users.find((el) => {
+      return el.userId === actualUserID
+    })
+    if (actualUser !== undefined) {
+      console.log(actualUser.password)
+      res.send(JSON.stringify(actualUser.password))
+    } else {
+      res.status = 404;
+    }
+  } catch (error) {
+    res.status = 500;
+    res.send(JSON.stringify('Something happened'))
   }
+
 }
 
 
 const getPlayLists = async (req, res) => {
-  const actualUserID = req.params.userID
-  const actualUser = users.find((el) => {
-    return el.userId === actualUserID
-  })
-  // console.log('actualUser', actualUser)
-  const result = await fetch(`${baseURL}/me/playlists?limit=50`, {
-    method: 'GET',
-    headers: {
-      'content-type': 'application/json',
-      'Authorization': 'Bearer ' + actualUser.accessToken
-    },
-  })
-  const data = await result.json();
-  // console.log(data);
-  res.send(JSON.stringify(data))
+  try {
+    const actualUserID = req.params.userID
+    const actualUser = users.find((el) => {
+      return el.userId === actualUserID
+    })
+    // console.log('actualUser', actualUser)
+    const result = await fetch(`${baseURL}/me/playlists?limit=50`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + actualUser.accessToken
+      },
+    })
+    const data = await result.json();
+    // console.log(data);
+    res.status = 200;
+    res.send(JSON.stringify(data))
+  } catch (error) {
+    res.status = 500;
+    res.send(JSON.stringify('Something happened'))
+  }
+
 }
 
 //creating a new playlist if user selects that:
 const createNewPlaylist = async (req, res) => {
-  const actualUserID = req.params.userID
-  // console.log('useeeeeeeeeeeeeeeeeeersssssssssssssssssssss', users);
-  const actualUser = users.find((el) => {
-    return el.userId === actualUserID
-  })
-  // console.log('actualUser', actualUser)
-  const result = await fetch(`${baseURL}/users/${actualUser.userId}/playlists`, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'content-type': 'application/json',
-      'Authorization': 'Bearer ' + actualUser.accessToken
-    },
-    body: JSON.stringify({
-      'name': 'New Partybeat',
-      'description': 'New Partybeat list',
+  try {
+    const actualUserID = req.params.userID
+    // console.log('useeeeeeeeeeeeeeeeeeersssssssssssssssssssss', users);
+    const actualUser = users.find((el) => {
+      return el.userId === actualUserID
     })
-  })
+    // console.log('actualUser', actualUser)
+    const result = await fetch(`${baseURL}/users/${actualUser.userId}/playlists`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + actualUser.accessToken
+      },
+      body: JSON.stringify({
+        'name': 'New Partybeat',
+        'description': 'New Partybeat list',
+      })
+    })
 
-  const data = await result.json();
-  // console.log(data);
-  //we save the playlist.id here so we dont have to fetch with it everytime on client side.
-  for (const user of users) {
-    if (user.userId === actualUserID) {
-      user.playlist = data.id
-      user.addedTracks = [];
+    const data = await result.json();
+    // console.log(data);
+    //we save the playlist.id here so we dont have to fetch with it everytime on client side.
+    for (const user of users) {
+      if (user.userId === actualUserID) {
+        user.playlist = data.id
+        user.addedTracks = [];
+      }
     }
+    // console.log(users)
+    res.status = 201
+    res.send(JSON.stringify(data))
+  } catch (error) {
+    res.status = 500;
+    res.send(JSON.stringify('Something happened'))
   }
-  // console.log(users)
-  res.send(JSON.stringify(data))
 }
 
 const useExistingPlaylist = async (req, res) => {
-  const actualUserID = req.params.userID
-  const actualUser = users.find((el) => {
-    return el.userId === actualUserID
-  })
+  try {
+    const actualUserID = req.params.userID
+    const actualUser = users.find((el) => {
+      return el.userId === actualUserID
+    })
 
-  //we are only going to save the playlist here so client won't have access to the value.
-  let playlist = req.body.playlist[0].id
-  for (const user of users) {
-    if (user.userId === actualUserID) {
-      user.playlist = playlist
+    //we are only going to save the playlist here so client won't have access to the value.
+    let playlist = req.body.playlist[0].id
+    for (const user of users) {
+      if (user.userId === actualUserID) {
+        user.playlist = playlist
+      }
     }
-  }
-//we then fetch for all the tracks on the playlist. So we wont have to fetch during the add-song proccess.
-  const result = await fetch(`${baseURL}/playlists/${playlist}/tracks?fields=items(track(uri))`, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'content-type': 'application/json',
-      'Authorization': 'Bearer ' + actualUser.accessToken
-    }})
+    //we then fetch for all the tracks on the playlist. So we wont have to fetch during the add-song proccess.
+    const result = await fetch(`${baseURL}/playlists/${playlist}/tracks?fields=items(track(uri))`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + actualUser.accessToken
+      }
+    })
 
     const data = await result.json();
 
     for (const user of users) {
       if (user.userId === actualUserID) {
         user.addedTracks = [];
-        for(const track of data.items){
+        for (const track of data.items) {
           user.addedTracks.push(track.track.uri)
         }
       }
       // console.log(user)
     }
+    res.status = 200
+  } catch (error) {
+    res.status = 500;
+    res.send(JSON.stringify('Something happened'))
+  }
 
 }
 
 //search for new track / artist
 
 const searchItem = async (req, res) => {
-  const actualUserID = req.params.userID
-  const actualUser = users.find((el) => {
-    return el.userId === actualUserID
-  })
-  const searchString = req.params.string
+  try {
+    const actualUserID = req.params.userID
+    const actualUser = users.find((el) => {
+      return el.userId === actualUserID
+    })
+    const searchString = req.params.string
 
-  // console.log(searchString)
+    // console.log(searchString)
 
-  const result = await fetch(`${baseURL}/search?q=${searchString}&type=track&limit=5`, {
-    method: 'GET',
-    headers: {
-      'content-type': 'application/json',
-      'Authorization': 'Bearer ' + actualUser.accessToken
-    },
-  })
-  const data = await result.json();
-  res.send(JSON.stringify(data))
+    const result = await fetch(`${baseURL}/search?q=${searchString}&type=track&limit=5`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + actualUser.accessToken
+      },
+    })
+    const data = await result.json();
+    res.status = 202
+    res.send(JSON.stringify(data))
+  } catch (error) {
+    res.status = 500;
+    res.send(JSON.stringify('Something happened'))
+  }
+
 }
 
 //ADDING SONG TO PLAYLIST
 const addSong = async (req, res) => {
-  const songUri = req.body.song.uri
-  const actualUserID = req.params.userID
-  const actualUser = users.find((el) => {
-    return el.userId === actualUserID
-  })
-  //find if the song is already in
-  const alreadyIn = actualUser.addedTracks.some((song) => {
-    return song === songUri})
+  try {
+    const songUri = req.body.song.uri
+    const actualUserID = req.params.userID
+    const actualUser = users.find((el) => {
+      return el.userId === actualUserID
+    })
+    //find if the song is already in
+    const alreadyIn = actualUser.addedTracks.some((song) => {
+      return song === songUri
+    })
 
-  if(alreadyIn === false){
-  const result = await fetch(`${baseURL}/playlists/${actualUser.playlist}/tracks?uris=${songUri}`, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'content-type': 'application/json',
-      'Authorization': 'Bearer ' + actualUser.accessToken
-    },
-  })
-  const data = await result.json();
-  //we save the new song
-  for (const user of users) {
-    if (user.userId === actualUserID) {
-        user.addedTracks.push(songUri)
+    if (alreadyIn === false) {
+      const result = await fetch(`${baseURL}/playlists/${actualUser.playlist}/tracks?uris=${songUri}`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'content-type': 'application/json',
+          'Authorization': 'Bearer ' + actualUser.accessToken
+        },
+      })
+      const data = await result.json();
+      //we save the new song
+      for (const user of users) {
+        if (user.userId === actualUserID) {
+          user.addedTracks.push(songUri)
+        }
       }
+      res.status = 201
+      res.send(JSON.stringify(data))
+    } else {
+      res.status = 406
+      res.send(JSON.stringify('this song was already in the list'))
+    }
+  } catch (error) {
+    res.status = 500;
+    res.send(JSON.stringify('Something happened'))
   }
-  res.send(JSON.stringify(data))
-} else{
-  res.send(JSON.stringify('this song was already in the list'))
-}
+
 }
 
 
