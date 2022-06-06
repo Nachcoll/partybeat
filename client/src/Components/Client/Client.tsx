@@ -15,7 +15,8 @@ const Client = () => {
 
   const hostId = window.location.pathname.substring(6)
   const room = hostId;
-  let userPassword: any;
+  //we start it as null just in case a bad person tries a random url
+  let userPassword: any = null;
 
   useEffect(() => {
     socket.emit('join_room', hostId)

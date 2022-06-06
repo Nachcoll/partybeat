@@ -1,11 +1,14 @@
 // const XMLHttpRequest = require('xhr2');
-import XMLHttpRequest from 'xhr2';
+import dotenv from 'dotenv'
 import fetch from 'node-fetch';
 // const Fetch = require('node-fetch')
+dotenv.config();
 
 const baseURL = 'https://api.spotify.com/v1'
-const clientID = '9591fcd7d636458cacd869a7dec3fa1b'
-const clientSecret = 'd70092a35c2947a381ac02217c128927'
+//clientID and clientSecret are inside .env file.
+const clientID = process.env.CLIENT_ID
+const clientSecret = process.env.CLIENT_SECRET
+
 
 let user = {
   accessToken: undefined,
@@ -35,6 +38,7 @@ const login = async (req, res) => {
   authorizeUrl += '&scope=user-read-private ugc-image-upload app-remote-control user-read-email user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played playlist-read-collaborative playlist-modify-public playlist-read-private playlist-modify-private'
 
   await res.redirect(authorizeUrl);
+  //AFTER we should hide the code from the url.
 }
 
 
@@ -70,9 +74,10 @@ const newToken = async (req, res) => {
   })
   const data = await result.json();
   user.userId = data.id
+  // console.log(users);
 
   //for a reason only god knows, spotify login executes 2 times, that's why length of user might be 1 and still be ok.
-  if (users.length <= 1) {
+  if (users.length < 1) {
     users.push(user)
   } else {
     //if SAME HOST connects again we update the token.
@@ -104,7 +109,10 @@ const checkPassword = async (req, res) => {
   const actualUser = users.find((el) => {
     return el.userId === actualUserID
   })
-  res.send(JSON.stringify(actualUser.password))
+  if(actualUser !== undefined) {
+    console.log(actualUser.password)
+    res.send(JSON.stringify(actualUser.password))
+  }
 }
 
 
@@ -153,6 +161,7 @@ const createNewPlaylist = async (req, res) => {
   for (const user of users) {
     if (user.userId === actualUserID) {
       user.playlist = data.id
+      user.addedTracks = [];
     }
   }
   // console.log(users)
@@ -185,6 +194,7 @@ const useExistingPlaylist = async (req, res) => {
 
     for (const user of users) {
       if (user.userId === actualUserID) {
+        user.addedTracks = [];
         for(const track of data.items){
           user.addedTracks.push(track.track.uri)
         }
