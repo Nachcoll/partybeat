@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction} from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 
 export interface User {
   display_name: string,
@@ -22,4 +22,10 @@ export interface SelectedSong {
   name: string | undefined,
   artist: string | undefined,
   uri: string | undefined,
+}
+
+export interface GeneralPlaylist {
+  name: string,
+  uri: string,
+  owner: {id: string}
 }

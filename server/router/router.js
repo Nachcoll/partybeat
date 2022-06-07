@@ -6,20 +6,19 @@ import {Router} from 'express'
 
 const router = new Router();
 
-
+//starting API use:
 router.get('/login', controller.login);
 router.post('/newToken', controller.newToken);
 
-// router.get('/info', controller.getUserInfo);
+//Things that should only happen once:
 router.get('/infoPL/:userID', controller.getPlayLists);
-router.get('/search/:userID/:string', controller.searchItem);
-
 router.post('/setPass/:userID', controller.setPassword)
 router.get('/checkPass/:userID', controller.checkPassword)
-
 router.post('/createPlaylist/:userID', controller.createNewPlaylist)
 router.post('/useExistingPlaylist/:userID', controller.useExistingPlaylist)
 
+//search + adding songs
+router.get('/search/:userID/:string', controller.searchItem);
 router.post('/addSong/:userID', controller.addSong)
 
 

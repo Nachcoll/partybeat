@@ -2,13 +2,50 @@
   background:fixed;
   background-image: url('./images/background.png');
   color: white;
-  margin-left: 20px;
 }
 /* temporal */
 option{
   background: #040B3A
 }
 
+/* DASHBOARD CSS */
+.logo{
+  display:flex;
+  align-self: center;
+  height: 22vh;
+  background: #040B3A;
+}
+.dashboardContainer{
+  width: auto;
+  height: auto;
+  margin: 8vh;
+  padding: 4vh;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background: #040B3A;
+  align-items: center;
+}
+.dashboardContainer p{
+  background: #040B3A;
+  align-self: center;
+}
+.dashboardContainer button{
+  /* justify-self: center; */
+  align-self: center;
+  background: #040B3A;
+  margin-left: 0;
+}
+
+.mainContainer{
+  background-color: #040B3A !important;
+  width: auto;
+  height: auto;
+  margin: 8vh;
+  padding: 4vh;
+  border: 2px solid red;
+}
 .addedSong{
   color:#03CEA4;
   margin: 0;
@@ -21,6 +58,7 @@ option{
 }
 
 button {
+  margin-left: 2vw;
   padding: 0.8em 1.8em;
   border: 2px solid #03CEA4;
   position: relative;

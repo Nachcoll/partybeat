@@ -1,14 +1,13 @@
 # solo-project
-- More comments!
-- Moving stuff: Frontend fetchs should be inside a service folder.
 
 - Moving stuff: Maybe backend fetches should be separed by functionalities instead of having 300 lines of code inside Controller.js
-- Try to add more comments again.
+- Try to add more comments again (backend).
 - versel / deploy correctly
+- The way we deal with the password is weird. We are fetching it from the backend instead of sending the check to it.
 
 BUGS:
 - security on inputs
-
+- change passwords
 
 
 - styling to hell

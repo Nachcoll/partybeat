@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Main from '../Main/Main'
-import { User, Playlist } from '../../Types/Types'
+import { User, Playlist, GeneralPlaylist } from '../../Types/Types'
+import { getNewToken, getAllPlaylistFromUser, getExistingPlaylist, getNewPlaylist } from '../../Services/clientServices'
 
 
 
@@ -10,44 +11,30 @@ const Menu = () => {
   const [playLists, setPlayLists] = useState<Playlist[]>([])
   const [playListSelected, setPlayListSelected] = useState<boolean>(false)
 
+  //When page loads we want to create the new Token ASAP.
   useEffect(() => {
     onLoad()
   }, [])
-
-
+  //we take the code from Spotify API and then clear the browser so it's not that easy to access. I think it's not sensitive data since we
+  //still need to ask for a token in order to use it.
   const onLoad = async () => {
     if (window.location.search.length > 0) {
       const completeUrl = window.location.search;
       const token = completeUrl.substring(6)
-      //we should hide the url after saving the token. We don't want to show the query from Spotify
+      //We don't want to show the query from Spotify
       window.history.pushState("", "", 'http://localhost:3000/menu')
-      try {
-        const result = await fetch('http://localhost:8000/newToken', {
-          method: "POST",
-          headers: { 'Content-type': 'application/json' },
-          body: JSON.stringify({ token })
-        })
-        const data = await result.json();
-        setUserInfo(data);
-        console.log(data);
-      } catch (error) {
-        alert('Something happened')
-      }
+      const user = await getNewToken(token)
+      setUserInfo(user)
     }
     return null;
   }
 
-  //show menu after clicking:
+  //After clicking on the button for loading playlists we are rendering them on a form.
   const getPlaylists = async () => {
     try {
-      const playlistOptions = await fetch(`http://localhost:8000/infoPL/${userInfo.id}`, {
-        method: "GET",
-        headers: { 'Content-type': 'application/json' }
-      })
-      const playlistData = await playlistOptions.json();
-      // console.log(playlistData)
-      //type of el is any because we can trust our backend
-      const arr = playlistData.items.filter((el: any) => { return el.owner.id === userInfo.id })
+      const playlistData = await getAllPlaylistFromUser(userInfo)
+      // Since we can only edit playlists from our own we are going to filter them
+      const arr = playlistData.items.filter((el: GeneralPlaylist) => { return el.owner.id === userInfo.id })
       console.log(arr);
       setPlayLists((prev) => {
         return [...prev, ...arr]
@@ -55,45 +42,30 @@ const Menu = () => {
     } catch (error) {
       alert('Something happened')
     }
-
-
   }
-
+  //Here we handle the decision of the playlist that is going to be edited. We can either use an existing playlist or we can
+  // create a new one
   const handlePlaylistSubmit = async (e: React.MouseEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      const playlistName = (e.target as any).playlist.value
-
+      console.log(e.target)
+      const playlistName = (e.target as HTMLFormElement).playlist.value
+      //if the selected playlist is already there:
       if (playlistName !== 'New playlist') {
         const playlist = playLists.filter((el) => { return el.name === playlistName })
-        const useExistingPlaylist = await fetch(`http://localhost:8000/useExistingPlaylist/${userInfo.id}`, {
-          method: "POST",
-          headers: { 'Content-type': 'application/json' },
-          body: JSON.stringify({ 'playlist': playlist })
-        })
-        const newPlayListjson = await useExistingPlaylist.json();
-        // setPlayListSelected(true);
-        // console.log(playListSelected)
+        await getExistingPlaylist(userInfo, playlist[0])
       } else {
-        //crear nueva playlist
-        const newPlayList = await fetch(`http://localhost:8000/createPlaylist/${userInfo.id}`, {
-          method: "POST",
-          headers: { 'Content-type': 'application/json' }
-        })
-        const newPlayListjson = await newPlayList.json();
-        console.log(newPlayListjson)
-        // setPlayListSelected(true);
+        //create new playlist
+        await getNewPlaylist(userInfo)
       }
       setPlayListSelected(true);
     } catch (error) {
       alert('Something happened')
     }
-
   }
 
-
   return (
-    <>
+    <div className="mainContainer">
       {playLists.length === 0 && <button onClick={getPlaylists}>Load all the playlists</button>}
       {(playLists.length > 0 && playListSelected === false) && <div>Select the playlist:
         <form onSubmit={handlePlaylistSubmit}>
@@ -105,7 +77,7 @@ const Menu = () => {
         </form>
       </div>}
       {playLists.length > 0 && <Main userInfo={userInfo}></Main>}
-    </>
+    </div>
   )
 }
 
