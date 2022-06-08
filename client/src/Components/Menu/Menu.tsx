@@ -67,16 +67,19 @@ const Menu = () => {
   return (
     <div className="mainContainer">
       {playLists.length === 0 && <button onClick={getPlaylists}>Load all the playlists</button>}
-      {(playLists.length > 0 && playListSelected === false) && <div>Select the playlist:
-        <form onSubmit={handlePlaylistSubmit}>
+      {(playLists.length > 0 && playListSelected === false) &&
+      <div className="playlistContainer"><h2>Select the playlist:</h2>
+        <form className="playlistSelector" onSubmit={handlePlaylistSubmit}>
+          <div className="formInputAndButton">
           <select name='playlist'>
             <option>New playlist</option>
             {playLists.map((playlist, index) => { return <option key={index}>{playlist.name}</option> })}
           </select>
-          <button type="submit">START sharing</button>
+          <button type="submit" className="playlistSelectorButton">START sharing</button>
+          </div>
         </form>
       </div>}
-      {playLists.length > 0 && <Main userInfo={userInfo}></Main>}
+      {playListSelected && <Main userInfo={userInfo}></Main>}
     </div>
   )
 }

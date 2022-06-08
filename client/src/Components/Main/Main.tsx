@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import socket from '../../Services/socket'
 import SearchButton from '../SearchButton/SearchButton'
 import { User, SelectedSong } from '../../Types/Types'
@@ -15,8 +15,18 @@ const Main = ({ userInfo }: { userInfo: User }) => {
   const [addedSong, setAddedSong] = useState<SelectedSong[]>([])
   const [passGiven, setPassGiven] = useState<boolean>(false)
 
-//we want one Hook for joining the Socket IO room that eventually will be used by the rest of the users. It will appear when userInfo is
-// rendered.
+
+  const addedSongsRef = useRef<HTMLLIElement>(null)
+
+  const scrollToBottom = () => {
+    if(addedSongsRef.current !== null){
+      addedSongsRef.current.scrollIntoView({behavior:'smooth'})
+    }
+  }
+  useEffect(scrollToBottom,[addedSong])
+
+  //we want one Hook for joining the Socket IO room that eventually will be used by the rest of the users. It will appear when userInfo is
+  // rendered.
   useEffect(() => {
     if (userInfo.id !== undefined) {
       const room = userInfo.id;
@@ -83,28 +93,29 @@ const Main = ({ userInfo }: { userInfo: User }) => {
   }
 
   return (
-    <div>
-      <div>
-        <input id="urlInput" readOnly={true} value={`http://localhost:3000/room/${userInfo.id}`}></input>
-        <button onClick={() => {
-          navigator.clipboard.writeText(
-            `http://localhost:3000/room/${userInfo.id}`
-          )
-        }}>COPY</button>
-        {passGiven === false && <form onSubmit={setPassword}>
+    <div className="hostMenu">
+      <div className="sharingContainer">
+        <div className="shareMenu">
+          <input id="urlInput" readOnly={true} value={`http://localhost:3000/room/${userInfo.id}`}></input>
+          <button onClick={() => {
+            navigator.clipboard.writeText(
+              `http://localhost:3000/room/${userInfo.id}`
+            )
+          }}>copy</button></div>
+        {passGiven === false && <form className="setPasswordForm" onSubmit={setPassword}>
           <input name="password" type="password" placeholder='Password for your playlist'></input>
           <button type='submit'>Set password</button>
         </form>}
       </div>
-      <div>
+      <div className="addedSongsList">
         <ul>
           {addedSong.map((song, index) => {
-            return <li key={index} >Added <span className="addedSong">{song.name}</span> from
+            return <li ref={addedSongsRef} key={index} >Added <span className="addedSong">{song.name}</span> from
               <span className="addedArtist"> {song.artist}</span> to the playlist</li>
           })}
         </ul>
       </div>
-      <div>
+      <div className="searchMenu">
         {passGiven && <form onSubmit={sendSearch}>
           <input name='searchString' placeholder="Song / artist name"></input>
           <button type="submit">Search</button>

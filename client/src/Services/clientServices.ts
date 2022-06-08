@@ -64,6 +64,22 @@ const saveNewPassword = async (userInfo: User, pass: string) => {
     alert('Something happened')
   }
 }
+//checking pass
+const checkPassword = async (userInfo: string, pass: string) => {
+  try {
+    const result = await fetch(`http://localhost:8000/checkPass/${userInfo}`, {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({pass}),
+      })
+      return await result.json();
+  } catch (error) {
+
+  }
+}
+
+
+
 //request for searching songs. We first check if userInfo is a string or an object because the client side only has access to
 // the id.
 const searchNewSong = async (userInfo: User | string, search: string) => {
@@ -103,4 +119,4 @@ const addingSong = async (userId: string, song: SelectedSong) => {
 
 
 
-export { getNewToken, getAllPlaylistFromUser, getExistingPlaylist, getNewPlaylist, saveNewPassword, searchNewSong, addingSong }
+export { getNewToken, getAllPlaylistFromUser, getExistingPlaylist, getNewPlaylist, saveNewPassword, searchNewSong, addingSong, checkPassword }

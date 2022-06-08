@@ -7,6 +7,23 @@
 option{
   background: #040B3A
 }
+#root{
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+html{
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+body{
+  height: 100%;
+  width: 100%;
+}
 
 /* DASHBOARD CSS */
 .logo{
@@ -17,15 +34,16 @@ option{
 }
 .dashboardContainer{
   width: auto;
-  height: auto;
+  height: 30rem;
   margin: 8vh;
   padding: 4vh;
   border-radius: 10px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   flex-direction: column;
   background: #040B3A;
   align-items: center;
+  box-shadow: 0.2rem 0.3rem .5rem black;
 }
 .dashboardContainer p{
   background: #040B3A;
@@ -34,32 +52,187 @@ option{
 .dashboardContainer button{
   /* justify-self: center; */
   align-self: center;
-  background: #040B3A;
-  margin-left: 0;
 }
-
+/* MAIN page */
 .mainContainer{
-  background-color: #040B3A !important;
-  width: auto;
-  height: auto;
+  align-self: center;
+  background: #040B3A !important;
+  width: 70%;
+  height: 100%;
   margin: 8vh;
   padding: 4vh;
-  border: 2px solid red;
+  /* border: 2px solid red; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0.2rem 0.3rem .5rem black;
+}
+.playlistContainer{
+  background: #040B3A;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  /* border: 2px solid red; */
+  height: 10vh;
+  width: 100%;
+}
+.playlistContainer h2{
+  font-size: 20px;
+  background: #040B3A;
+}
+.formInputAndButton{
+  background: #040B3A;
+  display: flex;
+  justify-content: space-evenly;
+  /* border: 2px solid red; */
+  width: 100%;
+}
+.formInputAndButton select{
+  background: #040B3A;
+  padding: 8px;
+  border: 2px solid #03CEA4;
+  font-size: 15px;
+}
+.playlistSelector{
+  background: #040B3A;
+  width: 100%;
+}
+.playlistSelectorButton{
+  align-self: flex-end;
+  justify-self: end;
+}
+input{
+  background: #040B3A;
+}
+/* HOST MENU */
+.hostMenu{
+  background: #040B3A;
+  height: 50%;
+  width: 90%;
+  align-content: center;
+}
+.sharingContainer{
+  width:100%;
+  background: #040B3A;
+  display: flex;
+  /* border: 2px solid red; */
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 45%;
+}
+.shareMenu{
+  width:100%;
+  background: #040B3A;
+  display: flex;
+  /* border: 2px solid red; */
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 50%;
+}
+#urlInput{
+width: 70%;
+text-align: center;
+border: 2px solid #03CEA4;
+}
+#urlInput:focus{
+  outline: none;
+  }
+.setPasswordForm{
+  background: #040B3A;
+  display: flex;
+  justify-content: space-evenly;
+}
+.setPasswordForm button{
+  width: auto;
+  font-size: auto;
+  padding: 8px 10px;
+  align-self: center;
+  justify-self: center;
+}
+.setPasswordForm input{
+  width: 20%;
+  border: 2px solid #03CEA4;
+  padding-left: 1%;
+}
+.setPasswordForm input:focus{
+  outline: none;
+}
+/* Host search */
+.searchMenu{
+  width: 100%;
+  height: 90%;
+  display: flex;
+  /* border: 2px solid red; */
+  justify-content: space-between;
+  flex-direction: column;
+  background: #040B3A;
+}
+.searchMenu form{
+  background: #040B3A;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+}
+.searchMenu form input{
+  /* width: 20%; */
+  border: 2px solid #03CEA4;
+  margin-right: 3%;
+  height: 70%;
+  align-self: center;
+  justify-content: center;
+  justify-self: center;
+  padding-top: 0.4rem;
+  padding-left: 1rem;
+  padding-bottom: 0.2rem;
+  font-size: 14px;
+}
+.searchMenu form input:focus{
+  outline: none;
+}
+.searchMenu form button{
+  width: 15%;
+
+}
+.songButton{
+  min-width: 60%;
+  align-self: center;
+}
+
+.addedSongsList{
+  margin-top: -3%;
+  overflow-y:scroll;
+  background:#040B3A;
+  height: 60%;
+  margin-bottom: 10px;
+  border: 1px solid #DB3069
+}
+ul{
+  background: #040B3A;
+}
+ li{
+  list-style: none;
+  background: #040B3A;
 }
 .addedSong{
   color:#03CEA4;
   margin: 0;
   font-weight: bold;
   text-transform: capitalize;
+  background: #040B3A;
 }
 .addedArtist{
   color:#03CEA4;
   margin: 0;
+  background: #040B3A;
 }
 
+
+/* buttons */
 button {
-  margin-left: 2vw;
-  padding: 0.8em 1.8em;
+  padding: 0.5em 1.5em;
   border: 2px solid #03CEA4;
   position: relative;
   overflow: hidden;
@@ -67,30 +240,29 @@ button {
   text-align: center;
   text-transform: uppercase;
   font-size: 16px;
-  transition: .3s;
+  transition: 0.2s;
   z-index: 1;
   font-family: inherit;
   color: #03CEA4;
+  background: #040B3A;
+  font-weight: 500;
  }
-
  button::before {
   content: '';
   width: 0;
-  height: 1000%;
+  height: 4000%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(45deg);
   background: #03CEA4;
-  transition: .5s ease;
+  transition: 0.3s ease-in;
   display: block;
   z-index: -1;
  }
-
  button:hover::before {
   width: 105%;
  }
-
  button:hover {
-  color: #111;
+  color: rgb(0, 0, 0);
  }

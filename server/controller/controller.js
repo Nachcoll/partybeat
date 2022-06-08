@@ -1,6 +1,7 @@
 // const XMLHttpRequest = require('xhr2');
 import dotenv from 'dotenv'
 import fetch from 'node-fetch';
+import bcrypt from 'bcrypt'
 // const Fetch = require('node-fetch')
 dotenv.config();
 
@@ -103,10 +104,10 @@ const setPassword = async (req, res) => {
   try {
     const actualUserID = req.params.userID
     const newPass = req.body
-    console.log(newPass)
+    const hashedPass = await bcrypt.hash(newPass.pass, 10)
     for (let indx in users) {
       if (users[indx].userId === actualUserID) {
-        users[indx].password = newPass
+        users[indx].password = hashedPass
       }
     }
     res.status = 201
@@ -119,13 +120,14 @@ const setPassword = async (req, res) => {
 
 const checkPassword = async (req, res) => {
   try {
+    const passwordAttempt = req.body.pass
     const actualUserID = req.params.userID
     const actualUser = users.find((el) => {
       return el.userId === actualUserID
     })
     if (actualUser !== undefined) {
-      console.log(actualUser.password)
-      res.send(JSON.stringify(actualUser.password))
+      const accessed = await bcrypt.compare(passwordAttempt,actualUser.password)
+      accessed ? res.send(JSON.stringify(true)) : res.send(JSON.stringify(false))
     } else {
       res.status = 404;
     }

@@ -13,7 +13,7 @@ router.post('/newToken', controller.newToken);
 //Things that should only happen once:
 router.get('/infoPL/:userID', controller.getPlayLists);
 router.post('/setPass/:userID', controller.setPassword)
-router.get('/checkPass/:userID', controller.checkPassword)
+router.post('/checkPass/:userID', controller.checkPassword)
 router.post('/createPlaylist/:userID', controller.createNewPlaylist)
 router.post('/useExistingPlaylist/:userID', controller.useExistingPlaylist)
 
