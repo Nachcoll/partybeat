@@ -3,8 +3,10 @@ import socket from '../../Services/socket'
 import SearchButton from '../SearchButton/SearchButton'
 import { User, SelectedSong } from '../../Types/Types'
 import { saveNewPassword, searchNewSong, changeRoomName } from '../../Services/clientServices'
+import svgInfo from '../../images/info.svg'
 
-const Main = ({ userInfo }: { userInfo: User }) => {
+
+const Host = ({ userInfo }: { userInfo: User }) => {
 
   const [songName, setSongName] = useState<SelectedSong[]>([])
   const [selectedSong, setSelectedSong] = useState<SelectedSong>({
@@ -16,15 +18,19 @@ const Main = ({ userInfo }: { userInfo: User }) => {
   const [passGiven, setPassGiven] = useState<boolean>(false)
   const [newRoom, setNewRoom] = useState<string | undefined>(userInfo.id)
 
+  //search bar states
+  const [hovered, setHovered] = useState<boolean>(false)
+  const [readOnly, setReadOnly] = useState<boolean>(false)
+
 
   const addedSongsRef = useRef<HTMLLIElement>(null)
 
   const scrollToBottom = () => {
-    if(addedSongsRef.current !== null){
-      addedSongsRef.current.scrollIntoView({behavior:'smooth'})
+    if (addedSongsRef.current !== null) {
+      addedSongsRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }
-  useEffect(scrollToBottom,[addedSong])
+  useEffect(scrollToBottom, [addedSong])
 
   //we want one Hook for joining the Socket IO room that eventually will be used by the rest of the users. It will appear when userInfo is
   // rendered.
@@ -90,14 +96,36 @@ const Main = ({ userInfo }: { userInfo: User }) => {
       alert('Something happened')
     }
   }
-
-  const handleRoomChange = (e: any) => {
-    if(e.key === 'Enter'){
+  const handleRoomChange = async (e: any) => {
+    if (e.key === 'Enter') {
       const newRoom = e.target.value
-      e.target.value = encodeURI(`http://localhost:3000/room/${newRoom}`)
-      changeRoomName(userInfo, newRoom)
-      setNewRoom(newRoom)
+
+      const checkingChange = await changeRoomName(userInfo, newRoom)
+      if (checkingChange) {
+        setNewRoom(newRoom)
+        e.target.value = encodeURI(`http://localhost:3000/room/${newRoom}`)
+        setReadOnly(true);
+      } else {
+        alert('this room already exists')
+        e.target.value = ''
+      }
     }
+  }
+  //showing information
+  const handleHoverEnter = () => {
+    setHovered(true);
+  }
+  const handleHoverLeave = () => {
+    setHovered(false);
+  }
+  const handleCopyButton = async () => {
+    if(newRoom === userInfo.id){
+      await changeRoomName(userInfo, userInfo.id)
+      setNewRoom(newRoom)
+      setReadOnly(true);
+    }
+    navigator.clipboard.writeText(
+      encodeURI(`http://localhost:3000/room/${newRoom}`))
   }
 
 
@@ -105,12 +133,15 @@ const Main = ({ userInfo }: { userInfo: User }) => {
     <div className="hostMenu">
       <div className="sharingContainer">
         <div className="shareMenu">
-          <input id="urlInput" onKeyPress={handleRoomChange} placeholder={`http://localhost:3000/room/${newRoom}`}></input>
-          <button onClick={() => {
-            navigator.clipboard.writeText(
-              encodeURI(`http://localhost:3000/room/${newRoom}`)
-            )
-          }}>copy</button></div>
+          <div className="shareBar">
+            <input id="urlInput" onKeyPress={handleRoomChange} readOnly={readOnly} placeholder={`http://localhost:3000/room/${newRoom}`}></input>
+            <img src={svgInfo} alt='' id="shareInfo" onMouseEnter= {handleHoverEnter} onMouseLeave= {handleHoverLeave}></img>
+          </div>
+          {hovered &&<span id="information">
+            Select the room name you want. <br/>If you select none, your Spotify user ID will be used. <br/>
+            Room name only allows alphanumeric characters.
+            <br/>You won't be able to change the room after setting it.</span>}
+          <button onClick={handleCopyButton}>copy</button></div>
         {passGiven === false && <form className="setPasswordForm" onSubmit={setPassword}>
           <input name="password" type="password" placeholder='Password for your playlist'></input>
           <button type='submit'>Set password</button>
@@ -135,4 +166,4 @@ const Main = ({ userInfo }: { userInfo: User }) => {
   )
 }
 
-export default Main
+export default Host

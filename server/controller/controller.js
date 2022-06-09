@@ -88,7 +88,7 @@ const newToken = async (req, res) => {
         alreadyIn = true;
       }
     }
-    if(!alreadyIn){
+    if (!alreadyIn) {
       users.push(user);
     }
 
@@ -128,8 +128,13 @@ const checkPassword = async (req, res) => {
       return el.userId === actualUserID
     })
     if (actualUser !== undefined) {
-      const accessed = await bcrypt.compare(passwordAttempt, actualUser.password)
-      accessed ? res.send(JSON.stringify(true)) : res.send(JSON.stringify(false))
+      console.log(actualUser, passwordAttempt)
+      if (actualUser.password === '' && passwordAttempt === '') {
+        res.send(JSON.stringify(true))
+      } else {
+        const accessed = await bcrypt.compare(passwordAttempt, actualUser.password)
+        accessed ? res.send(JSON.stringify(true)) : res.send(JSON.stringify(false))
+      }
     } else {
       res.status = 404;
     }
@@ -143,14 +148,27 @@ const setRoomForHost = async (req, res) => {
   try {
     const actualUserID = req.params.userID
     const newRoom = req.body.newRoom
+    console.log(users);
     console.log(actualUserID, newRoom)
+    let roomAlreadyExists = false;
     for (let indx in users) {
-      if (users[indx].userId === actualUserID) {
-        users[indx].room = newRoom
+      if (users[indx].room === newRoom) {
+        roomAlreadyExists = true;
       }
     }
-    res.status = 201;
-    res.send(JSON.stringify('room changed'))
+    if (!roomAlreadyExists) {
+      for (let indx in users) {
+        if (users[indx].userId === actualUserID) {
+          users[indx].room = newRoom
+          break
+        }
+      }
+      res.status = 201;
+      res.send(JSON.stringify(true))
+    } else {
+      res.status = 201;
+      res.send(JSON.stringify(false))
+    }
   } catch (error) {
     res.status = 500;
     res.send(JSON.stringify('Something happened'))
@@ -160,6 +178,7 @@ const setRoomForHost = async (req, res) => {
 
 const getHostidByRoom = async (req, res) => {
   const room = req.body.room
+  console.log(users)
   const actualUser = users.find((el) => {
     return el.room === room
   })
@@ -328,7 +347,7 @@ const addSong = async (req, res) => {
         },
       })
       const data = await result.json();
-      console.log('respuesta de fetch a spotify',data)
+      console.log('respuesta de fetch a spotify', data)
       //we save the new song
       for (const user of users) {
         if (user.userId === actualUserID) {

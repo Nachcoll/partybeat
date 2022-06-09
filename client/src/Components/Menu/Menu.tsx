@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Main from '../Main/Main'
+import Host from '../Host/Host'
 import { User, Playlist, GeneralPlaylist } from '../../Types/Types'
 import { getNewToken, getAllPlaylistFromUser, getExistingPlaylist, getNewPlaylist } from '../../Services/clientServices'
 
@@ -81,7 +81,7 @@ const Menu = () => {
           </div>
         </form>
       </div>}
-      {playListSelected && <Main userInfo={userInfo}></Main>}
+      {playListSelected && <Host userInfo={userInfo}></Host>}
     </div>
   )
 }

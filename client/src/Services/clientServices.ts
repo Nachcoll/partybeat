@@ -79,7 +79,7 @@ const checkPassword = async (userInfo: string, pass: string) => {
   }
 }
 //set new room name as host:
-const changeRoomName = async (userInfo: User, newRoom: string) => {
+const changeRoomName = async (userInfo: User, newRoom: string | undefined) => {
   try {
     const result = await fetch(`http://localhost:8000/setNewRoom/${userInfo.id}`, {
       method: 'POST',

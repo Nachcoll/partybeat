@@ -132,14 +132,37 @@ input{
   justify-content: space-evenly;
   height: 50%;
 }
-#urlInput{
-width: 70%;
-text-align: center;
-border: 2px solid #03CEA4;
+.shareBar{
+  border: 2px solid #03CEA4;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 35%;
 }
-#urlInput:focus{
+.shareBar img{
+  height: 20px;
+  z-index: 1;
+  background: #040B3A;
+  padding: 3px 10px;
+}
+.shareBar input{
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  text-align: center;
+  border: none;
   outline: none;
-  }
+}
+#information{
+  display: flex;
+  position: absolute;
+  right: 15%;
+  top: 12%;
+  background: #040B3A;
+  border: 1px solid #DB3069;
+  padding: 5px 10px;
+  font-size: small;
+}
 .setPasswordForm{
   background: #040B3A;
   display: flex;
