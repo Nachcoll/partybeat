@@ -49,10 +49,11 @@ io.on('connection', (socket) => {
   })
 
   socket.on('send_search', (data) => {
-    console.log(data)
-    //sending to everybody =
-    // socket.broadcast.emit('receive_data', data)
     socket.to(data.room).emit('receive_data', data.selectedSong)
+  })
+  socket.on('send_delete', (data) => {
+    console.log(data);
+    socket.to(data.room).emit('deleted_data', data.deleteSong)
   })
 
 })

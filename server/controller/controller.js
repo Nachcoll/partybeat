@@ -367,6 +367,54 @@ const addSong = async (req, res) => {
 
 }
 
+//DELETE SONG:
+const deleteSong = async (req, res) => {
+  try {
+    const songUri = req.body.song.uri
+    const actualUserID = req.params.userID
+    const actualUser = users.find((el) => {
+      return el.userId === actualUserID
+    })
+    //find if the song is already in
+    const alreadyIn = actualUser.addedTracks.some((song) => {
+      return song === songUri
+    })
+
+    if (alreadyIn === true) {
+      // console.log('hacemos el famoso fetch', actualUserID, actualUser.playlist)
+      const result = await fetch(`${baseURL}/playlists/${actualUser.playlist}/tracks`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'content-type': 'application/json',
+          'Authorization': 'Bearer ' + actualUser.accessToken
+        },
+        body: JSON.stringify({ "tracks": [{ "uri": songUri }] })
+      })
+      const data = await result.json();
+      console.log('respuesta de DELETE a spotify', data)
+      //we save the new song
+      for (const user of users) {
+        if (user.userId === actualUserID) {
+          const newTracks = user.addedTracks.filter((el) => {
+            return el !== songUri
+          })
+          user.addedTracks = newTracks
+        }
+      }
+      res.status = 201
+      res.send(JSON.stringify(data))
+    } else {
+      res.status = 406
+      res.send(JSON.stringify('this was already deleted'))
+    }
+  } catch (error) {
+    res.status = 500;
+    res.send(JSON.stringify('Something happened'))
+  }
+
+}
+
 
 
 //function for refreshing the token, not tested:
@@ -405,5 +453,5 @@ const addSong = async (req, res) => {
 // module.exports = { login, newToken, getUserInfo }
 export default {
   login, newToken, searchItem, getPlayLists, createNewPlaylist,
-  useExistingPlaylist, addSong, setPassword, checkPassword, setRoomForHost, getHostidByRoom
+  useExistingPlaylist, addSong, setPassword, checkPassword, setRoomForHost, getHostidByRoom, deleteSong
 }

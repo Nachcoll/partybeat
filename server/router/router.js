@@ -22,7 +22,7 @@ router.post('/getUserByRoom', controller.getHostidByRoom)
 //search + adding songs
 router.get('/search/:userID/:string', controller.searchItem);
 router.post('/addSong/:userID', controller.addSong)
-
+router.post('/deleteSong/:userID', controller.deleteSong)
 
 export default router;
 // module.exports = router;
