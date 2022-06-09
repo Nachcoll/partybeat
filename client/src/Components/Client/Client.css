@@ -15,7 +15,6 @@
   display: flex;
 }
 .passChecker{
-  border: 2px solid red;
   width: 50%;
   background: #040B3A;
 }

@@ -3,6 +3,75 @@
   background-image: url('./images/background.png');
   color: white;
 }
+@media only screen and (max-width: 600px) {
+  .logo{
+    height: 38vh !important;
+  }
+  .dashboardContainer{
+    width: 75% !important;
+    height: 80% !important;
+    margin: 0 !important;
+  }
+  .dashboardContainer button{
+    margin-top: -20% !important;
+  }
+
+  /* MAIN page */
+.mainContainer{
+  align-self: center;
+  background: #040B3A !important;
+  width: 70%;
+  height: 100%;
+  margin: 8vh;
+  padding: 4vh;
+  /* border: 2px solid red; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0.2rem 0.3rem .5rem black;
+}
+.playlistContainer{
+  background: #040B3A;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  /* border: 2px solid red; */
+  height: 10vh;
+  width: 100%;
+}
+.playlistContainer h2{
+  font-size: 20px;
+  background: #040B3A;
+}
+.formInputAndButton{
+  background: #040B3A;
+  display: flex;
+  justify-content: space-evenly;
+  /* border: 2px solid red; */
+  width: 100%;
+}
+.formInputAndButton select{
+  background: #040B3A;
+  padding: 8px;
+  border: 2px solid #03CEA4;
+  font-size: 15px;
+}
+.playlistSelector{
+  background: #040B3A;
+  width: 100%;
+}
+.playlistSelectorButton{
+  align-self: flex-end;
+  justify-self: end;
+}
+input{
+  background: #040B3A;
+}
+
+}
+
 /* temporal */
 option{
   background: #040B3A

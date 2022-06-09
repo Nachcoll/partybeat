@@ -46,6 +46,7 @@ const login = async (req, res) => {
 
 
 const newToken = async (req, res) => {
+  console.log(users);
   const token = req.body.token;
   let body = 'grant_type=authorization_code'
   body += '&code=' + token;

@@ -7,9 +7,11 @@
 BUGS:
 
 future features?:
-- Host should have more functionalities for their room. Change the name? able to add same song multiple times?
+- Host should have more functionalities for their room.
 
+-cookies
+-logout
+-deploy
+-css movil
 
-scaling:
-- Technically, if we want to scale this, our backend array of users should be a hashtable.
 
