@@ -5,7 +5,11 @@ import SearchButton from '../SearchButton/SearchButton'
 import { SelectedSong } from '../../Types/Types'
 import { searchNewSong, checkPassword, findUserIdByRoom } from '../../Services/clientServices'
 import './Client.css'
+import { v4 as uuidv4 } from 'uuid';
+import DeleteButton from '../DeleteButton/DeleteButton'
 
+
+const _id = uuidv4();
 //This is the client side. It's going to render only when the Host has already choosen the playlist and a password and
 //has given the link to a friend.
 
@@ -16,6 +20,13 @@ const Client = () => {
     name: undefined,
     artist: undefined,
     uri: undefined,
+    userWhoAdded: _id,
+  })
+  const [deleteSong, setDeleteSong] = useState<SelectedSong>({
+    name: undefined,
+    artist: undefined,
+    uri: undefined,
+    userWhoAdded: _id,
   })
   const [addedSong, setAddedSong] = useState<SelectedSong[]>([])
   const [access, setAccess] = useState<boolean>(false)
@@ -77,6 +88,31 @@ const Client = () => {
     })
   }, [socket, addedSong, selectedSong])
 
+  //FOR DELETE:
+
+  useEffect(() => {
+    if (deleteSong.name !== undefined) {
+      const room = hostId
+      console.log('DELETE THIS', deleteSong, room)
+      socket.emit('send_delete', { deleteSong, room })
+      setAddedSong((prev) => {
+        const arr = prev.filter((el) => el.name !== deleteSong.name)
+        return [...arr]
+      })
+    }
+  }, [deleteSong])
+
+  useEffect(() => {
+    socket.on('deleted_data', async (data) => {
+      setAddedSong((prev) => {
+        const arr = prev.filter((el) => el.name !== data.name)
+        return [...arr]
+      })
+      socket.removeAllListeners()
+    })
+  }, [socket, addedSong, deleteSong])
+
+
   //Here we check the password. This is wrong since we are fetching it from backend instead of pushing the tryout.
   const checkPass = async (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -104,6 +140,7 @@ const Client = () => {
           name: song.name,
           artist: song.artists[0].name,
           uri: song.uri,
+          userWhoAdded: _id,
         }
         setSongName(prev => [...prev, item])
       }
@@ -128,7 +165,9 @@ const Client = () => {
           <ul>
             {addedSong.map((song, index) => {
               return <li ref={addedSongsRef} key={index} >Added <span className="addedSong">{song.name}</span> from
-                <span className="addedArtist"> {song.artist}</span> to the playlist</li>
+                <span className="addedArtist"> {song.artist}</span> to the playlist
+              {song.userWhoAdded === _id ? <DeleteButton userId={hostId} song={song} key={index} setDeleteSong={setDeleteSong}></DeleteButton>: <></>}
+              </li>
             })}
           </ul>
         </div>

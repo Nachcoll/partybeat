@@ -139,7 +139,19 @@ const addingSong = async (userId: string, song: SelectedSong) => {
   } catch (error) {
     alert('Something happened')
   }
+}
 
+const deletingSong = async (userId: string, song: SelectedSong) => {
+  try {
+    const result = await fetch(`http://localhost:8000/deleteSong/${userId}`, {
+      method: "POST",
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ 'song': song })
+    })
+    return await result.json();
+  } catch (error) {
+    alert('Something happened')
+  }
 }
 
 
@@ -148,5 +160,5 @@ const addingSong = async (userId: string, song: SelectedSong) => {
 
 export {
   getNewToken, getAllPlaylistFromUser, getExistingPlaylist, getNewPlaylist, saveNewPassword,
-  searchNewSong, addingSong, checkPassword, changeRoomName, findUserIdByRoom
+  searchNewSong, addingSong, checkPassword, changeRoomName, findUserIdByRoom, deletingSong
 }

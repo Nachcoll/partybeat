@@ -4,7 +4,11 @@ import SearchButton from '../SearchButton/SearchButton'
 import { User, SelectedSong } from '../../Types/Types'
 import { saveNewPassword, searchNewSong, changeRoomName } from '../../Services/clientServices'
 import svgInfo from '../../images/info.svg'
+import { v4 as uuidv4 } from 'uuid';
+import DeleteButton from '../DeleteButton/DeleteButton'
 
+
+const _id = uuidv4().toString();
 
 const Host = ({ userInfo }: { userInfo: User }) => {
 
@@ -13,6 +17,13 @@ const Host = ({ userInfo }: { userInfo: User }) => {
     name: undefined,
     artist: undefined,
     uri: undefined,
+    userWhoAdded: _id,
+  })
+  const [deleteSong, setDeleteSong] = useState<SelectedSong>({
+    name: undefined,
+    artist: undefined,
+    uri: undefined,
+    userWhoAdded: _id,
   })
   const [addedSong, setAddedSong] = useState<SelectedSong[]>([])
   const [passGiven, setPassGiven] = useState<boolean>(false)
@@ -52,7 +63,6 @@ const Host = ({ userInfo }: { userInfo: User }) => {
       })
     }
   }, [selectedSong])
-
   useEffect(() => {
     //This last useEffect is the one we are going to use to render the added songs from other people.
 
@@ -64,6 +74,32 @@ const Host = ({ userInfo }: { userInfo: User }) => {
       socket.removeAllListeners()
     })
   }, [socket, addedSong])
+
+//FOR DELETE:
+
+  useEffect(() => {
+    if (deleteSong.name !== undefined) {
+      const room = userInfo.id
+      console.log('DELETE THIS', deleteSong, room)
+      socket.emit('send_delete', { deleteSong, room })
+      setAddedSong((prev) => {
+        const arr = prev.filter((el) => el.name !== deleteSong.name)
+        return [...arr]
+      })
+    }
+  }, [deleteSong])
+
+  useEffect(() => {
+    socket.on('deleted_data', async (data) => {
+      setAddedSong((prev) => {
+        const arr = prev.filter((el) => el.name !== data.name)
+        return [...arr]
+      })
+      socket.removeAllListeners()
+    })
+  }, [socket, deleteSong])
+
+
 
   //we want to be able to set a Password associated on the backend to the user so noone but our friends are able to add songs from the
   //client side.
@@ -79,6 +115,7 @@ const Host = ({ userInfo }: { userInfo: User }) => {
   }
   //Searching for a song. Then attaching it to the State and rendering the buttons with that.
   const sendSearch = async (e: React.MouseEvent<HTMLFormElement>) => {
+    console.log(_id)
     try {
       e.preventDefault();
       setSongName([])
@@ -89,6 +126,7 @@ const Host = ({ userInfo }: { userInfo: User }) => {
           name: song.name,
           artist: song.artists[0].name,
           uri: song.uri,
+          userWhoAdded: _id,
         }
         setSongName(prev => [...prev, item])
       }
@@ -150,8 +188,11 @@ const Host = ({ userInfo }: { userInfo: User }) => {
       <div className="addedSongsList">
         <ul>
           {addedSong.map((song, index) => {
-            return <li ref={addedSongsRef} key={index} >Added <span className="addedSong">{song.name}</span> from
-              <span className="addedArtist"> {song.artist}</span> to the playlist</li>
+            return <li ref={addedSongsRef} key={index} >Added&nbsp;<div className="addedSong">{song.name}&nbsp;</div>from
+              <div className="addedArtist">&nbsp;{song.artist}&nbsp;</div>
+              <div className="deleteContainer">to the playlist&nbsp;
+              {song.userWhoAdded === _id ? <DeleteButton userId={userInfo.id} song={song} key={index} setDeleteSong={setDeleteSong}></DeleteButton>: <></>}
+              </div></li>
           })}
         </ul>
       </div>

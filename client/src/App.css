@@ -237,7 +237,10 @@ ul{
 }
  li{
   list-style: none;
+  display: flex;
   background: #040B3A;
+  justify-content: flex-start;
+  padding: 2px;
 }
 .addedSong{
   color:#03CEA4;
@@ -245,11 +248,13 @@ ul{
   font-weight: bold;
   text-transform: capitalize;
   background: #040B3A;
+  display: flex;
 }
 .addedArtist{
   color:#03CEA4;
   margin: 0;
   background: #040B3A;
+  display: flex;
 }
 
 
@@ -289,3 +294,16 @@ button {
  button:hover {
   color: rgb(0, 0, 0);
  }
+ .deleteButton{
+   display: flex;
+   padding: 3px 6px;
+   margin-left: 5px;
+   font-size: 8px;
+   border-radius: 100px;
+ }
+.deleteContainer{
+  background: #040B3A;
+  justify-content: flex-start;
+  flex-direction: row;
+  display: flex;
+}

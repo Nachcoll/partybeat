@@ -12,16 +12,23 @@ export interface Playlist {
   uri: string,
 }
 
+export interface SelectedSong {
+  name: string | undefined,
+  artist: string | undefined,
+  uri: string | undefined,
+  userWhoAdded: string | undefined,
+}
+
 export interface SearchProps {
   userId: string | undefined,
   song: SelectedSong,
   setSelectedSong: Dispatch<SetStateAction<SelectedSong>>,
 }
 
-export interface SelectedSong {
-  name: string | undefined,
-  artist: string | undefined,
-  uri: string | undefined,
+export interface deleteProps {
+  userId: string | undefined,
+  song: SelectedSong,
+  setDeleteSong: Dispatch<SetStateAction<SelectedSong>>,
 }
 
 export interface GeneralPlaylist {
