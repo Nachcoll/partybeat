@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import socket from '../../Services/socket'
 import SearchButton from '../SearchButton/SearchButton'
 import { SelectedSong } from '../../Types/Types'
-import { searchNewSong, checkPassword } from '../../Services/clientServices'
+import { searchNewSong, checkPassword, findUserIdByRoom } from '../../Services/clientServices'
 import './Client.css'
 
 //This is the client side. It's going to render only when the Host has already choosen the playlist and a password and
@@ -19,31 +19,45 @@ const Client = () => {
   })
   const [addedSong, setAddedSong] = useState<SelectedSong[]>([])
   const [access, setAccess] = useState<boolean>(false)
-
+  const [hostId, setHostId] = useState<string>('')
 
   const addedSongsRef = useRef<HTMLLIElement>(null)
   const scrollToBottom = () => {
-    if(addedSongsRef.current !== null){
-      addedSongsRef.current.scrollIntoView({behavior:'smooth'})
+    if (addedSongsRef.current !== null) {
+      addedSongsRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }
-  useEffect(scrollToBottom,[addedSong])
+  useEffect(scrollToBottom, [addedSong])
 
 
   //we take the hostID from the params and it's what we are going to use for fetching for new songs once the password is correct.
-  const hostId = window.location.pathname.substring(6)
+  const title = decodeURI(window.location.pathname.substring(6))
 
 
   //When page loads we want to join the socket IO room and we want to check the password from the host
+
+  const onLoad = async () => {
+    const result = await findUserIdByRoom(title)
+    setHostId(result);
+    return result;
+  }
+
   useEffect(() => {
-    socket.emit('join_room', hostId)
+    onLoad()
   }, [])
+
+  useEffect(() => {
+    console.log(hostId);
+    if(hostId !== ''){
+      socket.emit('join_room', hostId)
+    }
+  }, [hostId])
 
   //this hook works the same way than for the host. Is just updating the songs we decide to add in socket IO and rendering them.
   useEffect(() => {
     if (selectedSong.name !== undefined) {
       console.log(selectedSong.name, hostId)
-      socket.emit('send_search', { selectedSong, hostId })
+      socket.emit('send_search', { selectedSong, room: hostId })
       setAddedSong((prev) => {
         const arr = prev.filter((el) => el.name !== selectedSong.name)
         return [...arr, selectedSong]
@@ -63,7 +77,7 @@ const Client = () => {
     })
   }, [socket, addedSong, selectedSong])
 
-//Here we check the password. This is wrong since we are fetching it from backend instead of pushing the tryout.
+  //Here we check the password. This is wrong since we are fetching it from backend instead of pushing the tryout.
   const checkPass = async (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     const pass = (e.target as HTMLFormElement).pass.value
@@ -101,7 +115,7 @@ const Client = () => {
   return (
     <div className="container">
       <div className="title">
-        <h3>Partybeat of: {hostId}</h3>
+        <h3>Partybeat of: {title}</h3>
       </div>
       {!access && <div className="passChecker">
         <form onSubmit={checkPass}>

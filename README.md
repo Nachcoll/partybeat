@@ -5,8 +5,7 @@
 - versel / deploy correctly
 
 BUGS:
-
-- styling to hell
+- we are RIGHT NOW changing the controller and findind the solution to a different room name.
 
 future features?:
 - Host should have more functionalities for their room. Change the name? able to add same song multiple times?

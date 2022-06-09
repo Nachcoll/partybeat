@@ -33,6 +33,7 @@ const Menu = () => {
   const getPlaylists = async () => {
     try {
       const playlistData = await getAllPlaylistFromUser(userInfo)
+      console.log(playlistData);
       // Since we can only edit playlists from our own we are going to filter them
       const arr = playlistData.items.filter((el: GeneralPlaylist) => { return el.owner.id === userInfo.id })
       console.log(arr);
@@ -51,6 +52,7 @@ const Menu = () => {
       console.log(e.target)
       const playlistName = (e.target as HTMLFormElement).playlist.value
       //if the selected playlist is already there:
+      console.log(playlistName)
       if (playlistName !== 'New playlist') {
         const playlist = playLists.filter((el) => { return el.name === playlistName })
         await getExistingPlaylist(userInfo, playlist[0])

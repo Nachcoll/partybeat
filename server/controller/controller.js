@@ -18,6 +18,7 @@ let user = {
   playlist: undefined,
   addedTracks: [],
   password: '',
+  room: '',
 }
 const users = []
 
@@ -29,6 +30,7 @@ const login = async (req, res) => {
     playlist: undefined,
     addedTracks: [],
     password: '',
+    room: '',
   }
 
   let authorizeUrl = 'https://accounts.spotify.com/authorize?'
@@ -77,19 +79,19 @@ const newToken = async (req, res) => {
     const data = await result.json();
     user.userId = data.id
     // console.log(users);
-
-    //for a reason only god knows, spotify login executes 2 times, that's why length of user might be 1 and still be ok.
-    if (users.length < 1) {
-      users.push(user)
-    } else {
-      //if SAME HOST connects again we update the token.
-      for (let indx in users) {
-        if (users[indx].userId === user.userId) {
-          users[indx].accessToken = user.accessToken
-          users[indx].refreshToken = user.refreshToken
-        }
+    let alreadyIn = false;
+    //we check if user is already In and we update the values if he is
+    for (let indx in users) {
+      if (users[indx].userId === user.userId) {
+        users[indx].accessToken = user.accessToken
+        users[indx].refreshToken = user.refreshToken
+        alreadyIn = true;
       }
     }
+    if(!alreadyIn){
+      users.push(user);
+    }
+
     // console.log(users)
     res.status = 200;
     res.send(JSON.stringify(data))
@@ -126,7 +128,7 @@ const checkPassword = async (req, res) => {
       return el.userId === actualUserID
     })
     if (actualUser !== undefined) {
-      const accessed = await bcrypt.compare(passwordAttempt,actualUser.password)
+      const accessed = await bcrypt.compare(passwordAttempt, actualUser.password)
       accessed ? res.send(JSON.stringify(true)) : res.send(JSON.stringify(false))
     } else {
       res.status = 404;
@@ -135,7 +137,34 @@ const checkPassword = async (req, res) => {
     res.status = 500;
     res.send(JSON.stringify('Something happened'))
   }
+}
 
+const setRoomForHost = async (req, res) => {
+  try {
+    const actualUserID = req.params.userID
+    const newRoom = req.body.newRoom
+    console.log(actualUserID, newRoom)
+    for (let indx in users) {
+      if (users[indx].userId === actualUserID) {
+        users[indx].room = newRoom
+      }
+    }
+    res.status = 201;
+    res.send(JSON.stringify('room changed'))
+  } catch (error) {
+    res.status = 500;
+    res.send(JSON.stringify('Something happened'))
+  }
+
+}
+
+const getHostidByRoom = async (req, res) => {
+  const room = req.body.room
+  const actualUser = users.find((el) => {
+    return el.room === room
+  })
+  console.log(actualUser.userId);
+  res.send(JSON.stringify(actualUser.userId))
 }
 
 
@@ -210,14 +239,14 @@ const useExistingPlaylist = async (req, res) => {
     const actualUser = users.find((el) => {
       return el.userId === actualUserID
     })
-
     //we are only going to save the playlist here so client won't have access to the value.
-    let playlist = req.body.playlist[0].id
+    let playlist = req.body.playlist.id
     for (const user of users) {
       if (user.userId === actualUserID) {
         user.playlist = playlist
       }
     }
+    console.log('entramos en fetch', playlist)
     //we then fetch for all the tracks on the playlist. So we wont have to fetch during the add-song proccess.
     const result = await fetch(`${baseURL}/playlists/${playlist}/tracks?fields=items(track(uri))`, {
       method: 'GET',
@@ -227,7 +256,6 @@ const useExistingPlaylist = async (req, res) => {
         'Authorization': 'Bearer ' + actualUser.accessToken
       }
     })
-
     const data = await result.json();
 
     for (const user of users) {
@@ -237,9 +265,9 @@ const useExistingPlaylist = async (req, res) => {
           user.addedTracks.push(track.track.uri)
         }
       }
-      // console.log(user)
     }
     res.status = 200
+    res.send(JSON.stringify(true))
   } catch (error) {
     res.status = 500;
     res.send(JSON.stringify('Something happened'))
@@ -290,6 +318,7 @@ const addSong = async (req, res) => {
     })
 
     if (alreadyIn === false) {
+      // console.log('hacemos el famoso fetch', actualUserID, actualUser.playlist)
       const result = await fetch(`${baseURL}/playlists/${actualUser.playlist}/tracks?uris=${songUri}`, {
         method: 'POST',
         headers: {
@@ -299,6 +328,7 @@ const addSong = async (req, res) => {
         },
       })
       const data = await result.json();
+      console.log('respuesta de fetch a spotify',data)
       //we save the new song
       for (const user of users) {
         if (user.userId === actualUserID) {
@@ -354,4 +384,7 @@ const addSong = async (req, res) => {
 
 
 // module.exports = { login, newToken, getUserInfo }
-export default { login, newToken, searchItem, getPlayLists, createNewPlaylist, useExistingPlaylist, addSong, setPassword, checkPassword }
+export default {
+  login, newToken, searchItem, getPlayLists, createNewPlaylist,
+  useExistingPlaylist, addSong, setPassword, checkPassword, setRoomForHost, getHostidByRoom
+}

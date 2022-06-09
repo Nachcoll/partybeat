@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import socket from '../../Services/socket'
 import SearchButton from '../SearchButton/SearchButton'
 import { User, SelectedSong } from '../../Types/Types'
-import { saveNewPassword, searchNewSong } from '../../Services/clientServices'
+import { saveNewPassword, searchNewSong, changeRoomName } from '../../Services/clientServices'
 
 const Main = ({ userInfo }: { userInfo: User }) => {
 
@@ -14,6 +14,7 @@ const Main = ({ userInfo }: { userInfo: User }) => {
   })
   const [addedSong, setAddedSong] = useState<SelectedSong[]>([])
   const [passGiven, setPassGiven] = useState<boolean>(false)
+  const [newRoom, setNewRoom] = useState<string | undefined>(userInfo.id)
 
 
   const addedSongsRef = useRef<HTMLLIElement>(null)
@@ -28,10 +29,8 @@ const Main = ({ userInfo }: { userInfo: User }) => {
   //we want one Hook for joining the Socket IO room that eventually will be used by the rest of the users. It will appear when userInfo is
   // rendered.
   useEffect(() => {
-    if (userInfo.id !== undefined) {
-      const room = userInfo.id;
-      socket.emit('join_room', room)
-      console.log(room);
+    if (newRoom !== undefined) {
+      socket.emit('join_room', userInfo.id)
     }
   }, [userInfo])
 
@@ -92,14 +91,24 @@ const Main = ({ userInfo }: { userInfo: User }) => {
     }
   }
 
+  const handleRoomChange = (e: any) => {
+    if(e.key === 'Enter'){
+      const newRoom = e.target.value
+      e.target.value = encodeURI(`http://localhost:3000/room/${newRoom}`)
+      changeRoomName(userInfo, newRoom)
+      setNewRoom(newRoom)
+    }
+  }
+
+
   return (
     <div className="hostMenu">
       <div className="sharingContainer">
         <div className="shareMenu">
-          <input id="urlInput" readOnly={true} value={`http://localhost:3000/room/${userInfo.id}`}></input>
+          <input id="urlInput" onKeyPress={handleRoomChange} placeholder={`http://localhost:3000/room/${newRoom}`}></input>
           <button onClick={() => {
             navigator.clipboard.writeText(
-              `http://localhost:3000/room/${userInfo.id}`
+              encodeURI(`http://localhost:3000/room/${newRoom}`)
             )
           }}>copy</button></div>
         {passGiven === false && <form className="setPasswordForm" onSubmit={setPassword}>

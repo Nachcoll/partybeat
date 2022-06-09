@@ -35,6 +35,7 @@ const getExistingPlaylist = async (userInfo: User, playlist: Playlist) => {
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ 'playlist': playlist })
     })
+    return await useExistingPlaylist.json()
   } catch (error) {
     alert('Something happened')
   }
@@ -68,16 +69,42 @@ const saveNewPassword = async (userInfo: User, pass: string) => {
 const checkPassword = async (userInfo: string, pass: string) => {
   try {
     const result = await fetch(`http://localhost:8000/checkPass/${userInfo}`, {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({pass}),
-      })
-      return await result.json();
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ pass }),
+    })
+    return await result.json();
   } catch (error) {
-
+    alert('Something happened')
   }
 }
-
+//set new room name as host:
+const changeRoomName = async (userInfo: User, newRoom: string) => {
+  try {
+    const result = await fetch(`http://localhost:8000/setNewRoom/${userInfo.id}`, {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ newRoom }),
+    })
+    return await result.json();
+  } catch (error) {
+    alert('Something happened')
+  }
+}
+//find userId by room name
+const findUserIdByRoom = async (room: string) => {
+  try {
+    const result = await fetch(`http://localhost:8000/getUserByRoom/`, {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ room }),
+    })
+    const data =  result.json();
+    return data;
+  } catch (error) {
+    alert('Something happened')
+  }
+}
 
 
 //request for searching songs. We first check if userInfo is a string or an object because the client side only has access to
@@ -119,4 +146,7 @@ const addingSong = async (userId: string, song: SelectedSong) => {
 
 
 
-export { getNewToken, getAllPlaylistFromUser, getExistingPlaylist, getNewPlaylist, saveNewPassword, searchNewSong, addingSong, checkPassword }
+export {
+  getNewToken, getAllPlaylistFromUser, getExistingPlaylist, getNewPlaylist, saveNewPassword,
+  searchNewSong, addingSong, checkPassword, changeRoomName, findUserIdByRoom
+}
