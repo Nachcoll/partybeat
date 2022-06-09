@@ -164,11 +164,12 @@ const Client = () => {
         <div className="addedSongsList">
           <ul>
             {addedSong.map((song, index) => {
-              return <li ref={addedSongsRef} key={index} >Added <span className="addedSong">{song.name}</span> from
-                <span className="addedArtist"> {song.artist}</span> to the playlist
+              return <li ref={addedSongsRef} key={index} >Added&nbsp;<div className="addedSong">{song.name}&nbsp;</div>from
+              <div className="addedArtist">&nbsp;{song.artist}&nbsp;</div>
+              <div className="deleteContainer">to the playlist&nbsp;
               {song.userWhoAdded === _id ? <DeleteButton userId={hostId} song={song} key={index} setDeleteSong={setDeleteSong}></DeleteButton>: <></>}
-              </li>
-            })}
+              </div></li>
+          })}
           </ul>
         </div>
         <div className="searchMenu">
