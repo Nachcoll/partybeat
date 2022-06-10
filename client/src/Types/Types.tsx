@@ -20,6 +20,7 @@ export interface SelectedSong {
 export interface HostProps {
   _id: string,
   userInfo: User,
+  set_id: Dispatch<SetStateAction<string>>,
 }
 
 export interface SearchProps {

@@ -49,14 +49,16 @@ const Client = () => {
   //When page loads we want to join the socket IO room and we want to check the password from the host
 
   const onLoad = async () => {
-    const old_id = JSON.parse(sessionStorage.getItem('_id') || '{}')
-    const previousAccess = JSON.parse(sessionStorage.getItem('access') || '{}')
+    const old_id = JSON.parse(sessionStorage.getItem('_id') || '{}');
+    const previousAccess = JSON.parse(sessionStorage.getItem('access') || '{}');
+    const sessionSongs = JSON.parse(sessionStorage.getItem('songList') || '{}');
     if(!old_id._id){
       sessionStorage.setItem('_id', JSON.stringify({_id}))
     }
     else{
       set_id(old_id._id)
       previousAccess.access && setAccess(previousAccess.access)
+      sessionSongs.songs.length > 0 && setAddedSong([...sessionSongs.songs])
     }
     const result = await findUserIdByRoom(title)
     setHostId(result);
@@ -83,6 +85,8 @@ const Client = () => {
         const arr = prev.filter((el) => el.name !== selectedSong.name)
         return [...arr, selectedSong]
       })
+      sessionStorage.removeItem('songList')
+      sessionStorage.setItem('songList', JSON.stringify({songs: addedSong}))
     }
   }, [selectedSong])
 
@@ -96,6 +100,8 @@ const Client = () => {
       })
       socket.removeAllListeners()
     })
+    sessionStorage.removeItem('songList')
+    sessionStorage.setItem('songList', JSON.stringify({songs: addedSong}))
   }, [socket, addedSong, selectedSong])
 
   //FOR DELETE:

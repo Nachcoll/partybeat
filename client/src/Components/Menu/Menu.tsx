@@ -96,7 +96,7 @@ const Menu = () => {
           </div>
         </form>
       </div>}
-      {playListSelected && <Host _id={_id} userInfo={userInfo}></Host>}
+      {playListSelected && <Host set_id={set_id} _id={_id} userInfo={userInfo}></Host>}
     </div>
   )
 }

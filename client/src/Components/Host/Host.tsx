@@ -10,7 +10,7 @@ import DeleteButton from '../DeleteButton/DeleteButton'
 
 //??? maybe we dont sent _id but we take it from storage, same for userinfo actually
 
-const Host = ({ userInfo, _id} : HostProps) => {
+const Host = ({ userInfo, _id, set_id} : HostProps) => {
 
   const [songName, setSongName] = useState<SelectedSong[]>([])
   const [selectedSong, setSelectedSong] = useState<SelectedSong>({
@@ -47,10 +47,17 @@ const Host = ({ userInfo, _id} : HostProps) => {
     //onload / refresh
     const sessionRoom = JSON.parse(sessionStorage.getItem('selectedRoom') || '{}');
     const sessionPass = JSON.parse(sessionStorage.getItem('passGiven') || '{}');
+    const sessionSongs = JSON.parse(sessionStorage.getItem('songList') || '{}');
+
     if(sessionRoom.room){
       setNewRoom(sessionRoom.room)
       setReadOnly(sessionRoom.readOnly)
       sessionPass.passGiven && setPassGiven(true);
+      if(sessionSongs._id){
+        console.log(sessionSongs._id)
+        setAddedSong([...sessionSongs.songs])
+        set_id(sessionSongs._id)
+      }
     }
 
   },[])
@@ -72,6 +79,8 @@ const Host = ({ userInfo, _id} : HostProps) => {
         const arr = prev.filter((el) => el.name !== selectedSong.name)
         return [...arr, selectedSong]
       })
+      sessionStorage.removeItem('songList')
+      sessionStorage.setItem('songList', JSON.stringify({_id: _id, songs: addedSong}))
     }
   }, [selectedSong])
   useEffect(() => {
@@ -84,6 +93,8 @@ const Host = ({ userInfo, _id} : HostProps) => {
       })
       socket.removeAllListeners()
     })
+    sessionStorage.removeItem('songList')
+    sessionStorage.setItem('songList', JSON.stringify({_id: _id, songs: addedSong}))
   }, [socket, addedSong])
 
 //FOR DELETE:
