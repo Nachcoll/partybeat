@@ -4,7 +4,6 @@ import SearchButton from '../SearchButton/SearchButton'
 import { SelectedSong, HostProps } from '../../Types/Types'
 import { saveNewPassword, searchNewSong, changeRoomName, removeHost, getCurrentList } from '../../Services/clientServices'
 import svgInfo from '../../images/info.svg'
-import { v4 as uuidv4 } from 'uuid';
 import DeleteButton from '../DeleteButton/DeleteButton'
 
 
@@ -59,6 +58,13 @@ const Host = ({ userInfo, _id, set_id} : HostProps) => {
         set_id(sessionSongs._id)
       }
     }
+  },[])
+  //we want one Hook for joining the Socket IO room that eventually will be used by the rest of the users. It will appear when userInfo is
+  // rendered.
+  useEffect(() => {
+    if (newRoom !== undefined) {
+      socket.emit('join_room', userInfo.id)
+    }
     if(userInfo.id !== undefined){
       console.log(userInfo.id)
       getCurrentList(userInfo.id).then((data) => {
@@ -68,14 +74,6 @@ const Host = ({ userInfo, _id, set_id} : HostProps) => {
         setAddedSong([...data])
       })
       // console.log(data);
-    }
-
-  },[])
-  //we want one Hook for joining the Socket IO room that eventually will be used by the rest of the users. It will appear when userInfo is
-  // rendered.
-  useEffect(() => {
-    if (newRoom !== undefined) {
-      socket.emit('join_room', userInfo.id)
     }
   }, [userInfo])
 
@@ -106,7 +104,7 @@ const Host = ({ userInfo, _id, set_id} : HostProps) => {
     })
     sessionStorage.removeItem('songList')
     sessionStorage.setItem('songList', JSON.stringify({_id: _id, songs: addedSong}))
-  }, [socket, addedSong])
+  }, [socket, ,selectedSong, addedSong])
 
 //FOR DELETE:
 
@@ -130,7 +128,7 @@ const Host = ({ userInfo, _id, set_id} : HostProps) => {
       })
       socket.removeAllListeners()
     })
-  }, [socket, deleteSong])
+  }, [socket, deleteSong, addedSong])
 
 
 
