@@ -43,7 +43,7 @@ const getExistingPlaylist = async (userInfo: User, playlist: Playlist) => {
 //in case we choose a new playlist:
 const getNewPlaylist = async (userInfo: User) => {
   try {
-    const newPlayList = await fetch(`http://localhost:8000/createPlaylist/${userInfo.id}`, {
+    await fetch(`http://localhost:8000/createPlaylist/${userInfo.id}`, {
       method: "POST",
       headers: { 'Content-type': 'application/json' }
     })

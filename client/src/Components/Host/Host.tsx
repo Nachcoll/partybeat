@@ -43,6 +43,17 @@ const Host = ({ userInfo, _id} : HostProps) => {
   }
   useEffect(scrollToBottom, [addedSong])
 
+  useEffect(() => {
+    //onload / refresh
+    const sessionRoom = JSON.parse(sessionStorage.getItem('selectedRoom') || '{}');
+    const sessionPass = JSON.parse(sessionStorage.getItem('passGiven') || '{}');
+    if(sessionRoom.room){
+      setNewRoom(sessionRoom.room)
+      setReadOnly(sessionRoom.readOnly)
+      sessionPass.passGiven && setPassGiven(true);
+    }
+
+  },[])
   //we want one Hook for joining the Socket IO room that eventually will be used by the rest of the users. It will appear when userInfo is
   // rendered.
   useEffect(() => {
@@ -109,6 +120,7 @@ const Host = ({ userInfo, _id} : HostProps) => {
       const pass = (e.target as HTMLFormElement).password.value
       await saveNewPassword(userInfo, pass);
       setPassGiven(true)
+      sessionStorage.setItem('passGiven', JSON.stringify({passGiven: true}))
     } catch (error) {
       alert('Something happened')
     }
@@ -142,16 +154,12 @@ const Host = ({ userInfo, _id} : HostProps) => {
         setNewRoom(newRoom)
         e.target.value = encodeURI(`http://localhost:3000/room/${newRoom}`)
         setReadOnly(true);
+        sessionStorage.setItem('selectedRoom', JSON.stringify({room: newRoom, readOnly: true}))
       } else {
         alert('this room already exists')
         e.target.value = ''
       }
     }
-  }
-
-  const handleRemoveHost = async () => {
-    const left = await removeHost(userInfo)
-    left ? window.location.href = 'http://localhost:3000/' : alert('something went wrong')
   }
 
   //showing information
@@ -162,24 +170,44 @@ const Host = ({ userInfo, _id} : HostProps) => {
     setHovered(false);
   }
   const handleCopyButton = async () => {
-    if(newRoom === userInfo.id){
-      await changeRoomName(userInfo, userInfo.id)
-      setNewRoom(newRoom)
-      setReadOnly(true);
+    //HERE what we actually do is checking if the input has been manipulated either in a previous session or by the host in the current
+    //session. If it hasn't been it means that the host, on his first session, wants to use the default ID as Room name.
+    if(!readOnly){
+        await changeRoomName(userInfo, userInfo.id)
+        setNewRoom(newRoom)
+        setReadOnly(true);
+        sessionStorage.setItem('selectedRoom', JSON.stringify({room: newRoom, readOnly: true}))
     }
     navigator.clipboard.writeText(
       encodeURI(`http://localhost:3000/room/${newRoom}`))
   }
 
+  const changePlaylist = () => {
+    sessionStorage.removeItem('playlistSelected')
+    window.location.href = 'http://localhost:3000/menu'
+  }
+  const handleRemoveHost = async () => {
+    const left = await removeHost(userInfo)
+    sessionStorage.clear()
+    left ? window.location.href = 'http://localhost:3000/' : alert('something went wrong')
+  }
+
 
   return (
+    <>
     <div className="hostMenu">
       <div className="sharingContainer">
         <div className="shareMenu">
+          {/* THIS readOnly causes a warning error in console but we know it :) */}
+          {readOnly ? <div className="shareBar">
+            <input id="urlInput" onKeyPress={handleRoomChange} readOnly={true} value={`http://localhost:3000/room/${newRoom}`}></input>
+            <img src={svgInfo} alt='' id="shareInfo" onMouseEnter= {handleHoverEnter} onMouseLeave= {handleHoverLeave}></img>
+          </div>
+          :
           <div className="shareBar">
             <input id="urlInput" onKeyPress={handleRoomChange} readOnly={readOnly} placeholder={`http://localhost:3000/room/${newRoom}`}></input>
             <img src={svgInfo} alt='' id="shareInfo" onMouseEnter= {handleHoverEnter} onMouseLeave= {handleHoverLeave}></img>
-          </div>
+          </div> }
           {hovered &&<span id="information">
             Select the room name you want. <br/>If you select none, your Spotify user ID will be used. <br/>
             Room name only allows alphanumeric characters.
@@ -190,7 +218,7 @@ const Host = ({ userInfo, _id} : HostProps) => {
           <button type='submit'>Set password</button>
         </form>}
       </div>
-      <div className="addedSongsList">
+      {passGiven && <div className="addedSongsList">
         <ul>
           {addedSong.map((song, index) => {
             return <li ref={addedSongsRef} key={index} >Added&nbsp;<div className="addedSong">{song.name}&nbsp;</div>from
@@ -200,7 +228,7 @@ const Host = ({ userInfo, _id} : HostProps) => {
               </div></li>
           })}
         </ul>
-      </div>
+      </div>}
       <div className="searchMenu">
         {passGiven && <form onSubmit={sendSearch}>
           <input name='searchString' placeholder="Song / artist name"></input>
@@ -208,8 +236,12 @@ const Host = ({ userInfo, _id} : HostProps) => {
         </form>}
         {songName && songName.map((song, index) => { return <SearchButton song={song} key={index} userId={userInfo.id} setSelectedSong={setSelectedSong}></SearchButton> })}
       </div>
-      <button className="logoutButton" onClick={handleRemoveHost}>stop sharing</button>
     </div>
+    <div className='backMenu'>
+          <button className="logoutButton" onClick={handleRemoveHost}>stop sharing</button>
+          <button className="logoutButton" onClick={changePlaylist}>Change playlist</button>
+          </div>
+          </>
   )
 }
 

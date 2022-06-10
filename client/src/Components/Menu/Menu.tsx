@@ -14,6 +14,7 @@ const Menu = () => {
   //When page loads we want to create the new Token ASAP.
   useEffect(() => {
     const sessionUser = JSON.parse(sessionStorage.getItem('host') || '{}')
+    const sessionPlaylist = JSON.parse(sessionStorage.getItem('playlistSelected') || '{}')
     console.log(sessionUser, _id)
     if(!sessionUser.hostId){
       onLoad()
@@ -25,6 +26,8 @@ const Menu = () => {
         display_name: sessionUser.display_name,
       }
       setUserInfo(user)
+      //refresh the playlist stage
+      sessionPlaylist.playlistSelected && setPlayListSelected(sessionPlaylist.playlistSelected)
     }
   }, [])
   //we take the code from Spotify API and then clear the browser so it's not that easy to access. I think it's not sensitive data since we
@@ -61,7 +64,6 @@ const Menu = () => {
   const handlePlaylistSubmit = async (e: React.MouseEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      console.log(e.target)
       const playlistName = (e.target as HTMLFormElement).playlist.value
       //if the selected playlist is already there:
       console.log(playlistName)
@@ -70,9 +72,10 @@ const Menu = () => {
         await getExistingPlaylist(userInfo, playlist[0])
       } else {
         //create new playlist
-        await getNewPlaylist(userInfo)
+      await getNewPlaylist(userInfo)
       }
       setPlayListSelected(true);
+      sessionStorage.setItem('playlistSelected', JSON.stringify({playlistSelected: true}))
     } catch (error) {
       alert('Something happened')
     }
@@ -80,7 +83,7 @@ const Menu = () => {
 
   return (
     <div className="mainContainer">
-      {playLists.length === 0 && <button onClick={getPlaylists}>Load all the playlists</button>}
+      {(playLists.length === 0 && playListSelected === false)&& <button onClick={getPlaylists}>Load all the playlists</button>}
       {(playLists.length > 0 && playListSelected === false) &&
       <div className="playlistContainer"><h2>Select the playlist:</h2>
         <form className="playlistSelector" onSubmit={handlePlaylistSubmit}>

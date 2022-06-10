@@ -220,11 +220,9 @@ const getPlayLists = async (req, res) => {
 const createNewPlaylist = async (req, res) => {
   try {
     const actualUserID = req.params.userID
-    // console.log('useeeeeeeeeeeeeeeeeeersssssssssssssssssssss', users);
     const actualUser = users.find((el) => {
       return el.userId === actualUserID
     })
-    // console.log('actualUser', actualUser)
     const result = await fetch(`${baseURL}/users/${actualUser.userId}/playlists`, {
       method: 'POST',
       headers: {
@@ -237,9 +235,7 @@ const createNewPlaylist = async (req, res) => {
         'description': 'New Partybeat list',
       })
     })
-
     const data = await result.json();
-    // console.log(data);
     //we save the playlist.id here so we dont have to fetch with it everytime on client side.
     for (const user of users) {
       if (user.userId === actualUserID) {
@@ -247,7 +243,6 @@ const createNewPlaylist = async (req, res) => {
         user.addedTracks = [];
       }
     }
-    // console.log(users)
     res.status = 201
     res.send(JSON.stringify(data))
   } catch (error) {
