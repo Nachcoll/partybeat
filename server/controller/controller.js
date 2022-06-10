@@ -416,6 +416,22 @@ const deleteSong = async (req, res) => {
 
 }
 
+const logout = async (req, res) => {
+  try {
+    const loggedUser = req.body.user
+    for (const indx in users) {
+      if (users[indx].userId === loggedUser) {
+        users.splice(indx, 1)
+      }
+    }
+    res.status = 201;
+    res.send(JSON.stringify(true))
+  } catch (error) {
+    console.log(error);
+    res.send(JSON.stringify(false))
+  }
+}
+
 
 
 //function for refreshing the token, not tested:
@@ -454,5 +470,5 @@ const deleteSong = async (req, res) => {
 // module.exports = { login, newToken, getUserInfo }
 export default {
   login, newToken, searchItem, getPlayLists, createNewPlaylist,
-  useExistingPlaylist, addSong, setPassword, checkPassword, setRoomForHost, getHostidByRoom, deleteSong
+  useExistingPlaylist, addSong, setPassword, checkPassword, setRoomForHost, getHostidByRoom, deleteSong, logout
 }

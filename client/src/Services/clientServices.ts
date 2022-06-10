@@ -154,11 +154,21 @@ const deletingSong = async (userId: string, song: SelectedSong) => {
   }
 }
 
-
-
-
+const removeHost = async (userInfo: User) => {
+  try {
+    const result = await fetch(`http://localhost:8000/logout/`,{
+      method: "POST",
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ 'user': userInfo.id })
+    })
+   const json =  await result.json();
+   return json;
+  } catch (error) {
+    alert('Something happened')
+  }
+}
 
 export {
   getNewToken, getAllPlaylistFromUser, getExistingPlaylist, getNewPlaylist, saveNewPassword,
-  searchNewSong, addingSong, checkPassword, changeRoomName, findUserIdByRoom, deletingSong
+  searchNewSong, addingSong, checkPassword, changeRoomName, findUserIdByRoom, deletingSong, removeHost
 }

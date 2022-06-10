@@ -18,6 +18,7 @@ router.post('/createPlaylist/:userID', controller.createNewPlaylist)
 router.post('/useExistingPlaylist/:userID', controller.useExistingPlaylist)
 router.post('/setNewRoom/:userID', controller.setRoomForHost)
 router.post('/getUserByRoom', controller.getHostidByRoom)
+router.post('/logout', controller.logout)
 
 //search + adding songs
 router.get('/search/:userID/:string', controller.searchItem);

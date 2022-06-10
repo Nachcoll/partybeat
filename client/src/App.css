@@ -290,6 +290,7 @@ input{
 }
 .songButton{
   min-width: 60%;
+  max-width: 70%;
   align-self: center;
 }
 
@@ -375,4 +376,27 @@ button {
   justify-content: flex-start;
   flex-direction: row;
   display: flex;
+}
+.logoutButton{
+  display:absolute;
+  top: -25%;
+  left: 90%;
+}
+
+/* SCROLLBAR */
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background:#040B3A;
+}
+::-webkit-scrollbar-thumb {
+  background:#040B3A;
+  border-radius: 20px;
+  border: 1px solid #03CEA4;
+}
+::-webkit-scrollbar-thumb:hover {
+  background:#03CEA4;
 }

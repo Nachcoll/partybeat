@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import socket from '../../Services/socket'
 import SearchButton from '../SearchButton/SearchButton'
 import { User, SelectedSong } from '../../Types/Types'
-import { saveNewPassword, searchNewSong, changeRoomName } from '../../Services/clientServices'
+import { saveNewPassword, searchNewSong, changeRoomName, removeHost } from '../../Services/clientServices'
 import svgInfo from '../../images/info.svg'
 import { v4 as uuidv4 } from 'uuid';
 import DeleteButton from '../DeleteButton/DeleteButton'
@@ -137,7 +137,6 @@ const Host = ({ userInfo }: { userInfo: User }) => {
   const handleRoomChange = async (e: any) => {
     if (e.key === 'Enter') {
       const newRoom = e.target.value
-
       const checkingChange = await changeRoomName(userInfo, newRoom)
       if (checkingChange) {
         setNewRoom(newRoom)
@@ -149,6 +148,12 @@ const Host = ({ userInfo }: { userInfo: User }) => {
       }
     }
   }
+
+  const handleRemoveHost = async () => {
+    const left = await removeHost(userInfo)
+    left ? window.location.href = 'http://localhost:3000/' : alert('something went wrong')
+  }
+
   //showing information
   const handleHoverEnter = () => {
     setHovered(true);
@@ -203,6 +208,7 @@ const Host = ({ userInfo }: { userInfo: User }) => {
         </form>}
         {songName && songName.map((song, index) => { return <SearchButton song={song} key={index} userId={userInfo.id} setSelectedSong={setSelectedSong}></SearchButton> })}
       </div>
+      <button className="logoutButton" onClick={handleRemoveHost}>stop sharing</button>
     </div>
   )
 }

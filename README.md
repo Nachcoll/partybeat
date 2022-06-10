@@ -10,7 +10,6 @@ future features?:
 - Host should have more functionalities for their room.
 
 -cookies
--logout
 -deploy
 -css movil
 
