@@ -1,15 +1,15 @@
 import { User, Playlist, SelectedSong } from "../Types/Types";
 
 //request for Host user info:
-const getNewToken = async (token: string) => {
+const getNewToken = async (data: string) => {
   try {
     const result = await fetch('http://localhost:8000/newToken', {
       method: "POST",
       headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify({ token })
+      body: data
     })
-    const data = await result.json();
-    return data
+    const json = await result.json();
+    return json
   } catch (error) {
     alert('Something happened')
   }
@@ -168,7 +168,24 @@ const removeHost = async (userInfo: User) => {
   }
 }
 
+const getCurrentList = async (userId: string) => {
+  const result = await fetch(`http://localhost:8000/getCurrentList/`,{
+    method: "POST",
+    headers: { 'Content-type': 'application/json' },
+    body: JSON.stringify({ 'user':userId })
+  })
+  const json = await result.json();
+  console.log(json);
+  return json;
+}
+
+
+
+
+
+
+
 export {
   getNewToken, getAllPlaylistFromUser, getExistingPlaylist, getNewPlaylist, saveNewPassword,
-  searchNewSong, addingSong, checkPassword, changeRoomName, findUserIdByRoom, deletingSong, removeHost
+  searchNewSong, addingSong, checkPassword, changeRoomName, findUserIdByRoom, deletingSong, removeHost, getCurrentList
 }

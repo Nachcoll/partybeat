@@ -19,6 +19,7 @@ let user = {
   addedTracks: [],
   password: '',
   room: '',
+  _id: '',
 }
 const users = []
 
@@ -31,6 +32,7 @@ const login = async (req, res) => {
     addedTracks: [],
     password: '',
     room: '',
+    _id: '',
   }
 
   let authorizeUrl = 'https://accounts.spotify.com/authorize?'
@@ -46,9 +48,11 @@ const login = async (req, res) => {
 
 const newToken = async (req, res) => {
   console.log(users);
-  const token = req.body.token;
+  console.log(req.body)
+  const code = req.body.token;
+  const _id = req.body._id
   let body = 'grant_type=authorization_code'
-  body += '&code=' + token;
+  body += '&code=' + code;
   body += '&redirect_uri=' + 'http://localhost:3000/menu';
   body += '&client_id=' + clientID;
   body += '&client_secret=' + clientSecret;
@@ -67,6 +71,7 @@ const newToken = async (req, res) => {
     if (user.accessToken === undefined) {
       user.accessToken = aunthData.access_token;
       user.refreshToken = aunthData.refresh_token;
+      user._id = _id
     }
 
     const result = await fetch(`${baseURL}/me`, {
@@ -86,16 +91,16 @@ const newToken = async (req, res) => {
         users[indx].accessToken = user.accessToken
         users[indx].refreshToken = user.refreshToken
         alreadyIn = true;
+        if(users[indx]._id) user._id = users[indx]._id
       }
     }
     console.log(user, alreadyIn)
-    if (!alreadyIn) {
-      users.push(user);
-    }
     const securedUser = {
       id: data.id,
       display_name: data.display_name,
+      _id: undefined,
     }
+    alreadyIn ? securedUser._id = user._id : users.push(user)
     // console.log(users)
     res.status = 200;
     res.send(JSON.stringify(securedUser))
@@ -266,7 +271,7 @@ const useExistingPlaylist = async (req, res) => {
     }
     console.log('entramos en fetch', playlist)
     //we then fetch for all the tracks on the playlist. So we wont have to fetch during the add-song proccess.
-    const result = await fetch(`${baseURL}/playlists/${playlist}/tracks?fields=items(track(uri))`, {
+    const result = await fetch(`${baseURL}/playlists/${playlist}/tracks?fields=items(track(name,uri,album(artists(name))))`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -275,12 +280,19 @@ const useExistingPlaylist = async (req, res) => {
       }
     })
     const data = await result.json();
-
     for (const user of users) {
       if (user.userId === actualUserID) {
         user.addedTracks = [];
         for (const track of data.items) {
-          user.addedTracks.push(track.track.uri)
+          const song = {
+            uri: track.track.uri,
+            name: track.track.name,
+            artist: track.track.album.artists[0].name,
+            userWhoAdded: actualUser._id
+          }
+          console.log(song);
+          // user.addedTracks.push(track.track.uri)
+          user.addedTracks.push(song)
         }
       }
     }
@@ -325,19 +337,19 @@ const searchItem = async (req, res) => {
 //ADDING SONG TO PLAYLIST
 const addSong = async (req, res) => {
   try {
-    const songUri = req.body.song.uri
+    const Addedsong = req.body.song
     const actualUserID = req.params.userID
     const actualUser = users.find((el) => {
       return el.userId === actualUserID
     })
     //find if the song is already in
     const alreadyIn = actualUser.addedTracks.some((song) => {
-      return song === songUri
+      return song.uri === Addedsong.uri
     })
 
     if (alreadyIn === false) {
       // console.log('hacemos el famoso fetch', actualUserID, actualUser.playlist)
-      const result = await fetch(`${baseURL}/playlists/${actualUser.playlist}/tracks?uris=${songUri}`, {
+      const result = await fetch(`${baseURL}/playlists/${actualUser.playlist}/tracks?uris=${Addedsong.uri}`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -350,7 +362,7 @@ const addSong = async (req, res) => {
       //we save the new song
       for (const user of users) {
         if (user.userId === actualUserID) {
-          user.addedTracks.push(songUri)
+          user.addedTracks.push(Addedsong)
         }
       }
       res.status = 201
@@ -369,14 +381,14 @@ const addSong = async (req, res) => {
 //DELETE SONG:
 const deleteSong = async (req, res) => {
   try {
-    const songUri = req.body.song.uri
+    const deleteSong = req.body.song
     const actualUserID = req.params.userID
     const actualUser = users.find((el) => {
       return el.userId === actualUserID
     })
     //find if the song is already in
     const alreadyIn = actualUser.addedTracks.some((song) => {
-      return song === songUri
+      return song.uri === deleteSong.uri
     })
 
     if (alreadyIn === true) {
@@ -388,7 +400,7 @@ const deleteSong = async (req, res) => {
           'content-type': 'application/json',
           'Authorization': 'Bearer ' + actualUser.accessToken
         },
-        body: JSON.stringify({ "tracks": [{ "uri": songUri }] })
+        body: JSON.stringify({ "tracks": [{ "uri": deleteSong.uri }] })
       })
       const data = await result.json();
       console.log('respuesta de DELETE a spotify', data)
@@ -396,7 +408,7 @@ const deleteSong = async (req, res) => {
       for (const user of users) {
         if (user.userId === actualUserID) {
           const newTracks = user.addedTracks.filter((el) => {
-            return el !== songUri
+            return el.uri !== deleteSong.uri
           })
           user.addedTracks = newTracks
         }
@@ -411,7 +423,6 @@ const deleteSong = async (req, res) => {
     res.status = 500;
     res.send(JSON.stringify('Something happened'))
   }
-
 }
 
 const logout = async (req, res) => {
@@ -430,6 +441,21 @@ const logout = async (req, res) => {
   }
 }
 
+const getCurrentList = async (req, res) => {
+  try {
+    const actualUserID = req.body.user
+    const songList = []
+    for (const user of users) {
+      if (user.userId === actualUserID) {
+        songList.push(user.addedTracks)
+      }}
+      res.status = 200
+    res.send(JSON.stringify({songList}))
+  } catch (error) {
+    console.log(error);
+    res.send(JSON.stringify('Something happened'))
+  }
+}
 
 
 //function for refreshing the token, not tested:
@@ -468,5 +494,5 @@ const logout = async (req, res) => {
 // module.exports = { login, newToken, getUserInfo }
 export default {
   login, newToken, searchItem, getPlayLists, createNewPlaylist,
-  useExistingPlaylist, addSong, setPassword, checkPassword, setRoomForHost, getHostidByRoom, deleteSong, logout
+  useExistingPlaylist, addSong, setPassword, checkPassword, setRoomForHost, getHostidByRoom, deleteSong, logout, getCurrentList
 }

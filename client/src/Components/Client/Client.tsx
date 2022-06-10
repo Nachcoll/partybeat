@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import socket from '../../Services/socket'
 import SearchButton from '../SearchButton/SearchButton'
 import { SelectedSong } from '../../Types/Types'
-import { searchNewSong, checkPassword, findUserIdByRoom } from '../../Services/clientServices'
+import { searchNewSong, checkPassword, findUserIdByRoom, getCurrentList } from '../../Services/clientServices'
 import './Client.css'
 import { v4 as uuidv4 } from 'uuid';
 import DeleteButton from '../DeleteButton/DeleteButton'
@@ -62,17 +62,32 @@ const Client = () => {
     }
     const result = await findUserIdByRoom(title)
     setHostId(result);
-    return result;
+
+
+
+
+    // return result;
   }
 
   useEffect(() => {
-    onLoad()
+    onLoad();
+
   }, [])
 
   useEffect(() => {
     console.log(hostId);
     if(hostId !== ''){
       socket.emit('join_room', hostId)
+    }
+    if(hostId !== ''){
+      console.log(hostId)
+      getCurrentList(hostId).then((data) => {
+        console.log(data);
+        data = data.songList.flat()
+        console.log(data[0].userWhoAdded)
+        console.log(_id)
+        setAddedSong([...data])
+      })
     }
   }, [hostId])
 

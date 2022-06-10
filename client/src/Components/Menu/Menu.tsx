@@ -37,8 +37,9 @@ const Menu = () => {
       const token = completeUrl.substring(6)
       //We don't want to show the query from Spotify
       window.history.pushState("", "", 'http://localhost:3000/menu')
-      const user = await getNewToken(token)
-      console.log( user)
+      const user = await getNewToken(JSON.stringify({token, _id }))
+      console.log(user)
+      user._id && set_id(user._id)
       sessionStorage.setItem('host', JSON.stringify({hostId : user.id, display_name: user.display_name, token: token}))
       setUserInfo(user)
   }

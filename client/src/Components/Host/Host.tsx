@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import socket from '../../Services/socket'
 import SearchButton from '../SearchButton/SearchButton'
 import { SelectedSong, HostProps } from '../../Types/Types'
-import { saveNewPassword, searchNewSong, changeRoomName, removeHost } from '../../Services/clientServices'
+import { saveNewPassword, searchNewSong, changeRoomName, removeHost, getCurrentList } from '../../Services/clientServices'
 import svgInfo from '../../images/info.svg'
 import { v4 as uuidv4 } from 'uuid';
 import DeleteButton from '../DeleteButton/DeleteButton'
@@ -59,6 +59,16 @@ const Host = ({ userInfo, _id, set_id} : HostProps) => {
         set_id(sessionSongs._id)
       }
     }
+    if(userInfo.id !== undefined){
+      console.log(userInfo.id)
+      getCurrentList(userInfo.id).then((data) => {
+        data = data.songList.flat()
+        console.log(data[0].userWhoAdded)
+        console.log(_id)
+        setAddedSong([...data])
+      })
+      // console.log(data);
+    }
 
   },[])
   //we want one Hook for joining the Socket IO room that eventually will be used by the rest of the users. It will appear when userInfo is
@@ -71,6 +81,7 @@ const Host = ({ userInfo, _id, set_id} : HostProps) => {
 
   //the other useEffect is the one that is going to render all the information that WE send to socket IO room
   useEffect(() => {
+    console.log('useEffect',selectedSong)
     if (selectedSong.name !== undefined) {
       const room = userInfo.id
       console.log('selectedSong', selectedSong, room)
