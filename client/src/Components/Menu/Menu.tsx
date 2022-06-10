@@ -2,36 +2,48 @@ import React, { useState, useEffect } from 'react'
 import Host from '../Host/Host'
 import { User, Playlist, GeneralPlaylist } from '../../Types/Types'
 import { getNewToken, getAllPlaylistFromUser, getExistingPlaylist, getNewPlaylist } from '../../Services/clientServices'
-
+import { v4 as uuidv4 } from 'uuid';
 
 
 const Menu = () => {
 
-  const [userInfo, setUserInfo] = useState<User>({ display_name: '', id: undefined, uri: '', email: '' })
+  const [userInfo, setUserInfo] = useState<User>({ display_name: '', id: undefined})
   const [playLists, setPlayLists] = useState<Playlist[]>([])
   const [playListSelected, setPlayListSelected] = useState<boolean>(false)
-
+  const [_id, set_id] = useState<string>(uuidv4().toString())
   //When page loads we want to create the new Token ASAP.
   useEffect(() => {
-    onLoad()
+    const sessionUser = JSON.parse(sessionStorage.getItem('host') || '{}')
+    console.log(sessionUser, _id)
+    if(!sessionUser.hostId){
+      onLoad()
+    }
+    else{
+      set_id(sessionUser._id)
+      const user = {
+        id: sessionUser.hostId,
+        display_name: sessionUser.display_name,
+      }
+      setUserInfo(user)
+    }
   }, [])
   //we take the code from Spotify API and then clear the browser so it's not that easy to access. I think it's not sensitive data since we
   //still need to ask for a token in order to use it.
   const onLoad = async () => {
-    if (window.location.search.length > 0) {
       const completeUrl = window.location.search;
       const token = completeUrl.substring(6)
       //We don't want to show the query from Spotify
       window.history.pushState("", "", 'http://localhost:3000/menu')
       const user = await getNewToken(token)
+      console.log( user)
+      sessionStorage.setItem('host', JSON.stringify({hostId : user.id, display_name: user.display_name, token: token}))
       setUserInfo(user)
-    }
-    return null;
   }
 
   //After clicking on the button for loading playlists we are rendering them on a form.
   const getPlaylists = async () => {
     try {
+      console.log(userInfo)
       const playlistData = await getAllPlaylistFromUser(userInfo)
       console.log(playlistData);
       // Since we can only edit playlists from our own we are going to filter them
@@ -81,7 +93,7 @@ const Menu = () => {
           </div>
         </form>
       </div>}
-      {playListSelected && <Host userInfo={userInfo}></Host>}
+      {playListSelected && <Host _id={_id} userInfo={userInfo}></Host>}
     </div>
   )
 }

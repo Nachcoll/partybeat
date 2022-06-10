@@ -3,8 +3,6 @@ import React, { Dispatch, SetStateAction } from 'react'
 export interface User {
   display_name: string,
   id: string | undefined,
-  uri: string,
-  email: string,
 }
 
 export interface Playlist {
@@ -17,6 +15,11 @@ export interface SelectedSong {
   artist: string | undefined,
   uri: string | undefined,
   userWhoAdded: string | undefined,
+}
+
+export interface HostProps {
+  _id: string,
+  userInfo: User,
 }
 
 export interface SearchProps {

@@ -44,7 +44,6 @@ const login = async (req, res) => {
   //AFTER we should hide the code from the url.
 }
 
-
 const newToken = async (req, res) => {
   console.log(users);
   const token = req.body.token;
@@ -89,13 +88,17 @@ const newToken = async (req, res) => {
         alreadyIn = true;
       }
     }
+    console.log(user, alreadyIn)
     if (!alreadyIn) {
       users.push(user);
     }
-
+    const securedUser = {
+      id: data.id,
+      display_name: data.display_name,
+    }
     // console.log(users)
     res.status = 200;
-    res.send(JSON.stringify(data))
+    res.send(JSON.stringify(securedUser))
   } catch (error) {
     res.status = 500;
     res.send(JSON.stringify('Something happened'))

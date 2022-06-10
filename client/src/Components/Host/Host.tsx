@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react'
 import socket from '../../Services/socket'
 import SearchButton from '../SearchButton/SearchButton'
-import { User, SelectedSong } from '../../Types/Types'
+import { SelectedSong, HostProps } from '../../Types/Types'
 import { saveNewPassword, searchNewSong, changeRoomName, removeHost } from '../../Services/clientServices'
 import svgInfo from '../../images/info.svg'
 import { v4 as uuidv4 } from 'uuid';
 import DeleteButton from '../DeleteButton/DeleteButton'
 
 
-const _id = uuidv4().toString();
+//??? maybe we dont sent _id but we take it from storage, same for userinfo actually
 
-const Host = ({ userInfo }: { userInfo: User }) => {
+const Host = ({ userInfo, _id} : HostProps) => {
 
   const [songName, setSongName] = useState<SelectedSong[]>([])
   const [selectedSong, setSelectedSong] = useState<SelectedSong>({

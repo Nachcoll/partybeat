@@ -9,12 +9,13 @@ import { v4 as uuidv4 } from 'uuid';
 import DeleteButton from '../DeleteButton/DeleteButton'
 
 
-const _id = uuidv4();
+
 //This is the client side. It's going to render only when the Host has already choosen the playlist and a password and
 //has given the link to a friend.
 
 const Client = () => {
 
+  const [_id, set_id] = useState<string>(uuidv4().toString())
   const [songName, setSongName] = useState<SelectedSong[]>([])
   const [selectedSong, setSelectedSong] = useState<SelectedSong>({
     name: undefined,
@@ -48,6 +49,15 @@ const Client = () => {
   //When page loads we want to join the socket IO room and we want to check the password from the host
 
   const onLoad = async () => {
+    const old_id = JSON.parse(sessionStorage.getItem('_id') || '{}')
+    const previousAccess = JSON.parse(sessionStorage.getItem('access') || '{}')
+    if(!old_id._id){
+      sessionStorage.setItem('_id', JSON.stringify({_id}))
+    }
+    else{
+      set_id(old_id._id)
+      previousAccess.access && setAccess(previousAccess.access)
+    }
     const result = await findUserIdByRoom(title)
     setHostId(result);
     return result;
@@ -67,7 +77,7 @@ const Client = () => {
   //this hook works the same way than for the host. Is just updating the songs we decide to add in socket IO and rendering them.
   useEffect(() => {
     if (selectedSong.name !== undefined) {
-      console.log(selectedSong.name, hostId)
+      console.log(selectedSong.name, hostId, _id)
       socket.emit('send_search', { selectedSong, room: hostId })
       setAddedSong((prev) => {
         const arr = prev.filter((el) => el.name !== selectedSong.name)
@@ -122,6 +132,7 @@ const Client = () => {
     //if host puts no password you should be able to join:
     if (attempt === true) {
       setAccess(true);
+      sessionStorage.setItem('access',JSON.stringify({access: true}))
     }
     else {
       alert('Wrong password')
