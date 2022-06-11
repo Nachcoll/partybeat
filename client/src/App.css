@@ -146,14 +146,14 @@ input{
   flex-direction: column;
     /* border: 0.3px solid #D2BF55;
   box-shadow: 1px 1px 15px #D2BF55; */
-  /* border: 0.5px solid #DB3069;
-  box-shadow: 1px 1px 25px #DB3069; */
-  box-shadow: #03cea51d 0px 15px 40px, #03CEA4 0px 10px 30px -3px, rgba(0, 255, 238, 0.2) 0px -3px 0px inset,
-   #03cea51d 0px -15px 40px, #03CEA4 0px -10px 30px -3px, rgba(0, 255, 238, 0.2) 0px 3px 0px inset;
+  border: 0.5px solid #DB3069;
+  box-shadow: 1px 1px 25px #DB3069;
+  /* box-shadow: #03cea51d 0px 15px 40px, #03CEA4 0px 10px 30px -3px, rgba(0, 255, 238, 0.2) 0px -3px 0px inset,
+   #03cea51d 0px -15px 40px, #03CEA4 0px -10px 30px -3px, rgba(0, 255, 238, 0.2) 0px 3px 0px inset; */
    background: rgba(0, 0, 0, 0.30);
   animation: bordering 2.5s linear infinite;
 }
-@keyframes bordering {
+/* @keyframes bordering {
   0%{
     box-shadow: #03cea51d 0px 15px 40px, #03CEA4 0px 10px 30px -3px, rgba(0, 255, 238, 0.2) 0px -3px 0px inset,
     #03cea51d 0px -15px 40px, #03CEA4 0px -10px 30px -3px, rgba(0, 255, 238, 0.2) 0px 3px 0px inset;
@@ -162,7 +162,7 @@ input{
     box-shadow: #03cea51d 0px 8px 15px, #03CEA4 0px 4px 14px -3px, rgba(0, 255, 238, 0.2) 0px -3px 0px inset,
     #03cea51d 0px -8px 15px, #03CEA4 0px -4px 14px -3px, rgba(0, 255, 238, 0.2) 0px 3px 0px inset;
   }
-}
+} */
 .playlistContainer{
     background: none;
   display: flex;
