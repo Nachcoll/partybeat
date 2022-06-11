@@ -88,7 +88,7 @@ const Menu = () => {
   return (
     <div className="mainContainer">
       <img src={logo} className="miniLogo"></img>
-      {(playLists.length === 0 && playListSelected === false)&& <button onClick={getPlaylists}>Load all the playlists</button>}
+      {(playLists.length === 0 && playListSelected === false)&& <button onClick={getPlaylists}>Load or create a playlist</button>}
       {(playLists.length > 0 && playListSelected === false) &&
       <div className="playlistContainer"><h2>Select the playlist:</h2>
         <form className="playlistSelector" onSubmit={handlePlaylistSubmit}>

@@ -11,16 +11,7 @@ const clientID = process.env.CLIENT_ID
 const clientSecret = process.env.CLIENT_SECRET
 
 
-let user = {
-  accessToken: undefined,
-  refreshToken: undefined,
-  userId: undefined,
-  playlist: undefined,
-  addedTracks: [],
-  password: '',
-  room: '',
-  _id: '',
-}
+let user = {}
 const users = []
 
 const login = async (req, res) => {
