@@ -5,6 +5,7 @@ import { getNewToken, getAllPlaylistFromUser, getExistingPlaylist, getNewPlaylis
 import { v4 as uuidv4 } from 'uuid';
 import logo from '../../images/logo.png'
 
+const rootUrl = `https://partybeat-nachcoll.vercel.app/`
 
 const Menu = () => {
 
@@ -37,7 +38,8 @@ const Menu = () => {
       const completeUrl = window.location.search;
       const token = completeUrl.substring(6)
       //We don't want to show the query from Spotify
-      window.history.pushState("", "", 'http://localhost:3000/menu')
+
+      window.history.pushState("", "", `${rootUrl}menu`)
       const user = await getNewToken(JSON.stringify({token, _id }))
       console.log(user)
       user._id && set_id(user._id)

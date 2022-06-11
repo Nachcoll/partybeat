@@ -6,6 +6,7 @@ import { saveNewPassword, searchNewSong, changeRoomName, removeHost, getCurrentL
 import svgInfo from '../../images/info.svg'
 import DeleteButton from '../DeleteButton/DeleteButton'
 
+const rootUrl = `https://partybeat-nachcoll.vercel.app/`
 
 //??? maybe we dont sent _id but we take it from storage, same for userinfo actually
 
@@ -172,7 +173,7 @@ const Host = ({ userInfo, _id, set_id }: HostProps) => {
       const checkingChange = await changeRoomName(userInfo, newRoom)
       if (checkingChange) {
         setNewRoom(newRoom)
-        e.target.value = encodeURI(`http://localhost:3000/room/${newRoom}`)
+        e.target.value = encodeURI(`${rootUrl}room/${newRoom}`)
         setReadOnly(true);
         sessionStorage.setItem('selectedRoom', JSON.stringify({ room: newRoom, readOnly: true }))
       } else {
@@ -199,17 +200,17 @@ const Host = ({ userInfo, _id, set_id }: HostProps) => {
       sessionStorage.setItem('selectedRoom', JSON.stringify({ room: newRoom, readOnly: true }))
     }
     navigator.clipboard.writeText(
-      encodeURI(`http://localhost:3000/room/${newRoom}`))
+      encodeURI(`${rootUrl}room/${newRoom}`))
   }
 
   const changePlaylist = () => {
     sessionStorage.removeItem('playlistSelected')
-    window.location.href = 'http://localhost:3000/menu'
+    window.location.href = `${rootUrl}menu`
   }
   const handleRemoveHost = async () => {
     const left = await removeHost(userInfo)
     sessionStorage.clear()
-    left ? window.location.href = 'http://localhost:3000/' : alert('something went wrong')
+    left ? window.location.href = `${rootUrl}` : alert('something went wrong')
   }
 
 
@@ -220,12 +221,12 @@ const Host = ({ userInfo, _id, set_id }: HostProps) => {
           <div className="shareMenu">
             {/* THIS readOnly causes a warning error in console but we know it :) */}
             {readOnly ? <div className="shareBar">
-              <input id="urlInput" onKeyPress={handleRoomChange} readOnly={true} value={`http://localhost:3000/room/${newRoom}`}></input>
+              <input id="urlInput" onKeyPress={handleRoomChange} readOnly={true} value={`${rootUrl}room/${newRoom}`}></input>
               <img src={svgInfo} alt='' id="shareInfo" onMouseEnter={handleHoverEnter} onMouseLeave={handleHoverLeave}></img>
             </div>
               :
               <div className="shareBar">
-                <input id="urlInput" onKeyPress={handleRoomChange} readOnly={readOnly} placeholder={`http://localhost:3000/room/${newRoom}`}></input>
+                <input id="urlInput" onKeyPress={handleRoomChange} readOnly={readOnly} placeholder={`${rootUrl}room/${newRoom}`}></input>
                 <img src={svgInfo} alt='' id="shareInfo" onMouseEnter={handleHoverEnter} onMouseLeave={handleHoverLeave}></img>
               </div>}
             {hovered && <span id="information">
