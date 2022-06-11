@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Actor:400|Dhurjati:400');
+@import url('https://fonts.googleapis.com/css?family=Actor:400|Aldrich:400');
+@import url('https://fonts.googleapis.com/css?family=Actor:400|Big+Shoulders+Text:400');
+@import url('https://fonts.googleapis.com/css?family=Chakra+Petch:400');
+
 *{
   background:fixed;
   background-image: url('./images/background.png');
@@ -32,7 +37,7 @@
   box-shadow: 0.2rem 0.3rem .5rem black;
 }
 .playlistContainer{
-  background: #040B3A;
+    background: none;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,23 +48,23 @@
 }
 .playlistContainer h2{
   font-size: 20px;
-  background: #040B3A;
+    background: none;
 }
 .formInputAndButton{
-  background: #040B3A;
+    background: none;
   display: flex;
   justify-content: space-evenly;
   /* border: 2px solid red; */
   width: 100%;
 }
 .formInputAndButton select{
-  background: #040B3A;
+    background: none;
   padding: 8px;
   border: 2px solid #03CEA4;
   font-size: 15px;
 }
 .playlistSelector{
-  background: #040B3A;
+    background: none;
   width: 100%;
 }
 .playlistSelectorButton{
@@ -67,15 +72,13 @@
   justify-self: end;
 }
 input{
-  background: #040B3A;
+    background: none;
 }
 
 }
 
 /* temporal */
-option{
-  background: #040B3A
-}
+
 #root{
   flex-direction: column;
   display: flex;
@@ -93,13 +96,16 @@ body{
   height: 100%;
   width: 100%;
 }
-
+input{
+  background: none;
+  border-radius: 1px;
+}
 /* DASHBOARD CSS */
 .logo{
   display:flex;
   align-self: center;
   height: 22vh;
-  background: #040B3A;
+  background: none;
 }
 .dashboardContainer{
   width: auto;
@@ -110,12 +116,12 @@ body{
   display: flex;
   justify-content: space-around;
   flex-direction: column;
-  background: #040B3A;
+  background: rgba(0, 0, 0, 0.43);
   align-items: center;
   box-shadow: 0.2rem 0.3rem .5rem black;
 }
 .dashboardContainer p{
-  background: #040B3A;
+  background: none;
   align-self: center;
 }
 .dashboardContainer button{
@@ -125,20 +131,36 @@ body{
 /* MAIN page */
 .mainContainer{
   align-self: center;
-  background: #040B3A !important;
-  width: 70%;
-  height: 100%;
+  background: rgba(0, 0, 0, 0.43);
+  width: 80%;
+  height: 90%;
   margin: 8vh;
   padding: 4vh;
+  padding-bottom: 30px;
+  border-radius: 50px;
+  font-family: Chakra Petch;
   /* border: 2px solid red; */
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  box-shadow: 0.2rem 0.3rem .5rem black;
+  box-shadow: #03cea51d 0px 15px 40px, #03CEA4 0px 10px 30px -3px, rgba(0, 255, 238, 0.2) 0px -3px 0px inset,
+   #03cea51d 0px -15px 40px, #03CEA4 0px -10px 30px -3px, rgba(0, 255, 238, 0.2) 0px 3px 0px inset;
+  background: rgba(0, 0, 0, 0.43);
+  animation: bordering 2.5s linear infinite;
 }
+/* @keyframes bordering {
+  0%{
+    box-shadow: #03cea51d 0px 15px 40px, #03CEA4 0px 10px 30px -3px, rgba(0, 255, 238, 0.2) 0px -3px 0px inset,
+    #03cea51d 0px -15px 40px, #03CEA4 0px -10px 30px -3px, rgba(0, 255, 238, 0.2) 0px 3px 0px inset;
+  }
+  50%{
+    box-shadow: #03cea51d 0px 8px 15px, #03CEA4 0px 4px 14px -3px, rgba(0, 255, 238, 0.2) 0px -3px 0px inset,
+    #03cea51d 0px -8px 15px, #03CEA4 0px -4px 14px -3px, rgba(0, 255, 238, 0.2) 0px 3px 0px inset;
+  }
+} */
 .playlistContainer{
-  background: #040B3A;
+    background: none;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -149,52 +171,54 @@ body{
 }
 .playlistContainer h2{
   font-size: 20px;
-  background: #040B3A;
+    background: none;
 }
 .formInputAndButton{
-  background: #040B3A;
+    background: none;
   display: flex;
   justify-content: space-evenly;
   /* border: 2px solid red; */
   width: 100%;
 }
 .formInputAndButton select{
-  background: #040B3A;
+  background:none;
   padding: 8px;
   border: 2px solid #03CEA4;
   font-size: 15px;
+  outline: none;
+}
+option{
+  background:#040B3A;
+  outline: none;
 }
 .playlistSelector{
-  background: #040B3A;
+    background: none;
   width: 100%;
 }
 .playlistSelectorButton{
   align-self: flex-end;
   justify-self: end;
 }
-input{
-  background: #040B3A;
-}
 /* HOST MENU */
 .hostMenu{
-  background: #040B3A;
+    background: none;
   height: 50%;
   width: 90%;
   align-content: center;
 }
 .sharingContainer{
   width:100%;
-  background: #040B3A;
+    background: none;
   display: flex;
   /* border: 2px solid red; */
   flex-direction: column;
   justify-content: space-evenly;
   height: 45%;
-  margin-bottom: -5%;
+  margin-bottom: -35px;
 }
 .shareMenu{
   width:100%;
-  background: #040B3A;
+  background:none;
   display: flex;
   /* border: 2px solid red; */
   flex-direction: column;
@@ -202,17 +226,19 @@ input{
   justify-content: space-between;
   height: 50%;
 }
+
 .shareBar{
   border: 2px solid #03CEA4;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   width: 35%;
+  background: none;
 }
 .shareBar img{
   height: 20px;
   z-index: 1;
-  background: #040B3A;
+  background:none;
   padding: 3px 10px;
 }
 .shareBar input{
@@ -228,13 +254,14 @@ input{
   position: absolute;
   right: 15%;
   top: 12%;
-  background: #040B3A;
-  border: 1px solid #DB3069;
+  background:none;
+  border: 0.2px solid #DB3069;
   padding: 5px 10px;
   font-size: small;
 }
+
 .setPasswordForm{
-  background: #040B3A;
+    background: none;
   display: flex;
   justify-content: space-evenly;
 }
@@ -256,25 +283,26 @@ input{
 /* Host search */
 .searchMenu{
   width: 100%;
-  height: 90%;
+  height: 100%;
   display: flex;
-  /* border: 2px solid red; */
-  justify-content: space-between;
   flex-direction: column;
-  background: #040B3A;
+  background: none;
+  justify-content: flex-start;
 }
 .searchMenu form{
-  background: #040B3A;
+  background: none;
   justify-content: center;
-  display: flex;
   flex-direction: row;
+  height: 15%;
+  display: flex;
+  margin-top: 10px;
 }
 .searchMenu form input{
-  /* width: 20%; */
+  width: 30%;
   border: 2px solid #03CEA4;
   margin-right: 3%;
-  height: 70%;
-  align-self: center;
+  height: 24px;
+  /* align-self: center; */
   justify-content: center;
   justify-self: center;
   padding-top: 0.4rem;
@@ -289,43 +317,82 @@ input{
   width: 15%;
 
 }
+.searchButtonsContainer{
+  background: none;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  height: 70%;
+}
 .songButton{
-  min-width: 60%;
+  min-width: 50%;
   max-width: 70%;
   font-size: 14px !important;
   align-self: center;
+  /* margin-bottom: 20px; */
+}
+.songRow{
+  display: flex;
+  justify-content: flex-start;
+  height: 50px;
+  align-items: center;
+  list-style: none;
+  background: none;
+  padding: 2px;
+  padding-left: 100px;
+  margin-right: 10px;
+}
+.songRow:hover{
+  background: rgba(255, 255, 255, 0.168);
+  /* border: 0.1px solid #db306974; */
+  box-shadow: #03cea51d 0px 15px 40px, #03CEA4 0px 0px 10px -3px, rgba(0, 255, 238, 0.2) 0px -3px 0px inset;
+  border-radius: 10px;
+}
+.addedSongsList{
+  margin-top: 20px;
+  overflow-y:scroll;
+  background:none;
+  background: rgba(0, 0, 0, 0.222);
+  height: 50vh;
+  margin-bottom: 10px;
+  margin-left: 50px;
+  margin-right: 50px;
+  border: 0.1px solid #db306974;
+  transition: 2s;
+  border-radius: 30px 10px 10px 150px;
+}
+.typeHost{
+  height: 23vh;
 }
 
-.addedSongsList{
-  margin-top: -3%;
-  overflow-y:scroll;
-  background:#040B3A;
-  height: 60%;
-  margin-bottom: 10px;
-  border: 1px solid #DB3069
+.addedSongsList:hover{
+  border: 0.1px solid #db306974;
+  box-shadow: #db306974 1px 5px 50px 1px, #db3069 0px 0px 2px 0px, rgba(0, 255, 238, 0.2) 0px 0px 0px;
 }
+
+
 ul{
-  background: #040B3A;
-}
- li{
-  list-style: none;
-  display: flex;
-  background: #040B3A;
-  justify-content: flex-start;
-  padding: 2px;
+    background: none;
+    margin-left: -30px;
+    list-style: none;
+    height: auto;
+    width: auto;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
 }
 .addedSong{
   color:#03CEA4;
   margin: 0;
   font-weight: bold;
   text-transform: capitalize;
-  background: #040B3A;
+    background: none;
   display: flex;
 }
 .addedArtist{
   color:#03CEA4;
   margin: 0;
-  background: #040B3A;
+    background: none;
   display: flex;
 }
 
@@ -334,6 +401,7 @@ ul{
 button {
   padding: 0.3em 0.8em;
   border: 2px solid #03CEA4;
+  border-radius: 35px 35px 55px 55px;
   position: relative;
   overflow: hidden;
   background-color: transparent;
@@ -344,8 +412,9 @@ button {
   z-index: 1;
   font-family: inherit;
   color: #03CEA4;
-  background: #040B3A;
+  background: none;
   font-weight: 500;
+  height: 38px;
  }
  button::before {
   content: '';
@@ -368,13 +437,16 @@ button {
  }
  .deleteButton{
    display: flex;
-   padding: 3px 6px;
-   margin-left: 5px;
+   padding: 5px 8px;
+   margin-top: -2px;
+   margin-left: 30px;
    font-size: 8px;
    border-radius: 100px;
+   height: 25px;
+   width: 25px;
  }
 .deleteContainer{
-  background: #040B3A;
+    background: none;
   justify-content: flex-start;
   flex-direction: row;
   display: flex;
@@ -387,7 +459,7 @@ button {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background:#040B3A;
+  background: none;
 }
 /* SCROLLBAR */
 
@@ -396,13 +468,17 @@ button {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background:#040B3A;
+  background: none;
 }
 ::-webkit-scrollbar-thumb {
-  background:#040B3A;
+  background: none;
   border-radius: 20px;
   border: 1px solid #03CEA4;
 }
 ::-webkit-scrollbar-thumb:hover {
   background:#03CEA4;
 }
+
+
+
+

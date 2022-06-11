@@ -7,6 +7,7 @@ import { searchNewSong, checkPassword, findUserIdByRoom, getCurrentList } from '
 import './Client.css'
 import { v4 as uuidv4 } from 'uuid';
 import DeleteButton from '../DeleteButton/DeleteButton'
+import test from '../../images/test.svg'
 
 
 
@@ -52,10 +53,10 @@ const Client = () => {
     const old_id = JSON.parse(sessionStorage.getItem('_id') || '{}');
     const previousAccess = JSON.parse(sessionStorage.getItem('access') || '{}');
     const sessionSongs = JSON.parse(sessionStorage.getItem('songList') || '{}');
-    if(!old_id._id){
-      sessionStorage.setItem('_id', JSON.stringify({_id}))
+    if (!old_id._id) {
+      sessionStorage.setItem('_id', JSON.stringify({ _id }))
     }
-    else{
+    else {
       set_id(old_id._id)
       previousAccess.access && setAccess(previousAccess.access)
       sessionSongs.songs.length > 0 && setAddedSong([...sessionSongs.songs])
@@ -76,10 +77,10 @@ const Client = () => {
 
   useEffect(() => {
     console.log(hostId);
-    if(hostId !== ''){
+    if (hostId !== '') {
       socket.emit('join_room', hostId)
     }
-    if(hostId !== ''){
+    if (hostId !== '') {
       console.log(hostId)
       getCurrentList(hostId).then((data) => {
         console.log(data);
@@ -101,7 +102,7 @@ const Client = () => {
         return [...arr, selectedSong]
       })
       sessionStorage.removeItem('songList')
-      sessionStorage.setItem('songList', JSON.stringify({songs: addedSong}))
+      sessionStorage.setItem('songList', JSON.stringify({ songs: addedSong }))
     }
   }, [selectedSong])
 
@@ -116,7 +117,7 @@ const Client = () => {
       socket.removeAllListeners()
     })
     sessionStorage.removeItem('songList')
-    sessionStorage.setItem('songList', JSON.stringify({songs: addedSong}))
+    sessionStorage.setItem('songList', JSON.stringify({ songs: addedSong }))
   }, [socket, addedSong, selectedSong])
 
   //FOR DELETE:
@@ -153,7 +154,7 @@ const Client = () => {
     //if host puts no password you should be able to join:
     if (attempt === true) {
       setAccess(true);
-      sessionStorage.setItem('access',JSON.stringify({access: true}))
+      sessionStorage.setItem('access', JSON.stringify({ access: true }))
     }
     else {
       alert('Wrong password')
@@ -184,7 +185,7 @@ const Client = () => {
   return (
     <div className="container">
       <div className="title">
-        <h3>Partybeat of: {title}</h3>
+        <h3>{title}'s Partybeat</h3>
       </div>
       {!access && <div className="passChecker">
         <form onSubmit={checkPass}>
@@ -196,12 +197,12 @@ const Client = () => {
         <div className="addedSongsList">
           <ul>
             {addedSong.map((song, index) => {
-              return <li ref={addedSongsRef} key={index} >Added&nbsp;<div className="addedSong">{song.name}&nbsp;</div>from
-              <div className="addedArtist">&nbsp;{song.artist}&nbsp;</div>
-              <div className="deleteContainer">to the playlist&nbsp;
-              {song.userWhoAdded === _id ? <DeleteButton userId={hostId} song={song} key={index} setDeleteSong={setDeleteSong}></DeleteButton>: <></>}
-              </div></li>
-          })}
+              return <li className="songRow" ref={addedSongsRef} key={index} >Added&nbsp;<div className="addedSong">{song.name}&nbsp;</div>by
+                <div className="addedArtist">&nbsp;{song.artist}&nbsp;</div>
+                <div className="deleteContainer">
+                  {song.userWhoAdded === _id ? <DeleteButton userId={hostId} song={song} key={index} setDeleteSong={setDeleteSong}></DeleteButton> : <></>}
+                </div></li>
+            })}
           </ul>
         </div>
         <div className="searchMenu">
@@ -209,8 +210,10 @@ const Client = () => {
             <input name='searchString' placeholder="Song / artist name"></input>
             <button type="submit">Search</button>
           </form>
-          {songName && songName.map((song, index) => { return <SearchButton song={song} key={index} userId={hostId} setSelectedSong={setSelectedSong}></SearchButton> })}
-        </div>
+          <div className="searchButtonsContainer">
+            {songName && songName.map((song, index) => { return <SearchButton song={song} key={index} userId={hostId} setSelectedSong={setSelectedSong}></SearchButton> })}
+          </div>
+          </div>
       </div>}
     </div>
   )

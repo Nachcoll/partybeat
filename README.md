@@ -9,8 +9,15 @@ BUGS:
 future features?:
 - Host should have more functionalities for their room.
 
--cookies
 -deploy
 -css movil
+
+- aldrich
+- arvo
+- big shoulders text
+- bungee hairline
+- chakra petch
+- dhurjati
+
 
 

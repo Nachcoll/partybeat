@@ -1,41 +1,101 @@
+
+
+@import url('https://fonts.googleapis.com/css?family=Actor:400|Dhurjati:400');
+@import url('https://fonts.googleapis.com/css?family=Actor:400|Aldrich:400');
+@import url('https://fonts.googleapis.com/css?family=Actor:400|Big+Shoulders+Text:400');
+@import url('https://fonts.googleapis.com/css?family=Chakra+Petch:400');
+
+
+
+.addedArtist{
+  display: flex;
+  width: 24%;
+  justify-content: center;
+}
+.addedSong{
+  display: flex;
+  width: 55%;
+  justify-content: center;
+}
 .container{
   width: 80%;
   height: 90%;
-  /* border: 2px solid red; */
-  background: #040B3A;
+  /* background: rgb(236, 236, 236); */
+  box-shadow: #03cea51d 0px 15px 40px, #03CEA4 0px 10px 30px -3px, rgba(0, 255, 238, 0.2) 0px -3px 0px inset,
+   #03cea51d 0px -15px 40px, #03CEA4 0px -10px 30px -3px, rgba(0, 255, 238, 0.2) 0px 3px 0px inset;
+  background: url('../../images/background.png');
+  background: rgba(0, 0, 0, 0.43);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   padding-bottom: 30px;
-  box-shadow: 0.2rem 0.3rem .5rem black;
+  border-radius: 50px;
+  font-family: Chakra Petch;
+  animation: bordering 2.5s linear infinite;
+}
+
+
+.title{
+  background: none;
+  display: flex;
+  font-family: Big Shoulders Text !important;
+  letter-spacing: 6px;
+  text-transform:uppercase;
+}
+.title h3{
+  font-size: 45px;
+  text-transform: uppercase;
+  background-image: linear-gradient(
+    -225deg,
+    #03CEA4 0%,
+    #0b1d8e 30%,
+    #DB3069 67%,
+    #081672 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* transition: 0.5s; */
 }
 .title{
-  background: #040B3A;
-  display: flex;
+  animation: test 2s linear;
+  animation-delay: 1s;
 }
+@keyframes test {
+  10%{
+    letter-spacing: 0px;
+  }
+  30%{
+    letter-spacing: -10px;
+  }
+  40%{
+      letter-spacing: 18px;
+  }
+}
+
 .passChecker{
   width: 50%;
-  background: #040B3A;
+  background: none;
 }
 .passChecker form{
   display: flex;
   justify-content: space-around;
-  background: #040B3A;
+  background: none;
 }
 h3{
-  background: #040B3A;
+  background: none;
 }
 .clientContainer{
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  height: 90%;
+  justify-content: flex-start;
+  height: 100%;
   width: 100%;
-  background: #040B3A;
+  background: none;
 }
-.addedSongsList{
-  background: #040B3A;
+/* .addedSongsList{
+  background: none;
   margin-top: 2%;
-}
+} */
 
