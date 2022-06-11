@@ -1,9 +1,10 @@
 import { User, Playlist, SelectedSong } from "../Types/Types";
 
+const url = `http://localhost:8000/`
 //request for Host user info:
 const getNewToken = async (data: string) => {
   try {
-    const result = await fetch('http://localhost:8000/newToken', {
+    const result = await fetch(`${url}newToken`, {
       method: "POST",
       headers: { 'Content-type': 'application/json' },
       body: data
@@ -17,7 +18,7 @@ const getNewToken = async (data: string) => {
 //request for Host user playlists so he can choose which playlist he wants to modify:
 const getAllPlaylistFromUser = async (userInfo: User) => {
   try {
-    const playlistOptions = await fetch(`http://localhost:8000/infoPL/${userInfo.id}`, {
+    const playlistOptions = await fetch(`${url}infoPL/${userInfo.id}`, {
       method: "GET",
       headers: { 'Content-type': 'application/json' }
     })
@@ -30,7 +31,7 @@ const getAllPlaylistFromUser = async (userInfo: User) => {
 //request for chosing an existing playlist and use it
 const getExistingPlaylist = async (userInfo: User, playlist: Playlist) => {
   try {
-    const useExistingPlaylist = await fetch(`http://localhost:8000/useExistingPlaylist/${userInfo.id}`, {
+    const useExistingPlaylist = await fetch(`${url}useExistingPlaylist/${userInfo.id}`, {
       method: "POST",
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ 'playlist': playlist })
@@ -43,7 +44,7 @@ const getExistingPlaylist = async (userInfo: User, playlist: Playlist) => {
 //in case we choose a new playlist:
 const getNewPlaylist = async (userInfo: User) => {
   try {
-    await fetch(`http://localhost:8000/createPlaylist/${userInfo.id}`, {
+    await fetch(`${url}createPlaylist/${userInfo.id}`, {
       method: "POST",
       headers: { 'Content-type': 'application/json' }
     })
@@ -55,7 +56,7 @@ const getNewPlaylist = async (userInfo: User) => {
 //request where the host saves a new password:
 const saveNewPassword = async (userInfo: User, pass: string) => {
   try {
-    const result = await fetch(`http://localhost:8000/setPass/${userInfo.id}`, {
+    const result = await fetch(`${url}setPass/${userInfo.id}`, {
       method: "POST",
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ 'pass': pass })
@@ -68,7 +69,7 @@ const saveNewPassword = async (userInfo: User, pass: string) => {
 //checking pass
 const checkPassword = async (userInfo: string, pass: string) => {
   try {
-    const result = await fetch(`http://localhost:8000/checkPass/${userInfo}`, {
+    const result = await fetch(`${url}checkPass/${userInfo}`, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ pass }),
@@ -81,7 +82,7 @@ const checkPassword = async (userInfo: string, pass: string) => {
 //set new room name as host:
 const changeRoomName = async (userInfo: User, newRoom: string | undefined) => {
   try {
-    const result = await fetch(`http://localhost:8000/setNewRoom/${userInfo.id}`, {
+    const result = await fetch(`${url}setNewRoom/${userInfo.id}`, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ newRoom }),
@@ -94,7 +95,7 @@ const changeRoomName = async (userInfo: User, newRoom: string | undefined) => {
 //find userId by room name
 const findUserIdByRoom = async (room: string) => {
   try {
-    const result = await fetch(`http://localhost:8000/getUserByRoom/`, {
+    const result = await fetch(`${url}getUserByRoom/`, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ room }),
@@ -113,9 +114,9 @@ const searchNewSong = async (userInfo: User | string, search: string) => {
   try {
     let url!: string;
     if (typeof userInfo === 'string') {
-      url = `http://localhost:8000/search/${userInfo}/${search}`
+      url = `${url}search/${userInfo}/${search}`
     } else {
-      url = `http://localhost:8000/search/${userInfo.id}/${search}`
+      url = `${url}search/${userInfo.id}/${search}`
     }
     const result = await fetch(url, {
       method: "GET",
@@ -130,7 +131,7 @@ const searchNewSong = async (userInfo: User | string, search: string) => {
 //request for people to add a song to the playlist:
 const addingSong = async (userId: string, song: SelectedSong) => {
   try {
-    const result = await fetch(`http://localhost:8000/addSong/${userId}`, {
+    const result = await fetch(`${url}addSong/${userId}`, {
       method: "POST",
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ 'song': song })
@@ -143,7 +144,7 @@ const addingSong = async (userId: string, song: SelectedSong) => {
 
 const deletingSong = async (userId: string, song: SelectedSong) => {
   try {
-    const result = await fetch(`http://localhost:8000/deleteSong/${userId}`, {
+    const result = await fetch(`${url}deleteSong/${userId}`, {
       method: "POST",
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ 'song': song })
@@ -156,7 +157,7 @@ const deletingSong = async (userId: string, song: SelectedSong) => {
 
 const removeHost = async (userInfo: User) => {
   try {
-    const result = await fetch(`http://localhost:8000/logout/`,{
+    const result = await fetch(`${url}logout/`,{
       method: "POST",
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ 'user': userInfo.id })
@@ -169,7 +170,7 @@ const removeHost = async (userInfo: User) => {
 }
 
 const getCurrentList = async (userId: string) => {
-  const result = await fetch(`http://localhost:8000/getCurrentList/`,{
+  const result = await fetch(`${url}getCurrentList/`,{
     method: "POST",
     headers: { 'Content-type': 'application/json' },
     body: JSON.stringify({ 'user':userId })
