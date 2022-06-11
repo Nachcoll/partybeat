@@ -261,7 +261,7 @@ const Host = ({ userInfo, _id, set_id }: HostProps) => {
       </div>
 
       <div className='backMenu'>
-        <button className="logoutButton" onClick={handleRemoveHost}>stop sharing</button>
+        <button className="logoutButton" onClick={handleRemoveHost}>logout</button>
         <button className="logoutButton" onClick={changePlaylist}>Change playlist</button>
       </div>
     </>

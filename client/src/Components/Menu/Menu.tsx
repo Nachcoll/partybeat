@@ -3,6 +3,7 @@ import Host from '../Host/Host'
 import { User, Playlist, GeneralPlaylist } from '../../Types/Types'
 import { getNewToken, getAllPlaylistFromUser, getExistingPlaylist, getNewPlaylist } from '../../Services/clientServices'
 import { v4 as uuidv4 } from 'uuid';
+import logo from '../../images/logo.png'
 
 
 const Menu = () => {
@@ -84,6 +85,7 @@ const Menu = () => {
 
   return (
     <div className="mainContainer">
+      <img src={logo} className="miniLogo"></img>
       {(playLists.length === 0 && playListSelected === false)&& <button onClick={getPlaylists}>Load all the playlists</button>}
       {(playLists.length > 0 && playListSelected === false) &&
       <div className="playlistContainer"><h2>Select the playlist:</h2>

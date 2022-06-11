@@ -7,7 +7,7 @@ import { searchNewSong, checkPassword, findUserIdByRoom, getCurrentList } from '
 import './Client.css'
 import { v4 as uuidv4 } from 'uuid';
 import DeleteButton from '../DeleteButton/DeleteButton'
-import test from '../../images/test.svg'
+import logo from '../../images/logo.png'
 
 
 
@@ -184,6 +184,7 @@ const Client = () => {
 
   return (
     <div className="container">
+      <img src={logo} className="miniLogoClient"></img>
       <div className="title">
         <h3>{title}'s Partybeat</h3>
       </div>

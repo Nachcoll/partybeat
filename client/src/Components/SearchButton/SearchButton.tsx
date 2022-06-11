@@ -17,7 +17,7 @@ const SearchButton = ({ userId, song, setSelectedSong }: SearchProps) => {
   }
 
   return (
-    <button className="songButton" onClick={handleClick}>{song.name} from {song.artist}</button>
+    <button className="songButton" onClick={handleClick}><span>{song.name}</span> by {song.artist}</button>
   )
 }
 

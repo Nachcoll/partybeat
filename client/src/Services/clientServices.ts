@@ -112,13 +112,13 @@ const findUserIdByRoom = async (room: string) => {
 // the id.
 const searchNewSong = async (userInfo: User | string, search: string) => {
   try {
-    let url!: string;
+    let searchUrl!: string;
     if (typeof userInfo === 'string') {
-      url = `${url}search/${userInfo}/${search}`
+      searchUrl = `${url}search/${userInfo}/${search}`
     } else {
-      url = `${url}search/${userInfo.id}/${search}`
+      searchUrl = `${url}search/${userInfo.id}/${search}`
     }
-    const result = await fetch(url, {
+    const result = await fetch(searchUrl, {
       method: "GET",
       headers: { 'Content-type': 'application/json' },
     })
