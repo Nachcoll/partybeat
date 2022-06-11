@@ -7,7 +7,7 @@ const Dashboard = () => {
 
   //we don't fetch here because we are actually just redirecting to Spotify Authorization site.
   const handleClick =  () => {
-    window.location.replace("https://ad21-45-130-134-153.eu.ngrok.io/login");
+    window.location.replace("https://c240-139-47-32-93.eu.ngrok.io/login");
   }
 
 
