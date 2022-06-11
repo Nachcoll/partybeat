@@ -13,6 +13,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboardContainer">
+      <h1>test</h1>
       <img src={logo} className="logo"></img>
       <p>In order to use Partybeat you will have to login on Spotify.</p>
       <button onClick={handleClick}>Login</button>
