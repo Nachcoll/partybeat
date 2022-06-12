@@ -1,13 +1,13 @@
 
 import logo from '../../images/logo.png'
-
+import rootURL from '../../utils/utils'
 
 
 const Dashboard = () => {
 
   //we don't fetch here because we are actually just redirecting to Spotify Authorization site.
   const handleClick =  () => {
-    window.location.replace("http://localhost:8000/login");
+    window.location.replace(`${rootURL}login`);
   }
 
 
