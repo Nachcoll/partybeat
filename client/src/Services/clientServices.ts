@@ -1,6 +1,6 @@
 import { User, Playlist, SelectedSong } from "../Types/Types";
 
-const url = `https://c240-139-47-32-93.eu.ngrok.io/`
+const url = `https://f186-139-47-32-93.eu.ngrok.io/`
 //request for Host user info:
 const getNewToken = async (data: string) => {
   try {
