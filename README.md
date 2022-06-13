@@ -2,7 +2,6 @@
 
 - Moving stuff: Maybe backend fetches should be separed by functionalities instead of having 300 lines of code inside Controller.js
 - Try to add more comments again (backend).
-- versel / deploy correctly
 
 BUGS:
 
