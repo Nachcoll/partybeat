@@ -1,0 +1,45 @@
+
+/* CSS for width smaller than 600px (phones) */
+@media only screen and (max-width: 600px) {
+  .logo {
+    height: 38vh !important;
+  }
+  .dashboardContainer {
+    width: 75% !important;
+    height: 80% !important;
+    margin: 0 !important;
+  }
+  .dashboardContainer button {
+    margin-top: -20% !important;
+  }
+}
+
+/* DASHBOARD CSS */
+.logo {
+  display: flex;
+  align-self: center;
+  height: 22vh;
+  background: none;
+}
+.dashboardContainer {
+  width: auto;
+  height: 30rem;
+  margin: 8vh;
+  padding: 4vh;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.30);
+  align-items: center;
+  border: 0.5px solid #DB3069;
+  box-shadow: 1px 1px 25px #DB3069;
+}
+.dashboardContainer p {
+  background: none;
+  align-self: center;
+}
+.dashboardContainer button {
+  align-self: center;
+  border-radius: 15px;
+}

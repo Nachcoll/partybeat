@@ -1,4 +1,4 @@
-
+import './Dashboard.css'
 import logo from '../../images/logo.png'
 import rootURL from '../../utils/utils'
 

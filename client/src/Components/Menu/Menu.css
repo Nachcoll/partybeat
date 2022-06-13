@@ -1,0 +1,95 @@
+
+@media only screen and (max-width: 600px) {
+  .mainContainer {
+    width: 83% !important;
+    display: flex !important;
+    margin: 1vh !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+  }
+  .miniLogo {
+    height: 11vh !important;
+    left: 0 !important;
+    position: relative !important;
+    margin-bottom: 20px !important;
+  }
+  .playlistContainer h2 {
+    font-size: 15px !important;
+  }
+  .formInputAndButton {
+    justify-content: space-between !important;
+  }
+  .formInputAndButton select {
+    padding: 0 !important;
+    padding-left: 4px !important;
+    font-size: 12px !important;
+  }
+  .logoutButton {
+    padding: 8px 10px !important;
+  }
+}
+/* CSS for the menu / playlist selector */
+.mainContainer {
+  align-self: center;
+  background: rgba(0, 0, 0, 0.30);
+  width: 80%;
+  height: 90%;
+  margin: 8vh;
+  padding: 4vh;
+  padding-bottom: 30px;
+  border-radius: 50px;
+  font-family: Chakra Petch;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  border: 0.5px solid #DB3069;
+  box-shadow: 1px 1px 25px #DB3069;
+  background: rgba(0, 0, 0, 0.30);
+  animation: bordering 2.5s linear infinite;
+}
+.playlistContainer {
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 10vh;
+  width: 100%;
+}
+
+.playlistContainer h2 {
+  font-size: 20px;
+  background: none;
+}
+
+.formInputAndButton {
+  background: none;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.formInputAndButton select {
+  background: none;
+  padding: 8px;
+  border: 1px solid #E1E8F4;
+  font-size: 15px;
+  border-radius: 20px;
+  color: #03CEA4;
+}
+
+option {
+  background: #040B3A;
+  outline: none;
+}
+
+.playlistSelector {
+  background: none;
+  width: 100%;
+}
+
+.playlistSelectorButton {
+  align-self: flex-end;
+  justify-self: end;
+}

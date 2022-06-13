@@ -3,6 +3,7 @@ import Host from '../Host/Host'
 import { User, Playlist, GeneralPlaylist } from '../../Types/Types'
 import { getNewToken, getAllPlaylistFromUser, getExistingPlaylist, getNewPlaylist } from '../../Services/clientServices'
 import { v4 as uuidv4 } from 'uuid';
+import './Menu.css'
 import logo from '../../images/logo.png'
 
 const rootUrl = `https://partybeat-nachcoll.vercel.app/`

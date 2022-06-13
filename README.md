@@ -1,22 +1,17 @@
 # solo-project
 
-- Moving stuff: Maybe backend fetches should be separed by functionalities instead of having 300 lines of code inside Controller.js
-- Try to add more comments again (backend).
-
-BUGS:
-
-future features?:
-- Host should have more functionalities for their room.
-
--deploy
--css movil
-
-- aldrich
-- arvo
-- big shoulders text
-- bungee hairline
-- chakra petch
-- dhurjati
+- break down controller
+- dont stringify the res.send() of errors
+- res.status() no res.status =
+- console.log errors on catchs.
+- more comments
+- Change types file name to interfaces.
+- Break down clientServices
+- try-catch in getCurrentList in clientServices
+- add more info in errors (instead of something happened)
+- jwt for the _id in client
+- Try to make Client file smaller.
+- check status before parsing and reject the promise.
 
 
 

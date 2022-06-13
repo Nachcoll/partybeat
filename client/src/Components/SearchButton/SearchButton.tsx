@@ -1,7 +1,7 @@
 import React from 'react'
 import { SearchProps } from '../../Types/Types'
 import { addingSong } from '../../Services/clientServices'
-
+import './SearchButton.css'
 
 
 
