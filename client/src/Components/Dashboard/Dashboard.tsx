@@ -1,8 +1,8 @@
 import "./Dashboard.css";
 import logo from "../../images/logo.png";
-import frontURL from "../../utils/deployment-url";
+import rootURL from "../../utils/utils";
 
-const rootURL = frontURL
+// const rootURL = frontURL
 
 const Dashboard = () => {
   //we don't fetch here because we are actually just redirecting to Spotify Authorization site.
