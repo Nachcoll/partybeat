@@ -1,4 +1,4 @@
 import io from "socket.io-client";
-import rootURL from '../utils/utils';
+import rootURL from "../utils/utils.js";
 
-export default io(rootURL);
+export default io(rootURL.rootURL);

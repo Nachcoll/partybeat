@@ -1,15 +1,12 @@
-import './Dashboard.css'
-import logo from '../../images/logo.png'
-import rootURL from '../../utils/utils'
-
+import "./Dashboard.css";
+import logo from "../../images/logo.png";
+import rootURL from "../../utils/utils";
 
 const Dashboard = () => {
-
   //we don't fetch here because we are actually just redirecting to Spotify Authorization site.
-  const handleClick =  () => {
+  const handleClick = () => {
     window.location.replace(`${rootURL}login`);
-  }
-
+  };
 
   return (
     <div className="dashboardContainer">
@@ -17,7 +14,7 @@ const Dashboard = () => {
       <p>In order to use Partybeat you will have to login on Spotify.</p>
       <button onClick={handleClick}>Login</button>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
