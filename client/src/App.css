@@ -157,7 +157,9 @@
     width: 30% !important;
     text-align: center !important;
   }
-
+  .deleteContainer{
+    width: 35px !important
+  }
   .deleteButton {
     display: flex;
     padding: 3px 6px !important;
