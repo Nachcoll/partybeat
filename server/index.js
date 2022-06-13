@@ -16,6 +16,12 @@ app.use(cors())
 app.use(Express.json())
 app.use(router)
 
+//this is just a test for deployment:
+app.get('/', (req, res) => {
+  res
+    .status(200)
+    .send('Hello server is running')
+});
 
 const server = http.createServer(app);
 
