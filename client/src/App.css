@@ -3,72 +3,215 @@
 @import url('https://fonts.googleapis.com/css?family=Actor:400|Big+Shoulders+Text:400');
 @import url('https://fonts.googleapis.com/css?family=Chakra+Petch:400');
 
-*{
-  background:fixed;
+* {
+  background: fixed;
   background-image: url('./images/background.png');
   color: white;
 }
+
 @media only screen and (max-width: 600px) {
-  .logo{
+  #root {
+    height: 102% !important;
+  }
+
+  .logo {
     height: 38vh !important;
   }
-  .dashboardContainer{
+
+  .dashboardContainer {
     width: 75% !important;
     height: 80% !important;
     margin: 0 !important;
   }
-  .dashboardContainer button{
+
+  .dashboardContainer button {
     margin-top: -20% !important;
   }
 
-  /* MAIN page */
-.mainContainer{
-  align-self: center;
-  background: #040B3A !important;
-  width: 70%;
-  height: 100%;
-  margin: 8vh;
-  padding: 4vh;
-  /* border: 2px solid red; */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
-  box-shadow: 0.2rem 0.3rem .5rem black;
-}
-.playlistContainer{
-    background: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  /* border: 2px solid red; */
-  height: 10vh;
-  width: 100%;
-}
-.playlistContainer h2{
-  font-size: 20px;
-    background: none;
-}
+  .mainContainer {
+    width: 83% !important;
+    display: flex !important;
+    margin: 1vh !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+  }
 
-.playlistSelector{
-    background: none;
-  width: 100%;
+  .miniLogo {
+    height: 11vh !important;
+    left: 0 !important;
+    position: relative !important;
+    margin-bottom: 20px !important;
+  }
 
-}
-.playlistSelectorButton{
-  align-self: flex-end;
-  justify-self: end;
-}
-input{
-    background: none;
-}
+  button {
+    padding: 0px 10px !important;
+    border-radius: 20px !important;
+    font-size: 10px !important;
+    height: 30px !important;
+  }
+
+  .playlistContainer h2 {
+    font-size: 15px !important;
+  }
+
+  .formInputAndButton {
+    justify-content: space-between !important;
+  }
+
+  .formInputAndButton select {
+    padding: 0 !important;
+    padding-left: 4px !important;
+    font-size: 12px !important;
+  }
+
+  /* HOST MENU */
+  .hostMenu {
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  .sharingContainer {
+    justify-content: flex-start !important;
+    height: auto !important;
+    margin-bottom: 5px !important;
+  }
+
+  .shareMenu {
+    justify-content: flex-start !important;
+    height: 100% !important;
+  }
+
+  .shareMenu button {
+    margin-top: 5px !important;
+  }
+
+  .shareBar {
+    width: 100% !important;
+  }
+
+  .shareBar img {
+    height: 14px !important;
+    padding: 3px 6px !important;
+  }
+
+  .shareBar input {
+    font-size: 10px !important;
+  }
+
+  #information {
+    right: 10% !important;
+    top: 12% !important;
+    background: #040B3A !important;
+    font-size: 10px !important;
+  }
+
+  .setPasswordForm {
+    margin-top: 5px !important;
+  }
+
+  .setPasswordForm button {
+    padding: 2px 5px !important;
+  }
+
+  .setPasswordForm input {
+    width: 50% !important;
+    padding-left: 10px !important;
+    font-size: 10px !important;
+  }
+
+  .addedSongsList {
+    margin-top: 0vh !important;
+    background: rgba(0, 0, 0, 0.1);
+    margin-bottom: 0px !important;
+    margin-right: 0px !important;
+    border-radius: 30px !important;
+  }
+
+  .typeHost {
+    margin-left: -5% !important;
+    height: 20vh !important;
+    width: 110% !important;
+  }
+
+  .songRow {
+    padding: 0 !important;
+    padding-left: 5px !important;
+    margin-left: -25px !important;
+    height: 30px !important;
+    margin-right: 0px !important;
+    justify-content: flex-start !important;
+  }
+
+  ul {
+    margin-left: 0 !important;
+    font-size: 8px !important;
+  }
+
+  .addedSong {
+    margin-left: 5px !important;
+    width: 80% !important;
+  }
+
+  .addedArtist {
+    margin-left: 5px !important;
+    width: 30% !important;
+    text-align: center !important;
+  }
+
+  .deleteButton {
+    display: flex;
+    padding: 3px 6px !important;
+    margin-top: 0px !important;
+    margin-left: 3px !important;
+    height: 20px !important;
+    width: 20px !important;
+  }
+
+  .searchMenu form {
+    height: 8% !important;
+    margin-top: 5px !important;
+  }
+
+  .searchMenu form input {
+    width: 70% !important;
+    margin-right: 5% !important;
+    height: 14px !important;
+    font-size: 11px !important;
+  }
+
+  .searchMenu form button {
+    width: 25% !important;
+    height: 26px !important;
+    padding: 0 !important;
+  }
+
+  .searchButtonsContainer {
+    margin-top: 10px !important;
+    height: 40% !important;
+  }
+
+  .songButton {
+    min-width: 100% !important;
+    max-width: 100% !important;
+    font-size: 8px !important;
+  }
+
+  .songButton span {
+    font-size: 10px !important;
+    margin-right: 4px !important;
+  }
+
+  .logoutButton {
+    padding: 8px 10px !important;
+  }
+
+
 
 }
 
 /* temporal */
 
-#root{
+#root {
   flex-direction: column;
   display: flex;
   align-items: center;
@@ -76,33 +219,39 @@ input{
   height: 100%;
   width: 100%;
 }
-html{
+
+html {
   display: flex;
   height: 100%;
   width: 100%;
 }
-body{
+
+body {
   height: 100%;
   width: 100%;
 }
-input{
+
+input {
   background: none;
   border-radius: 20px;
 }
-.miniLogo{
+
+.miniLogo {
   height: 10vh;
   background: none;
   position: absolute;
   left: 11%;
 }
+
 /* DASHBOARD CSS */
-.logo{
-  display:flex;
+.logo {
+  display: flex;
   align-self: center;
   height: 22vh;
   background: none;
 }
-.dashboardContainer{
+
+.dashboardContainer {
   width: auto;
   height: 30rem;
   margin: 8vh;
@@ -114,22 +263,25 @@ input{
   background: rgba(0, 0, 0, 0.30);
   align-items: center;
   box-shadow: 0.2rem 0.3rem .5rem black;
-    /* border: 0.3px solid #D2BF55;
+  /* border: 0.3px solid #D2BF55;
   box-shadow: 1px 1px 15px #D2BF55; */
   border: 0.5px solid #DB3069;
   box-shadow: 1px 1px 25px #DB3069;
 }
-.dashboardContainer p{
+
+.dashboardContainer p {
   background: none;
   align-self: center;
 }
-.dashboardContainer button{
+
+.dashboardContainer button {
   /* justify-self: center; */
   align-self: center;
   border-radius: 15px;
 }
+
 /* MAIN page */
-.mainContainer{
+.mainContainer {
   align-self: center;
   background: rgba(0, 0, 0, 0.30);
   width: 80%;
@@ -144,15 +296,16 @@ input{
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-    /* border: 0.3px solid #D2BF55;
+  /* border: 0.3px solid #D2BF55;
   box-shadow: 1px 1px 15px #D2BF55; */
   border: 0.5px solid #DB3069;
   box-shadow: 1px 1px 25px #DB3069;
   /* box-shadow: #03cea51d 0px 15px 40px, #03CEA4 0px 10px 30px -3px, rgba(0, 255, 238, 0.2) 0px -3px 0px inset,
    #03cea51d 0px -15px 40px, #03CEA4 0px -10px 30px -3px, rgba(0, 255, 238, 0.2) 0px 3px 0px inset; */
-   background: rgba(0, 0, 0, 0.30);
+  background: rgba(0, 0, 0, 0.30);
   animation: bordering 2.5s linear infinite;
 }
+
 /* @keyframes bordering {
   0%{
     box-shadow: #03cea51d 0px 15px 40px, #03CEA4 0px 10px 30px -3px, rgba(0, 255, 238, 0.2) 0px -3px 0px inset,
@@ -163,8 +316,8 @@ input{
     #03cea51d 0px -8px 15px, #03CEA4 0px -4px 14px -3px, rgba(0, 255, 238, 0.2) 0px 3px 0px inset;
   }
 } */
-.playlistContainer{
-    background: none;
+.playlistContainer {
+  background: none;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -173,47 +326,55 @@ input{
   height: 10vh;
   width: 100%;
 }
-.playlistContainer h2{
+
+.playlistContainer h2 {
   font-size: 20px;
-    background: none;
-}
-.formInputAndButton{
   background: none;
-display: flex;
-justify-content: space-evenly;
-/* border: 2px solid red; */
-width: 100%;
 }
-.formInputAndButton select{
+
+.formInputAndButton {
   background: none;
-padding: 8px;
-border: 1px solid #E1E8F4;
-font-size: 15px;
-border-radius: 20px;
-color:#03CEA4;
-}
-option{
-  background:#040B3A;
-  outline: none;
-}
-.playlistSelector{
-    background: none;
+  display: flex;
+  justify-content: space-evenly;
+  /* border: 2px solid red; */
   width: 100%;
 }
-.playlistSelectorButton{
+
+.formInputAndButton select {
+  background: none;
+  padding: 8px;
+  border: 1px solid #E1E8F4;
+  font-size: 15px;
+  border-radius: 20px;
+  color: #03CEA4;
+}
+
+option {
+  background: #040B3A;
+  outline: none;
+}
+
+.playlistSelector {
+  background: none;
+  width: 100%;
+}
+
+.playlistSelectorButton {
   align-self: flex-end;
   justify-self: end;
 }
+
 /* HOST MENU */
-.hostMenu{
-    background: none;
+.hostMenu {
+  background: none;
   height: 50%;
   width: 90%;
   align-content: center;
 }
-.sharingContainer{
-  width:100%;
-    background: none;
+
+.sharingContainer {
+  width: 100%;
+  background: none;
   display: flex;
   /* border: 2px solid red; */
   flex-direction: column;
@@ -221,9 +382,10 @@ option{
   height: 45%;
   margin-bottom: -35px;
 }
-.shareMenu{
-  width:100%;
-  background:none;
+
+.shareMenu {
+  width: 100%;
+  background: none;
   display: flex;
   /* border: 2px solid red; */
   flex-direction: column;
@@ -232,7 +394,7 @@ option{
   height: 50%;
 }
 
-.shareBar{
+.shareBar {
   border: 1px solid #E1E8F4;
   border-radius: 20px;
   display: flex;
@@ -241,13 +403,15 @@ option{
   width: 35%;
   background: none;
 }
-.shareBar img{
+
+.shareBar img {
   height: 20px;
   z-index: 1;
-  background:none;
+  background: none;
   padding: 3px 10px;
 }
-.shareBar input{
+
+.shareBar input {
   z-index: 2;
   width: 100%;
   display: flex;
@@ -255,12 +419,13 @@ option{
   border: none;
   outline: none;
 }
-#information{
+
+#information {
   display: flex;
   position: absolute;
   right: 15%;
   top: 12%;
-  background:none;
+  background: none;
   border: 0.2px solid #DB3069;
   padding: 5px 10px;
   font-size: small;
@@ -268,28 +433,32 @@ option{
   font-size: 15px;
 }
 
-.setPasswordForm{
-    background: none;
+.setPasswordForm {
+  background: none;
   display: flex;
   justify-content: space-evenly;
 }
-.setPasswordForm button{
+
+.setPasswordForm button {
   width: auto;
   font-size: auto;
   padding: 8px 10px;
   align-self: center;
   justify-self: center;
 }
-.setPasswordForm input{
+
+.setPasswordForm input {
   width: 20%;
   border: 1px solid #E1E8F4;
   padding-left: 1%;
 }
-.setPasswordForm input:focus{
+
+.setPasswordForm input:focus {
   outline: none;
 }
+
 /* Host search */
-.searchMenu{
+.searchMenu {
   width: 100%;
   height: 100%;
   display: flex;
@@ -297,7 +466,8 @@ option{
   background: none;
   justify-content: flex-start;
 }
-.searchMenu form{
+
+.searchMenu form {
   background: none;
   justify-content: center;
   flex-direction: row;
@@ -305,7 +475,8 @@ option{
   display: flex;
   margin-top: 10px;
 }
-.searchMenu form input{
+
+.searchMenu form input {
   width: 30%;
   border: 1px solid #E1E8F4;
   margin-right: 3%;
@@ -318,35 +489,41 @@ option{
   padding-bottom: 0.2rem;
   font-size: 14px;
 }
-.searchMenu form input:focus{
+
+.searchMenu form input:focus {
   outline: none;
 }
-.searchMenu form button{
+
+.searchMenu form button {
   width: 15%;
 
 }
-.searchButtonsContainer{
+
+.searchButtonsContainer {
   background: none;
   display: flex;
   justify-content: space-around;
   flex-direction: column;
   height: 70%;
 }
-.songButton{
+
+.songButton {
   min-width: 50%;
   max-width: 70%;
-  font-size: 14px !important;
+  font-size: 14px;
   align-self: center;
   /* margin-bottom: 20px; */
 }
-.songButton span{
+
+.songButton span {
   background: none;
   color: inherit;
   font-weight: 700;
   font-size: 15px;
   margin-right: 6px;
 }
-.songRow{
+
+.songRow {
   display: flex;
   justify-content: flex-start;
   height: 50px;
@@ -357,16 +534,18 @@ option{
   padding-left: 100px;
   margin-right: 10px;
 }
-.songRow:hover{
+
+.songRow:hover {
   background: rgba(255, 255, 255, 0.168);
   /* border: 0.1px solid #db306974; */
   box-shadow: #03cea51d 0px 15px 40px, #03CEA4 0px -2px 10px -2px, rgba(0, 255, 238, 0.2) 0px -3px 0px inset;
   border-radius: 10px;
 }
-.addedSongsList{
+
+.addedSongsList {
   margin-top: 20px;
-  overflow-y:scroll;
-  background:none;
+  overflow-y: scroll;
+  background: none;
   background: rgba(0, 0, 0, 0.1);
   height: 50vh;
   margin-bottom: 10px;
@@ -376,38 +555,41 @@ option{
   transition: 2s;
   border-radius: 150px 150px 150px 150px;
 }
-.typeHost{
+
+.typeHost {
   height: 23vh;
 }
 
-.addedSongsList:hover{
+.addedSongsList:hover {
   border: 0.1px solid #db306974;
   box-shadow: #db306974 1px 5px 50px 1px, #db3069 0px 0px 2px 0px, rgba(0, 255, 238, 0.2) 0px 0px 0px;
 }
 
 
-ul{
-    background: none;
-    margin-left: -30px;
-    list-style: none;
-    height: auto;
-    width: auto;
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
+ul {
+  background: none;
+  margin-left: -30px;
+  list-style: none;
+  height: auto;
+  width: auto;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
 }
-.addedSong{
-  color:#03CEA4;
+
+.addedSong {
+  color: #03CEA4;
   margin: 0;
   font-weight: bold;
   text-transform: capitalize;
-    background: none;
+  background: none;
   display: flex;
 }
-.addedArtist{
-  color:#03CEA4;
+
+.addedArtist {
+  color: #03CEA4;
   margin: 0;
-    background: none;
+  background: none;
   display: flex;
 }
 
@@ -426,13 +608,14 @@ button {
   transition: 0.2s;
   z-index: 1;
   font-family: inherit;
-  color:#03CEA4;
+  color: #03CEA4;
   background: none;
   font-weight: 500;
   height: 38px;
   letter-spacing: 0.5px;
- }
- button::before {
+}
+
+button::before {
   content: '';
   width: 0;
   height: 4000%;
@@ -444,56 +627,60 @@ button {
   transition: 0.3s ease-in;
   display: block;
   z-index: -1;
- }
- button:hover::before {
+}
+
+button:hover::before {
   width: 105%;
- }
- button:hover {
+}
+
+button:hover {
   color: rgb(0, 0, 0);
   border: 1px solid #03CEA4;
- }
- .deleteButton{
-   display: flex;
-   padding: 6px 9px;
-   margin-top: -2px;
-   margin-left: 30px;
-   font-size: 8px;
-   border-radius: 100px;
-   height: 25px;
-   width: 25px;
- }
-.deleteContainer{
+}
+
+.deleteButton {
+  display: flex;
+  padding: 6px 9px;
+  margin-top: -2px;
+  margin-left: 30px;
+  font-size: 8px;
+  border-radius: 100px;
+  height: 25px;
+  width: 25px;
+}
+
+.deleteContainer {
   background: none;
   justify-content: flex-start;
   flex-direction: row;
   display: flex;
 }
-.logoutButton{
-  display:flex;
+
+.logoutButton {
+  display: flex;
   align-self: flex-end;
   padding-left: 30px;
   padding-right: 30px;
 }
-.backMenu{
+
+.backMenu {
   display: flex;
   justify-content: space-between;
   width: 100%;
   background: none;
 }
+
 /* SCROLLBAR */
 
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
 }
+
 ::-webkit-scrollbar-track {
   background: none;
 }
+
 ::-webkit-scrollbar-thumb {
   background: none;
 }
-
-
-
-
-

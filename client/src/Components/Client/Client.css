@@ -1,15 +1,62 @@
+@media only screen and (max-width: 600px) {
 
-.addedArtist{
+  .container {
+    width: 98% !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+  }
+
+  .miniLogoClient {
+    height: 11vh !important;
+    left: 0 !important;
+    display: flex;
+    position: static !important;
+    margin-top: 2% !important;
+    margin-bottom: 1% !important;
+  }
+
+  .title {
+    font-family: Big Shoulders Text !important;
+    letter-spacing: 0px !important;
+  }
+
+  .title h3 {
+    font-size: 20px !important;
+  }
+
+  .passChecker {
+    width: 100% !important;
+  }
+
+  .passChecker form input {
+    font-size: 12px !important;
+  }
+
+  .typeClient {
+    margin: 0px !important;
+    margin-bottom: 5px !important;
+    height: 50% !important;
+  }
+
+  .clientContainer {
+    width: 95% !important;
+  }
+}
+
+
+.addedArtist {
   display: flex;
   width: 24%;
   justify-content: center;
 }
-.addedSong{
+
+.addedSong {
   display: flex;
   width: 55%;
   justify-content: center;
 }
-.container{
+
+.container {
   width: 80%;
   height: 90%;
   /* border: 0.3px solid #D2BF55;
@@ -31,38 +78,43 @@
   animation: bordering 2.5s linear infinite;
 }
 
-.miniLogoClient{
+.miniLogoClient {
   height: 10vh;
   background: none;
   position: absolute;
   left: 12%;
   top: 6%;
 }
-.title{
+
+.title {
   background: none;
   display: flex;
   font-family: Big Shoulders Text !important;
   letter-spacing: -1px;
-  text-transform:uppercase;
+  text-transform: uppercase;
   color: #E1E8F4;
 }
-.title h3{
+
+.title h3 {
   font-size: 45px;
 }
 
-.passChecker{
+.passChecker {
   width: 50%;
   background: none;
 }
-.passChecker form{
+
+.passChecker form {
   display: flex;
   justify-content: space-around;
   background: none;
 }
-h3{
+
+h3 {
   background: none;
 }
-.clientContainer{
+
+.clientContainer {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -70,8 +122,8 @@ h3{
   width: 100%;
   background: none;
 }
+
 /* .addedSongsList{
   background: none;
   margin-top: 2%;
 } */
-

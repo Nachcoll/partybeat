@@ -195,7 +195,7 @@ const Client = () => {
         </form>
       </div>}
       {access && <div className="clientContainer">
-        <div className="addedSongsList">
+        <div className="addedSongsList typeClient">
           <ul>
             {addedSong.map((song, index) => {
               return <li className="songRow" ref={addedSongsRef} key={index} >Added&nbsp;<div className="addedSong">{song.name}&nbsp;</div>by
