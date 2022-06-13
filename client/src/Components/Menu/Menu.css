@@ -48,6 +48,12 @@
   background: rgba(0, 0, 0, 0.30);
   animation: bordering 2.5s linear infinite;
 }
+.miniLogo {
+  height: 14vh;
+  left: 10%;
+  position: absolute;
+  background: none;
+}
 .playlistContainer {
   background: none;
   display: flex;
