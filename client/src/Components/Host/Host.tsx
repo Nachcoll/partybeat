@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
+import './Host.css'
 import socket from '../../Services/socket'
 import SearchButton from '../SearchButton/SearchButton'
 import { SelectedSong, HostProps } from '../../Types/Types'

@@ -1,7 +1,6 @@
-import React from 'react'
 import { deleteProps } from '../../Types/Types'
 import { deletingSong } from '../../Services/clientServices'
-
+import './DeleteButton.css'
 
 const DeleteButton = ({userId, song, setDeleteSong}: deleteProps) => {
 
