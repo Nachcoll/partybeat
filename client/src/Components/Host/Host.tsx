@@ -12,7 +12,7 @@ import {
 } from "../../Services/clientServices";
 import svgInfo from "../../images/info.svg";
 import DeleteButton from "../DeleteButton/DeleteButton";
-import { frontURL } from "../../utils/utils";
+import frontURL from "../../utils/deployment-url";
 
 const rootUrl = frontURL;
 

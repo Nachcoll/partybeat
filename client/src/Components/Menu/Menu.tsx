@@ -10,7 +10,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import "./Menu.css";
 import logo from "../../images/logo.png";
-import { frontURL } from "../../utils/utils.js";
+import frontURL from "../../utils/deployment-url";
 
 const rootUrl = frontURL;
 
