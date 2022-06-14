@@ -1,4 +1,4 @@
-const frontURL = `https://partybeat-nachcoll.vercel.app/`
+const frontURL = `https://partybeat.herokuapp.com/`
 
 export default frontURL;
 
