@@ -40,9 +40,10 @@ const checkPassword = async (req, res) => {
 const getHostidByRoom = async (req, res) => {
   try {
     const room = req.body.room;
-    console.log(room, users);
+    console.log(room.toString(), users);
     const actualUser = users.find((el) => {
-      return el.room === room;
+      console.log(el.room, 'la room?', room, room.toString())
+      return el.room === room.toString();
     });
     res.status(200)
     res.send(actualUser.userId);
