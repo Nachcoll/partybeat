@@ -28,7 +28,7 @@ const login = async (req, res) => {
   authorizeUrl += "client_id=" + clientID;
   authorizeUrl += "&response_type=code";
   authorizeUrl +=
-    "&redirect_uri=" + "https://partybeat-nachcoll.vercel.app/menu";
+    "&redirect_uri=" + "https://partybeat.herokuapp.com/menu";
   authorizeUrl += "&show_dialog=true";
   authorizeUrl +=
     "&scope=user-read-private ugc-image-upload app-remote-control user-read-email user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played playlist-read-collaborative playlist-modify-public playlist-read-private playlist-modify-private";
@@ -41,7 +41,7 @@ const newToken = async (req, res) => {
   const _id = req.body._id;
   let body = "grant_type=authorization_code";
   body += "&code=" + code;
-  body += "&redirect_uri=" + "https://partybeat-nachcoll.vercel.app/menu";
+  body += "&redirect_uri=" + "https://partybeat.herokuapp.com/menu";
   body += "&client_id=" + clientID;
   body += "&client_secret=" + clientSecret;
   //call authorizationAPI

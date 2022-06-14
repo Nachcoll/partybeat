@@ -1,5 +1,4 @@
 import fetch from "node-fetch";
-import bcrypt from "bcrypt";
 import db from "../model/model.js";
 
 
