@@ -39,15 +39,14 @@ const setPassword = async (req, res) => {
     const newPass = req.body;
     //we encrypt the password and save it to the current user.
     const hashedPass = await bcrypt.hash(newPass.pass, 10);
-    console.log(hashedPass);
     for (let indx in users) {
       if (users[indx].userId === actualUserID) {
         users[indx].password = hashedPass;
       }
     }
     res.status(201);
-    console.log(users)
-    res.send("password updated");
+    //!?!?!?!?!? if i dont stringify this it breaks wtf
+    res.send(JSON.stringify("password updated"));
   } catch (error) {
     res.status(500);
     console.log(error);
