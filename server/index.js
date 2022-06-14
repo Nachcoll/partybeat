@@ -6,7 +6,7 @@ import cors from "cors";
 import router from "./router/router.js";
 import { Server } from "socket.io";
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 const app = new Express();
 
 app.use(cors());
