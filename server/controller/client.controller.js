@@ -40,13 +40,11 @@ const checkPassword = async (req, res) => {
 const getHostidByRoom = async (req, res) => {
   try {
     const room = req.body.room;
-    console.log(room.toString(), users);
     const actualUser = users.find((el) => {
-      console.log(el.room, 'la room?', room, room.toString())
       return el.room === room.toString();
     });
     res.status(200)
-    res.send(actualUser.userId);
+    res.send(JSON.stringify(actualUser.userId));
   } catch (error) {
     res.status(400);
     res.send('error while checking host id')
