@@ -38,11 +38,18 @@ const checkPassword = async (req, res) => {
 //this function is used by the clients to get the hostID and connect to him. We do this because we are actually using the
 //Host ID as room for socket. We only use the room that the host writes on the input for the "title" in client component in frontend.
 const getHostidByRoom = async (req, res) => {
-  const room = req.body.room;
-  const actualUser = users.find((el) => {
-    return el.room === room;
-  });
-  res.send(actualUser.userId);
+  try {
+    const room = req.body.room;
+    console.log(room, users);
+    const actualUser = users.find((el) => {
+      return el.room === room;
+    });
+    res.status(200)
+    res.send(actualUser.userId);
+  } catch (error) {
+    res.status(400);
+    res.send('error while checking host id')
+  }
 };
 //we use this function everytime someone logs. We want the clients to see the songs that were added before he logged.
 //we are just going to create an Array with the songs and will send it to render.
