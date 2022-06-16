@@ -1,11 +1,9 @@
 @media only screen and (max-width: 600px) {
-
   .container {
     width: 98% !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
   }
-
   .miniLogoClient {
     height: 11vh !important;
     left: 0 !important;
@@ -14,20 +12,16 @@
     margin-top: 2% !important;
     margin-bottom: 1% !important;
   }
-
   .title {
     font-family: Big Shoulders Text !important;
     letter-spacing: 0px !important;
   }
-
   .title h3 {
     font-size: 20px !important;
   }
-
   .passChecker {
     width: 100% !important;
   }
-
   .passChecker form input {
     font-size: 12px !important;
   }
@@ -37,37 +31,32 @@
     margin-bottom: 5px !important;
     height: 50% !important;
   }
-
   .clientContainer {
     width: 95% !important;
   }
 }
-
-
 .addedArtist {
   display: flex;
   width: 24%;
   justify-content: center;
 }
-
 .addedSong {
   display: flex;
   width: 55%;
   justify-content: center;
 }
-
 .container {
   width: 80%;
   height: 90%;
   /* border: 0.3px solid #D2BF55;
   box-shadow: 1px 1px 15px #D2BF55; */
-  border: 0.2px solid #DB3069;
-  box-shadow: 1px 1px 10px #DB3069;
+  border: 0.2px solid #db3069;
+  box-shadow: 1px 1px 10px #db3069;
   /* background: rgb(236, 236, 236); */
   /* box-shadow: #03cea51d 0px 15px 40px, #03CEA4 0px 10px 30px -3px, rgba(0, 255, 238, 0.2) 0px -3px 0px inset,
    #03cea51d 0px -15px 40px, #03CEA4 0px -10px 30px -3px, rgba(0, 255, 238, 0.2) 0px 3px 0px inset; */
-  background: url('../../images/background.png');
-  background: rgba(0, 0, 0, 0.30);
+  background: url("../../images/background.png");
+  background: rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,7 +66,6 @@
   font-family: Chakra Petch;
   animation: bordering 2.5s linear infinite;
 }
-
 .miniLogoClient {
   height: 10vh;
   background: none;
@@ -85,35 +73,29 @@
   left: 12%;
   top: 6%;
 }
-
 .title {
   background: none;
   display: flex;
   font-family: Big Shoulders Text !important;
   letter-spacing: -1px;
   text-transform: uppercase;
-  color: #E1E8F4;
+  color: #e1e8f4;
 }
-
 .title h3 {
   font-size: 45px;
 }
-
 .passChecker {
   width: 50%;
   background: none;
 }
-
 .passChecker form {
   display: flex;
   justify-content: space-around;
   background: none;
 }
-
 h3 {
   background: none;
 }
-
 .clientContainer {
   display: flex;
   flex-direction: column;
@@ -122,8 +104,3 @@ h3 {
   width: 100%;
   background: none;
 }
-
-/* .addedSongsList{
-  background: none;
-  margin-top: 2%;
-} */

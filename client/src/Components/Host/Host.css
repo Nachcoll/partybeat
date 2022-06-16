@@ -1,94 +1,94 @@
 /* CSS for phones */
 @media only screen and (max-width: 600px) {
-.hostMenu {
-  height: 100% !important;
-  width: 100% !important;
-}
-.sharingContainer {
-  justify-content: flex-start !important;
-  height: auto !important;
-  margin-bottom: 5px !important;
-}
-.shareMenu {
-  justify-content: flex-start !important;
-  height: 100% !important;
-}
-.shareMenu button {
-  margin-top: 5px !important;
-}
-.shareBar {
-  width: 100% !important;
-}
-.shareBar img {
-  height: 14px !important;
-  padding: 3px 6px !important;
-}
-.shareBar input {
-  font-size: 10px !important;
-}
-#information {
-  right: 10% !important;
-  top: 12% !important;
-  background: #040B3A !important;
-  font-size: 10px !important;
-}
-.setPasswordForm {
-  margin-top: 5px !important;
-}
-.setPasswordForm button {
-  padding: 2px 5px !important;
-}
-.setPasswordForm input {
-  width: 50% !important;
-  padding-left: 10px !important;
-  font-size: 10px !important;
-}
-.addedSongsList {
-  margin-top: 0vh !important;
-  background: rgba(0, 0, 0, 0.1);
-  margin-bottom: 0px !important;
-  margin-right: 0px !important;
-  border-radius: 30px !important;
-}
-.typeHost {
-  margin-left: -5% !important;
-  height: 20vh !important;
-  width: 110% !important;
-}
-.songRow {
-  padding: 0 !important;
-  padding-left: 5px !important;
-  margin-left: -25px !important;
-  height: 30px !important;
-  margin-right: 0px !important;
-  justify-content: flex-start !important;
-}
-ul {
-  margin-left: 0 !important;
-  font-size: 8px !important;
-}
-.addedSong {
-  margin-left: 5px !important;
-  width: 80% !important;
-}
-.addedArtist {
-  margin-left: 5px !important;
-  width: 30% !important;
-  text-align: center !important;
-}
-.deleteContainer{
-  width: 35px !important
-}
-.deleteButton {
-  display: flex;
-  padding: 3px 6px !important;
-  margin-top: 0px !important;
-  margin-left: 3px !important;
-  height: 20px !important;
-  width: 20px !important;
-}
+  .hostMenu {
+    height: 100% !important;
+    width: 100% !important;
+  }
+  .sharingContainer {
+    justify-content: flex-start !important;
+    height: auto !important;
+    margin-bottom: 5px !important;
+  }
+  .shareMenu {
+    justify-content: flex-start !important;
+    height: 100% !important;
+  }
+  .shareMenu button {
+    margin-top: 5px !important;
+  }
+  .shareBar {
+    width: 100% !important;
+  }
+  .shareBar img {
+    height: 14px !important;
+    padding: 3px 6px !important;
+  }
+  .shareBar input {
+    font-size: 10px !important;
+  }
+  #information {
+    right: 10% !important;
+    top: 12% !important;
+    background: #040b3a !important;
+    font-size: 10px !important;
+  }
+  .setPasswordForm {
+    margin-top: 5px !important;
+  }
+  .setPasswordForm button {
+    padding: 2px 5px !important;
+  }
+  .setPasswordForm input {
+    width: 50% !important;
+    padding-left: 10px !important;
+    font-size: 10px !important;
+  }
+  .addedSongsList {
+    margin-top: 0vh !important;
+    background: rgba(0, 0, 0, 0.1);
+    margin-bottom: 0px !important;
+    margin-right: 0px !important;
+    border-radius: 30px !important;
+  }
+  .typeHost {
+    margin-left: -5% !important;
+    height: 20vh !important;
+    width: 110% !important;
+  }
+  .songRow {
+    padding: 0 !important;
+    padding-left: 5px !important;
+    margin-left: -25px !important;
+    height: 30px !important;
+    margin-right: 0px !important;
+    justify-content: flex-start !important;
+  }
+  ul {
+    margin-left: 0 !important;
+    font-size: 8px !important;
+  }
+  .addedSong {
+    margin-left: 5px !important;
+    width: 80% !important;
+  }
+  .addedArtist {
+    margin-left: 5px !important;
+    width: 30% !important;
+    text-align: center !important;
+  }
+  .deleteContainer {
+    width: 35px !important;
+  }
+  .deleteButton {
+    display: flex;
+    padding: 3px 6px !important;
+    margin-top: 0px !important;
+    margin-left: 3px !important;
+    height: 20px !important;
+    width: 20px !important;
+  }
 
-/* CSS for host menu /// NO search part */
+  /* CSS for host menu /// NO search part */
 }
 .hostMenu {
   background: none;
@@ -115,7 +115,7 @@ ul {
   height: 50%;
 }
 .shareBar {
-  border: 1px solid #E1E8F4;
+  border: 1px solid #e1e8f4;
   border-radius: 20px;
   display: flex;
   flex-direction: row;
@@ -143,7 +143,7 @@ ul {
   right: 15%;
   top: 12%;
   background: none;
-  border: 0.2px solid #DB3069;
+  border: 0.2px solid #db3069;
   padding: 5px 10px;
   font-size: small;
   border-radius: 10px;
@@ -163,7 +163,7 @@ ul {
 }
 .setPasswordForm input {
   width: 20%;
-  border: 1px solid #E1E8F4;
+  border: 1px solid #e1e8f4;
   padding-left: 1%;
 }
 .setPasswordForm input:focus {
