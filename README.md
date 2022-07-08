@@ -25,8 +25,7 @@ git clone https://github.com/Nachcoll/partybeat.git
 cd client
 ```
 
-2.- Change the deployment-url.ts url to http://localhost:3000
-./client/src/utils/deployment-url.ts
+2.- Change the deployment-url.ts url to http://localhost:3000. File location = ./client/src/utils/deployment-url.ts
 
 ```bash
 const frontURL = `http://localhost:3000`
