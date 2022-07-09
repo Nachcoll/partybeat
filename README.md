@@ -11,8 +11,8 @@ The perfect way to listen to a beat during a party.
 
 <table>
   <tr>
-    <td valign="top"><img src="./client/src/images/demo2.png"/></td>
-    <td valign="top"><img src="./client/src/images/demo.jpg"/></td>
+    <td valign="top"><img src="./client/src/images/demoComputer.jpg"/></td>
+    <td valign="center"><img src="./client/src/images/demoMobile.jpg"/></td>
   </tr>
 </table>
 
