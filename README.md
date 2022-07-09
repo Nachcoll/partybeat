@@ -3,9 +3,9 @@
 <div align=center>
 <img src='./client/src/images/logo.png'>
 </div>
-Partybeat is a web-app fully responsive for phones that allow you to create live customizable spotify playlists.
-Everybody connect to you allowing them to add a new song.
-The perfect way to actually listen to a beat during a party.
+Partybeat is a web-app fully responsive for phones that allow you to create live customizable Spotify playlists.
+Everybody connects to you, allowing them to add a new song.
+The perfect way to listen to a beat during a party.
 
 # Screenshots
 
