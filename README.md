@@ -3,9 +3,9 @@
 <div align=center>
 <img src='./client/src/images/logo.png'>
 </div>
-Partybeat is a web-app fully responsive for phones that allow you to create live customizable spotify playlists.
-Everybody connect to you allowing them to add a new song.
-The perfect way to actually listen to a beat during a party.
+Partybeat is a web-app fully responsive for phones that allow you to create live customizable Spotify playlists.
+Everybody connects to you, allowing them to add a new song.
+The perfect way to listen to a beat during a party.
 
 # Screenshots
 
@@ -25,8 +25,7 @@ git clone https://github.com/Nachcoll/partybeat.git
 cd client
 ```
 
-2.- Change the deployment-url.ts url to http://localhost:3000
-./client/src/utils/deployment-url.ts
+2.- Change the deployment-url.ts url to http://localhost:3000. File location = ./client/src/utils/deployment-url.ts
 
 ```bash
 const frontURL = `http://localhost:3000`
